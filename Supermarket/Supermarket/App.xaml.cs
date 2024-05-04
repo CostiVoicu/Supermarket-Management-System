@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Supermarket.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +15,27 @@ namespace Supermarket
     /// </summary>
     public partial class App : Application
     {
+        private readonly ServiceProvider _serviceProvider;
+
+        public App()
+        {
+            IServiceCollection services = new ServiceCollection();
+            services.AddSingleton<MainWindow>(serviceProvider => new MainWindow
+            {
+                DataContext = serviceProvider.GetRequiredService<StartViewModel>()
+            });
+
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<StartViewModel>();
+            services.AddSingleton<LogInViewModel>();
+            services.AddSingleton<SignUpViewModel>();
+
+            _serviceProvider = services.BuildServiceProvider();
+        }
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            _serviceProvider.GetRequiredService<MainWindow>().Show();
+            base.OnStartup(e);
+        }
     }
 }
