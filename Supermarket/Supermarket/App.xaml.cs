@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Supermarket.Services;
 using Supermarket.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,16 @@ namespace Supermarket
             IServiceCollection services = new ServiceCollection();
             services.AddSingleton<MainWindow>(serviceProvider => new MainWindow
             {
-                DataContext = serviceProvider.GetRequiredService<StartViewModel>()
+                DataContext = serviceProvider.GetRequiredService<MainViewModel>()
             });
 
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<StartViewModel>();
             services.AddSingleton<LogInViewModel>();
             services.AddSingleton<SignUpViewModel>();
+            services.AddSingleton<INavigationService, NavigationService>();
+
+            services.AddSingleton<Func<Type, Core.ViewModel>>(serviceProvider => viewModelType => (Core.ViewModel)serviceProvider.GetRequiredService(viewModelType));
 
             _serviceProvider = services.BuildServiceProvider();
         }

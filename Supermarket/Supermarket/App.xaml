@@ -1,19 +1,18 @@
 ﻿<Application x:Class="Supermarket.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Supermarket"
              xmlns:viewModel="clr-namespace:Supermarket.ViewModel"
              xmlns:view="clr-namespace:Supermarket.View">
     <Application.Resources>
-        <DataTemplate DataType="x:Type viewModel:StartViewModel">
+        <DataTemplate DataType="{x:Type viewModel:StartViewModel}">
             <view:StartView/>
         </DataTemplate>
 
-        <DataTemplate DataType="x:Type viewModel:SignUpViewModel">
+        <DataTemplate DataType="{x:Type viewModel:SignUpViewModel}">
             <view:SignUpView/>
         </DataTemplate>
 
-        <DataTemplate DataType="x:Type viewModel:LogInViewModel">
+        <DataTemplate DataType="{x:Type viewModel:LogInViewModel}">
             <view:LogInView/>
         </DataTemplate>
     </Application.Resources>

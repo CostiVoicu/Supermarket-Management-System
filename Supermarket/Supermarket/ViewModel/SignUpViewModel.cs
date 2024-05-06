@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Supermarket.ViewModel
 {
-    public class SignUpViewModel
+    public class SignUpViewModel : Core.ViewModel
     {
     }
 }

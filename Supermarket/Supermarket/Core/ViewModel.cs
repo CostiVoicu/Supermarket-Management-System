@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Supermarket.ViewModel
+namespace Supermarket.Core
 {
-    public class LogInViewModel : Core.ViewModel
+    public abstract class ViewModel : ObservableObject
     {
+
     }
 }
