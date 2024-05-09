@@ -73,6 +73,10 @@
     <Compile Include="Core\ObservableObject.cs" />
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Core\ViewModel.cs" />
+    <Compile Include="Model\EntityLayer\Product.cs" />
+    <Compile Include="Model\EntityLayer\ProductCategory.cs" />
+    <Compile Include="Model\EntityLayer\ProductStock.cs" />
+    <Compile Include="Model\EntityLayer\User.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="ViewModel\LogInViewModel.cs" />
     <Compile Include="ViewModel\SignUpViewModel.cs" />
@@ -140,7 +144,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
+    <Folder Include="Model\BusinessLogicLayer\" />
+    <Folder Include="Model\DataAccessLayer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
