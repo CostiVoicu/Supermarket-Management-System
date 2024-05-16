@@ -4,16 +4,14 @@
              xmlns:viewModel="clr-namespace:Supermarket.ViewModel"
              xmlns:view="clr-namespace:Supermarket.View">
     <Application.Resources>
-        <DataTemplate DataType="{x:Type viewModel:StartViewModel}">
-            <view:StartView/>
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type viewModel:SignUpViewModel}">
-            <view:SignUpView/>
-        </DataTemplate>
-
         <DataTemplate DataType="{x:Type viewModel:LogInViewModel}">
             <view:LogInView/>
         </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type viewModel:StartViewModel}">
+            <!--<view:StartView/>-->
+        </DataTemplate>
+
+        
     </Application.Resources>
 </Application>

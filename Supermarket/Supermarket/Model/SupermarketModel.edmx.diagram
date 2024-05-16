@@ -9,10 +9,10 @@
         <EntityTypeShape EntityType="SupermarketDBModel.measuring_unit" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SupermarketDBModel.producer" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SupermarketDBModel.product_categories" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SupermarketDBModel.product_stock" Width="1.5" PointX="7.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SupermarketDBModel.product_stock" Width="1.5" PointX="7.5" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SupermarketDBModel.product" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SupermarketDBModel.receipt" Width="1.5" PointX="8.25" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SupermarketDBModel.sold_products" Width="1.5" PointX="10.5" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SupermarketDBModel.sold_products" Width="1.5" PointX="10.5" PointY="6.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SupermarketDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SupermarketDBModel.user_types" Width="1.5" PointX="3.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SupermarketDBModel.user" Width="1.5" PointX="6" PointY="8.5" IsExpanded="true" />

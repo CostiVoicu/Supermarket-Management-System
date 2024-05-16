@@ -21,12 +21,12 @@ namespace Supermarket.ViewModel
             }
         }
 
-        public RelayCommand NavigateStartCommand { get; set; }
+        public RelayCommand NavigateLogInCommandMain { get; set; }
 
         public MainViewModel(INavigationService navService)
         {
             Navigation = navService;
-            NavigateStartCommand = new RelayCommand(o => { Navigation.NavigateTo<StartViewModel>(); }, o => true);
+            NavigateLogInCommandMain = new RelayCommand(o => { Navigation.NavigateTo<LogInViewModel>(); }, o => true);
         }
     }
 }
