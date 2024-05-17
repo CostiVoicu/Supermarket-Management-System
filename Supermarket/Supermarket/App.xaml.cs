@@ -27,8 +27,9 @@ namespace Supermarket
             });
 
             services.AddSingleton<MainViewModel>();
-            services.AddSingleton<StartViewModel>();
             services.AddSingleton<LogInViewModel>();
+            services.AddSingleton<AdminViewModel>();
+            services.AddSingleton<CashierViewModel>();
             services.AddSingleton<INavigationService, NavigationService>();
 
             services.AddSingleton<Func<Type, Core.ViewModel>>(serviceProvider => viewModelType => (Core.ViewModel)serviceProvider.GetRequiredService(viewModelType));

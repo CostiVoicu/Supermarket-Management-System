@@ -261,5 +261,10 @@ namespace Supermarket.Model
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
+    
+        public virtual ObjectResult<select_users_Result> select_users()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_users_Result>("select_users");
+        }
     }
 }

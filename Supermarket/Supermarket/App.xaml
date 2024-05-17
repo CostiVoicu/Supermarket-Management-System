@@ -7,11 +7,14 @@
         <DataTemplate DataType="{x:Type viewModel:LogInViewModel}">
             <view:LogInView/>
         </DataTemplate>
-        
-        <DataTemplate DataType="{x:Type viewModel:StartViewModel}">
-            <!--<view:StartView/>-->
+
+        <DataTemplate DataType="{x:Type viewModel:AdminViewModel}">
+            <view:AdminView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewModel:CashierViewModel}">
+            <view:CashierView/>
+        </DataTemplate>
         
     </Application.Resources>
 </Application>
