@@ -1,66 +1,86 @@
-﻿namespace Supermarket.Core
-{
-    using System.Windows;
-    using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
+namespace Supermarket.Core
+{
     public static class PasswordBoxHelper
     {
-        public static readonly DependencyProperty BoundPassword =
-            DependencyProperty.RegisterAttached("BoundPassword", typeof(string), typeof(PasswordBoxHelper), new PropertyMetadata(string.Empty, OnBoundPasswordChanged));
+        public static readonly DependencyProperty PasswordProperty =
+            DependencyProperty.RegisterAttached("Password", typeof(string), typeof(PasswordBoxHelper),
+                new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
 
-        public static string GetBoundPassword(DependencyObject d)
+        public static readonly DependencyProperty AttachProperty =
+            DependencyProperty.RegisterAttached("Attach", typeof(bool), typeof(PasswordBoxHelper),
+                new PropertyMetadata(false, Attach));
+
+        private static readonly DependencyProperty IsUpdatingProperty =
+            DependencyProperty.RegisterAttached("IsUpdating", typeof(bool), typeof(PasswordBoxHelper));
+
+        public static void SetAttach(DependencyObject dp, bool value)
         {
-            var box = d as PasswordBox;
-            return (box != null) ? (string)box.GetValue(BoundPassword) : string.Empty;
+            dp.SetValue(AttachProperty, value);
         }
 
-        public static void SetBoundPassword(DependencyObject d, string value)
+        public static bool GetAttach(DependencyObject dp)
         {
-            var box = d as PasswordBox;
-            if (box == null)
-                return;
-
-            box.PasswordChanged -= PasswordChanged;
-
-            if (!(bool)box.GetValue(UpdatingPassword))
-            {
-                box.SetValue(BoundPassword, value);
-                box.Password = value;
-            }
-
-            box.PasswordChanged += PasswordChanged;
+            return (bool)dp.GetValue(AttachProperty);
         }
 
-        private static readonly DependencyProperty UpdatingPassword =
-            DependencyProperty.RegisterAttached("UpdatingPassword", typeof(bool), typeof(PasswordBoxHelper), new PropertyMetadata(false));
-
-        private static void OnBoundPasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static string GetPassword(DependencyObject dp)
         {
-            var box = d as PasswordBox;
-            if (box == null)
-                return;
+            return (string)dp.GetValue(PasswordProperty);
+        }
 
-            box.PasswordChanged -= PasswordChanged;
+        public static void SetPassword(DependencyObject dp, string value)
+        {
+            dp.SetValue(PasswordProperty, value);
+        }
 
-            if (!(bool)box.GetValue(UpdatingPassword))
+        private static void OnPasswordPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is PasswordBox passwordBox && !GetIsUpdating(passwordBox))
             {
-                box.Password = (string)e.NewValue;
+                passwordBox.PasswordChanged -= PasswordChanged;
+                passwordBox.Password = (string)e.NewValue;
+                passwordBox.PasswordChanged += PasswordChanged;
             }
+        }
 
-            box.PasswordChanged += PasswordChanged;
+        private static void Attach(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is PasswordBox passwordBox)
+            {
+                if ((bool)e.OldValue)
+                {
+                    passwordBox.PasswordChanged -= PasswordChanged;
+                }
+
+                if ((bool)e.NewValue)
+                {
+                    passwordBox.PasswordChanged += PasswordChanged;
+                }
+            }
         }
 
         private static void PasswordChanged(object sender, RoutedEventArgs e)
         {
-            var box = sender as PasswordBox;
-            if (box == null)
-                return;
+            if (sender is PasswordBox passwordBox)
+            {
+                SetIsUpdating(passwordBox, true);
+                SetPassword(passwordBox, passwordBox.Password);
+                SetIsUpdating(passwordBox, false);
+            }
+        }
 
-            box.SetValue(UpdatingPassword, true);
-            SetBoundPassword(box, box.Password);
-            box.SetValue(UpdatingPassword, false);
+        private static void SetIsUpdating(DependencyObject dp, bool value)
+        {
+            dp.SetValue(IsUpdatingProperty, value);
+        }
+
+        private static bool GetIsUpdating(DependencyObject dp)
+        {
+            return (bool)dp.GetValue(IsUpdatingProperty);
         }
     }
-
 
 }
