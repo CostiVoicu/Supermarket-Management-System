@@ -4,10 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Supermarket.View"
+             xmlns:viewModel="clr-namespace:Supermarket.ViewModel"
+             xmlns:core="clr-namespace:Supermarket.Core"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label Content="LogIn" HorizontalAlignment="Center" Margin="0,117,0,0" VerticalAlignment="Top"/>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".2*"/>
+            <RowDefinition Height=".6*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".2*"/>
+            <ColumnDefinition Width=".2*"/>
+            <ColumnDefinition Width=".2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="LogIn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="1"/>
+        <Button Command="{Binding LogInCommand}" CommandParameter="{Binding ElementName=passwordBoxValue}" Grid.Column="1" Content="Log in" HorizontalAlignment="Center" Margin="0,192,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,45,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding LogInUsername, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox Name="passwordBoxValue" Grid.Column="1" HorizontalAlignment="Center" Margin="0,83,0,0" Grid.Row="1" core:PasswordBoxHelper.Attach="True" core:PasswordBoxHelper.Password="{Binding LogInPassword, Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+        <RadioButton IsChecked="{Binding IsAdmin}" Name="AdminRB" Grid.Column="1" Content="Admin" HorizontalAlignment="Center" Margin="0,121,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <RadioButton IsChecked="{Binding IsCashier}" Name="CashierRB" Grid.Column="1" Content="Cashier" HorizontalAlignment="Center" Margin="0,145,0,0" Grid.Row="1" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>
