@@ -8,11 +8,6 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.15*"/>
-            <ColumnDefinition Width="0.9*"/>
-        </Grid.ColumnDefinitions>
-        <Button Command="{Binding NavigateLogInCommandMain}" Content="Authentication" Grid.Column="0" Margin="6,165,6,226"/>
-        <ContentControl Grid.Column="1" Content="{Binding Navigation.CurrentView}"/>
+        <ContentControl Content="{Binding Navigation.CurrentView}"/>
     </Grid>
 </Window>

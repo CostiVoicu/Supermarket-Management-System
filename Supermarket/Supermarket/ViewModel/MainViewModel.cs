@@ -26,7 +26,7 @@ namespace Supermarket.ViewModel
         public MainViewModel(INavigationService navService)
         {
             Navigation = navService;
-            NavigateLogInCommandMain = new RelayCommand(o => { Navigation.NavigateTo<LogInViewModel>(); }, o => true);
+            Navigation.NavigateTo<LogInViewModel>();
         }
     }
 }

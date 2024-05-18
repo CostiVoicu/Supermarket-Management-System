@@ -4,10 +4,76 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Supermarket.View"
+             xmlns:viewModel="clr-namespace:Supermarket.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewModel:AdminViewModel/>
+    </UserControl.DataContext>
     <Grid>
-        <Label Content="Admin view" HorizontalAlignment="Left" Margin="379,153,0,0" VerticalAlignment="Top"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".15*"/>
+            <ColumnDefinition Width=".7*"/>
+        </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".2*"/>
+            <RowDefinition Height=".8*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Supermarket Admin" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="1" Margin="201,27,0,0"/>
+
+        <UniformGrid Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Columns="1" Height="340">
+            <Button Content="Users" Command="{Binding ShowUsersDataGridCommand}" Margin="0,12,0,12"/>
+            <Button Content="Products" Command="{Binding ShowProductsDataGridCommand}" Margin="0,12,0,12"/>
+            <Button Content="Producers" Command="{Binding ShowProducersDataGridCommand}" Margin="0,12,0,12"/>
+            <Button Content="Stocks" Command="{Binding ShowStocksDataGridCommand}" Margin="0,12,0,12"/>
+            <Button Content="Categories" Command="{Binding ShowCategoriesDataGridCommand}" Margin="0,12,0,12"/>
+        </UniformGrid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <!--Users Data Grid-->
+            <DataGrid ItemsSource="{Binding UsersList}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding UsersDataGridVisibility}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
+                    <DataGridTextColumn Header="Password" Binding="{Binding password}" Width="*"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding type}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--Products Data Grid-->
+            <DataGrid ItemsSource="{Binding ProductsList}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProductsDataGridVisibility}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
+                    <DataGridTextColumn Header="Bar code" Binding="{Binding bar_code}" Width="*"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding product_categories.name}" Width="*"/>
+                    <DataGridTextColumn Header="Producer" Binding="{Binding producer.name}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--Producers Data Grid-->
+            <DataGrid ItemsSource="{Binding ProducersList}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProducersDataGridVisibility}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
+                    <DataGridTextColumn Header="Country" Binding="{Binding country.name}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--Stocks Data Grid-->
+            <DataGrid ItemsSource="{Binding ProductStocksList}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding StocksDataGridVisibility}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Product name" Binding="{Binding product.name}" Width="*"/>
+                    <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}" Width="*"/>
+                    <DataGridTextColumn Header="Unit" Binding="{Binding measuring_unit.name}" Width="*"/>
+                    <DataGridTextColumn Header="Supply date" Binding="{Binding supply_date, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                    <DataGridTextColumn Header="Expiration date" Binding="{Binding expiration_date, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                    <DataGridTextColumn Header="Purchase price" Binding="{Binding purchase_price}" Width="*"/>
+                    <DataGridTextColumn Header="Selling price" Binding="{Binding selling_price}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--Categories Data Grid-->
+            <DataGrid ItemsSource="{Binding CategoriesList}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding CategoriesDataGridVisibility}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </UserControl>

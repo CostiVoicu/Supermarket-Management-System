@@ -90,6 +90,7 @@
     <Compile Include="Core\PasswordBoxHelper.cs" />
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Core\ViewModel.cs" />
+    <Compile Include="Model\BusinessLogicLayer\AdminBLL.cs" />
     <Compile Include="Model\BusinessLogicLayer\LogInBLL.cs" />
     <Compile Include="Model\country.cs">
       <DependentUpon>SupermarketModel.tt</DependentUpon>
