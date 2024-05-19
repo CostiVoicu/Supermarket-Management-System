@@ -116,7 +116,16 @@
     <Compile Include="Model\select_category_Result.cs">
       <DependentUpon>SupermarketModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\select_countries_Result.cs">
+      <DependentUpon>SupermarketModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\select_producers_Result.cs">
+      <DependentUpon>SupermarketModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\select_producer_Result.cs">
+      <DependentUpon>SupermarketModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\select_products_Result.cs">
       <DependentUpon>SupermarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\select_product_Result.cs">
@@ -125,10 +134,16 @@
     <Compile Include="Model\select_stock_Result.cs">
       <DependentUpon>SupermarketModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\select_units_Result.cs">
+      <DependentUpon>SupermarketModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\select_users_Result.cs">
       <DependentUpon>SupermarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\select_user_Result.cs">
+      <DependentUpon>SupermarketModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\select_user_types_Result.cs">
       <DependentUpon>SupermarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\sold_products.cs">
@@ -238,6 +253,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Model\SupermarketModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SupermarketModel.edmx</DependentUpon>
@@ -248,9 +266,6 @@
       <DependentUpon>SupermarketModel.edmx</DependentUpon>
       <LastGenOutput>SupermarketModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -88,16 +88,15 @@
             <StackPanel Visibility="{Binding UsersFormVisibility}">
                 <Grid>
                     <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentUser.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentUser.name}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Password" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentUser.password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentUser.password}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Type" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentUser.type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
-                    <!--<ComboBox ItemsSource="{Binding Path=}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>-->
+                    <ComboBox ItemsSource="{Binding UserTypesComboBox}" SelectedItem="{Binding CurrentUser.type}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
             </StackPanel>
 
@@ -112,13 +111,11 @@
                 </Grid>
                 <Grid>
                     <Label Content="Category" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <!--<TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding }" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>-->
-                    <ComboBox ItemsSource="{Binding Path=CategoriesList}" SelectedItem="{Binding Path=CategoriesList[0]}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <ComboBox ItemsSource="{Binding CategoriesComboBox}" SelectedItem="{Binding CurrentProduct.category}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Producer" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <!--<TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding }" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>-->
-                    <ComboBox ItemsSource="{Binding Path=ProducersList}" SelectedItem="{Binding Path=ProducersList[0].name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <ComboBox ItemsSource="{Binding ProducersComboBox}" SelectedItem="{Binding CurrentProduct.producer}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
             </StackPanel>
 
@@ -129,14 +126,14 @@
                 </Grid>
                 <Grid>
                     <Label Content="Country" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentProducer.country}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <ComboBox ItemsSource="{Binding CountriesComboBox}" SelectedItem="{Binding CurrentProducer.country}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
             </StackPanel>
 
             <StackPanel Visibility="{Binding StocksFormVisibility}">
                 <Grid>
                     <Label Content="Product name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.product}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <ComboBox ItemsSource="{Binding ProductsComboBox}" SelectedItem="{Binding CurrentStock.product}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Quantity" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
@@ -144,7 +141,7 @@
                 </Grid>
                 <Grid>
                     <Label Content="Unit" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.product}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <ComboBox ItemsSource="{Binding UnitsComboBox}" SelectedItem="{Binding CurrentStock.name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Supply date" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
@@ -167,7 +164,7 @@
             <StackPanel Visibility="{Binding CategoriesFormVisibility}">
                 <Grid>
                     <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentCategory}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentCategory.name}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
             </StackPanel>
 

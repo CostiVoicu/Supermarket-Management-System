@@ -1,9 +1,11 @@
 ﻿using Supermarket.Core;
 using Supermarket.Model;
 using Supermarket.Model.BusinessLogicLayer;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace Supermarket.ViewModel
@@ -53,8 +55,21 @@ namespace Supermarket.ViewModel
             CurrentProduct = new select_product_Result();
             CurrentProducer = new select_producer_Result();
             CurrentStock = new select_stock_Result();
-            CurrentCategory = "";
+            CurrentCategory = new select_category_Result();
 
+            UserTypesComboBox = new List<string>();
+            CategoriesComboBox = new List<string>();
+            ProducersComboBox = new List<string>();
+            CountriesComboBox = new List<string>();
+            ProductsComboBox = new List<string>();
+            UnitsComboBox = new List<string>();
+
+            UpdateUserTypesComboBox();
+            UpdateCountriesComboBox();
+            UpdateUnitsComboBox();
+            UpdateCategoriesComboBox();
+            UpdateProducersComboBox();
+            UpdateProductsComboBox();
         }
         #region Entities Collections
         public ObservableCollection<select_user_Result> UsersList
@@ -135,8 +150,8 @@ namespace Supermarket.ViewModel
                 OnPropertyChanged();
             }
         }
-        private string _currentCategory;
-        public string CurrentCategory
+        private select_category_Result _currentCategory;
+        public select_category_Result CurrentCategory
         {
             get { return _currentCategory; }
             set 
@@ -486,7 +501,7 @@ namespace Supermarket.ViewModel
             CurrentProduct = new select_product_Result();
             CurrentProducer = new select_producer_Result();
             CurrentStock = new select_stock_Result();
-            CurrentCategory = "";
+            CurrentCategory = new select_category_Result();
 
             ViewControlsVisibility = Visibility.Hidden;
             AddControlsVisibility = Visibility.Visible;
@@ -580,6 +595,7 @@ namespace Supermarket.ViewModel
             _adminBll.AddProduct(CurrentProduct);
             ProductsList = _adminBll.GetAllProducts();
             GoView();
+            UpdateProductsComboBox();
         }
         private ICommand _addProductCommand;
         public ICommand AddProductCommand
@@ -598,6 +614,7 @@ namespace Supermarket.ViewModel
             _adminBll.AddProducer(CurrentProducer);
             ProducersList = _adminBll.GetAllProducers();
             GoView();
+            UpdateProducersComboBox();
         }
         private ICommand _addProducerCommand;
         public ICommand AddProducerCommand
@@ -634,6 +651,7 @@ namespace Supermarket.ViewModel
             _adminBll.AddCategory(CurrentCategory);
             CategoriesList = _adminBll.GetAllCategories();
             GoView();
+            UpdateCategoriesComboBox();
         }
         private ICommand _addCategoryCommand;
         public ICommand AddCategoryCommand
@@ -759,6 +777,65 @@ namespace Supermarket.ViewModel
             }
         }
         #endregion
+
+        #endregion
+
+        #region ComboBox Lists
+        public List<string> UserTypesComboBox { get; set; }
+        public List<string> CategoriesComboBox { get; set; }
+        public List<string> ProducersComboBox { get; set; }
+        public List<string> CountriesComboBox { get; set; }
+        public List<string> ProductsComboBox { get; set; }
+        public List<string> UnitsComboBox { get; set; }
+
+        public void UpdateUserTypesComboBox() 
+        {
+            UserTypesComboBox.Clear();
+            foreach(var type in _adminBll.GetAllUserTypes())
+            {
+                UserTypesComboBox.Add(type.name);
+            }
+        }
+        public void UpdateCategoriesComboBox()
+        {
+            CategoriesComboBox.Clear();
+            foreach (var category in _adminBll.GetAllCategories())
+            {
+                CategoriesComboBox.Add(category.name);
+            }
+        }
+        public void UpdateProducersComboBox()
+        {
+            ProducersComboBox.Clear();
+            foreach (var producer in _adminBll.GetAllProducers())
+            {
+                ProducersComboBox.Add(producer.name);
+            }
+        }
+        public void UpdateCountriesComboBox()
+        {
+            CountriesComboBox.Clear();
+            foreach (var country in _adminBll.GetAllCountry())
+            {
+                CountriesComboBox.Add(country.name);
+            }
+        }
+        public void UpdateProductsComboBox()
+        {
+            ProductsComboBox.Clear();
+            foreach (var product in _adminBll.GetAllProducts())
+            {
+                ProductsComboBox.Add(product.name);
+            }
+        }
+        public void UpdateUnitsComboBox()
+        {
+            UnitsComboBox.Clear();
+            foreach (var unit in _adminBll.GetAllUnits())
+            {
+                UnitsComboBox.Add(unit.name);
+            }
+        }
 
         #endregion
     }

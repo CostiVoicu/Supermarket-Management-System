@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SupermarketDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SupermarketDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="country">
           <Key>
             <PropertyRef Name="id" />
@@ -285,6 +285,7 @@
         <Function Name="select_category" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="name" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="select_countries" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="select_producer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="name" Type="varchar" Mode="In" />
           <Parameter Name="country" Type="varchar" Mode="In" />
@@ -296,6 +297,7 @@
           <Parameter Name="category" Type="varchar" Mode="In" />
           <Parameter Name="producer" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="select_products" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="select_stock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="name" Type="varchar" Mode="In" />
           <Parameter Name="bar_code" Type="varchar" Mode="In" />
@@ -312,6 +314,7 @@
         <Function Name="select_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
+        <Function Name="select_user_types" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="select_users" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -392,7 +395,8 @@
             <End Role="users" EntitySet="users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SupermarketDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -674,106 +678,6 @@
             <End Role="user_types" EntitySet="user_types" />
             <End Role="users" EntitySet="users" />
           </AssociationSet>
-          <FunctionImport Name="insert_category">
-          <Parameter Name="name" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="insert_producer">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="country" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="insert_product">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="bar_code" Mode="In" Type="String" />
-            <Parameter Name="category" Mode="In" Type="String" />
-            <Parameter Name="producer" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="insert_product_stock">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="bar_code" Mode="In" Type="String" />
-            <Parameter Name="category" Mode="In" Type="String" />
-            <Parameter Name="producer" Mode="In" Type="String" />
-            <Parameter Name="quantity" Mode="In" Type="Double" />
-            <Parameter Name="purchase_price" Mode="In" Type="Double" />
-            <Parameter Name="selling_price" Mode="In" Type="Double" />
-            <Parameter Name="unit" Mode="In" Type="String" />
-            <Parameter Name="supplay_date" Mode="In" Type="DateTime" />
-            <Parameter Name="expiration_date" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="insert_user">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="password" Mode="In" Type="String" />
-            <Parameter Name="user_type" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="modify_price">
-            <Parameter Name="bar_code" Mode="In" Type="String" />
-            <Parameter Name="new_price" Mode="In" Type="Double" />
-          </FunctionImport>
-          <FunctionImport Name="modify_quantity">
-            <Parameter Name="bar_code" Mode="In" Type="String" />
-            <Parameter Name="quantity_sold" Mode="In" Type="Double" />
-          </FunctionImport>
-          <FunctionImport Name="select_categories" />
-          <FunctionImport Name="select_category" ReturnType="Collection(SupermarketDBModel.select_category_Result)">
-          <Parameter Name="name" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="select_producer" ReturnType="Collection(SupermarketDBModel.select_producer_Result)">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="country" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="select_producers" ReturnType="Collection(String)" />
-          <FunctionImport Name="select_product" ReturnType="Collection(SupermarketDBModel.select_product_Result)">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="bar_code" Mode="In" Type="String" />
-            <Parameter Name="category" Mode="In" Type="String" />
-            <Parameter Name="producer" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="select_stock" ReturnType="Collection(SupermarketDBModel.select_stock_Result)">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="bar_code" Mode="In" Type="String" />
-            <Parameter Name="category" Mode="In" Type="String" />
-            <Parameter Name="producer" Mode="In" Type="String" />
-            <Parameter Name="quantity" Mode="In" Type="Double" />
-            <Parameter Name="purchase_price" Mode="In" Type="Double" />
-            <Parameter Name="selling_price" Mode="In" Type="Double" />
-            <Parameter Name="unit" Mode="In" Type="String" />
-            <Parameter Name="supplay_date" Mode="In" Type="DateTime" />
-            <Parameter Name="expiration_date" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="select_units" ReturnType="Collection(String)" />
-          <FunctionImport Name="select_user" ReturnType="Collection(SupermarketDBModel.select_user_Result)">
-            <Parameter Name="id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="select_users" ReturnType="Collection(SupermarketDBModel.select_users_Result)" />
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(SupermarketDBModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(SupermarketDBModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="edit_category">
             <Parameter Name="id" Mode="In" Type="Int32" />
             <Parameter Name="name" Mode="In" Type="String" />
@@ -807,8 +711,107 @@
             <Parameter Name="password" Mode="In" Type="String" />
             <Parameter Name="user_type" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="insert_category">
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insert_producer">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="country" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insert_product">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="bar_code" Mode="In" Type="String" />
+            <Parameter Name="category" Mode="In" Type="String" />
+            <Parameter Name="producer" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insert_product_stock">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="bar_code" Mode="In" Type="String" />
+            <Parameter Name="category" Mode="In" Type="String" />
+            <Parameter Name="producer" Mode="In" Type="String" />
+            <Parameter Name="quantity" Mode="In" Type="Double" />
+            <Parameter Name="purchase_price" Mode="In" Type="Double" />
+            <Parameter Name="selling_price" Mode="In" Type="Double" />
+            <Parameter Name="unit" Mode="In" Type="String" />
+            <Parameter Name="supplay_date" Mode="In" Type="DateTime" />
+            <Parameter Name="expiration_date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="insert_user">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="user_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="select_categories" />
+          <FunctionImport Name="select_category" ReturnType="Collection(SupermarketDBModel.select_category_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="select_countries" ReturnType="Collection(SupermarketDBModel.select_countries_Result)" />
+          <FunctionImport Name="select_producer" ReturnType="Collection(SupermarketDBModel.select_producer_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="country" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="select_producers" ReturnType="Collection(SupermarketDBModel.select_producers_Result)" />
+          <FunctionImport Name="select_product" ReturnType="Collection(SupermarketDBModel.select_product_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="bar_code" Mode="In" Type="String" />
+            <Parameter Name="category" Mode="In" Type="String" />
+            <Parameter Name="producer" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="select_products" ReturnType="Collection(SupermarketDBModel.select_products_Result)" />
+          <FunctionImport Name="select_stock" ReturnType="Collection(SupermarketDBModel.select_stock_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="bar_code" Mode="In" Type="String" />
+            <Parameter Name="category" Mode="In" Type="String" />
+            <Parameter Name="producer" Mode="In" Type="String" />
+            <Parameter Name="quantity" Mode="In" Type="Double" />
+            <Parameter Name="purchase_price" Mode="In" Type="Double" />
+            <Parameter Name="selling_price" Mode="In" Type="Double" />
+            <Parameter Name="unit" Mode="In" Type="String" />
+            <Parameter Name="supplay_date" Mode="In" Type="DateTime" />
+            <Parameter Name="expiration_date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="select_units" ReturnType="Collection(SupermarketDBModel.select_units_Result)" />
+          <FunctionImport Name="select_user" ReturnType="Collection(SupermarketDBModel.select_user_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="select_user_types" ReturnType="Collection(SupermarketDBModel.select_user_types_Result)" />
+          <FunctionImport Name="select_users" ReturnType="Collection(SupermarketDBModel.select_users_Result)" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(SupermarketDBModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(SupermarketDBModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
         <ComplexType Name="select_category_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="select_countries_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="name" Nullable="false" MaxLength="30" />
         </ComplexType>
@@ -817,12 +820,23 @@
           <Property Type="String" Name="name" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="country" Nullable="false" MaxLength="30" />
         </ComplexType>
+        <ComplexType Name="select_producers_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="30" />
+        </ComplexType>
         <ComplexType Name="select_product_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="name" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="bar_code" Nullable="false" MaxLength="12" />
           <Property Type="String" Name="category" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="producer" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="select_products_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="bar_code" Nullable="false" MaxLength="12" />
+          <Property Type="Int32" Name="category_id" Nullable="false" />
+          <Property Type="Int32" Name="producer_id" Nullable="false" />
         </ComplexType>
         <ComplexType Name="select_stock_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -837,11 +851,19 @@
           <Property Type="DateTime" Name="supply_date" Nullable="false" />
           <Property Type="DateTime" Name="expiration_date" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="select_units_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="30" />
+        </ComplexType>
         <ComplexType Name="select_user_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="name" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="password" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="type" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="select_user_types_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="30" />
         </ComplexType>
         <ComplexType Name="select_users_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -982,6 +1004,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="edit_category" FunctionName="SupermarketDBModel.Store.edit_category" />
+          <FunctionImportMapping FunctionImportName="edit_producer" FunctionName="SupermarketDBModel.Store.edit_producer" />
+          <FunctionImportMapping FunctionImportName="edit_product" FunctionName="SupermarketDBModel.Store.edit_product" />
+          <FunctionImportMapping FunctionImportName="edit_stock" FunctionName="SupermarketDBModel.Store.edit_stock" />
+          <FunctionImportMapping FunctionImportName="edit_user" FunctionName="SupermarketDBModel.Store.edit_user" />
           <FunctionImportMapping FunctionImportName="insert_category" FunctionName="SupermarketDBModel.Store.insert_category" />
           <FunctionImportMapping FunctionImportName="insert_producer" FunctionName="SupermarketDBModel.Store.insert_producer" />
           <FunctionImportMapping FunctionImportName="insert_product" FunctionName="SupermarketDBModel.Store.insert_product" />
@@ -996,6 +1023,14 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="select_countries" FunctionName="SupermarketDBModel.Store.select_countries">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SupermarketDBModel.select_countries_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="select_producer" FunctionName="SupermarketDBModel.Store.select_producer">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SupermarketDBModel.select_producer_Result">
@@ -1005,7 +1040,14 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="select_producers" FunctionName="SupermarketDBModel.Store.select_producers" />
+          <FunctionImportMapping FunctionImportName="select_producers" FunctionName="SupermarketDBModel.Store.select_producers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SupermarketDBModel.select_producers_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="select_product" FunctionName="SupermarketDBModel.Store.select_product">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SupermarketDBModel.select_product_Result">
@@ -1014,6 +1056,17 @@
                 <ScalarProperty Name="bar_code" ColumnName="bar_code" />
                 <ScalarProperty Name="category" ColumnName="category" />
                 <ScalarProperty Name="producer" ColumnName="producer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="select_products" FunctionName="SupermarketDBModel.Store.select_products">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SupermarketDBModel.select_products_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="bar_code" ColumnName="bar_code" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="producer_id" ColumnName="producer_id" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1034,7 +1087,14 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="select_units" FunctionName="SupermarketDBModel.Store.select_units" />
+          <FunctionImportMapping FunctionImportName="select_units" FunctionName="SupermarketDBModel.Store.select_units">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SupermarketDBModel.select_units_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="select_user" FunctionName="SupermarketDBModel.Store.select_user">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SupermarketDBModel.select_user_Result">
@@ -1042,6 +1102,14 @@
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="type" ColumnName="type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="select_user_types" FunctionName="SupermarketDBModel.Store.select_user_types">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SupermarketDBModel.select_user_types_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1080,11 +1148,6 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="SupermarketDBModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="SupermarketDBModel.Store.sp_upgraddiagrams" />
-          <FunctionImportMapping FunctionImportName="edit_category" FunctionName="SupermarketDBModel.Store.edit_category" />
-          <FunctionImportMapping FunctionImportName="edit_producer" FunctionName="SupermarketDBModel.Store.edit_producer" />
-          <FunctionImportMapping FunctionImportName="edit_product" FunctionName="SupermarketDBModel.Store.edit_product" />
-          <FunctionImportMapping FunctionImportName="edit_stock" FunctionName="SupermarketDBModel.Store.edit_stock" />
-          <FunctionImportMapping FunctionImportName="edit_user" FunctionName="SupermarketDBModel.Store.edit_user" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

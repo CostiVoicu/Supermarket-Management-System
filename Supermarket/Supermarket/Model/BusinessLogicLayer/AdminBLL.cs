@@ -105,6 +105,52 @@ namespace Supermarket.Model.BusinessLogicLayer
             }
             return result;
         }
+        public ObservableCollection<string> UnitsList { get; set; }
+        public ObservableCollection<select_units_Result> GetAllUnits()
+        {
+            List<select_units_Result> units = context.select_units().ToList();
+            ObservableCollection<select_units_Result> result = new ObservableCollection<select_units_Result>();
+            foreach(select_units_Result unit in units)
+            {
+                result.Add(new select_units_Result
+                {
+                    id = unit.id,
+                    name = unit.name
+                });
+            }
+            return result;
+        }
+        public ObservableCollection<select_user_types_Result> UserTypesList { get; set; }
+        public ObservableCollection<select_user_types_Result> GetAllUserTypes()
+        {
+            List<select_user_types_Result> types = context.select_user_types().ToList();
+            ObservableCollection<select_user_types_Result> result = new ObservableCollection<select_user_types_Result>();
+            foreach (select_user_types_Result type in types)
+            {
+                result.Add(new select_user_types_Result
+                {
+                    id = type.id,
+                    name = type.name
+                });
+            }
+            return result;
+        }
+        public ObservableCollection<select_countries_Result> CountriesList { get; set; }
+        public ObservableCollection<select_countries_Result> GetAllCountry()
+        {
+            List<select_countries_Result> countries = context.select_countries().ToList();
+            ObservableCollection<select_countries_Result> result = new ObservableCollection<select_countries_Result>();
+            foreach (select_countries_Result country in countries)
+            {
+                result.Add(new select_countries_Result
+                {
+                    id = country.id,
+                    name = country.name
+                });
+            }
+            return result;
+        }
+
         #endregion
 
         #region Add Functions
@@ -199,13 +245,13 @@ namespace Supermarket.Model.BusinessLogicLayer
                 {
                     ErrorMessage = "The name can't be empty";
                 }
-            }
-            else
-            {
-                context.insert_category(category.name);
-                context.SaveChanges();
-                CategoriesList.Add(category);
-                ErrorMessage = "";
+                else
+                {
+                    context.insert_category(category.name);
+                    context.SaveChanges();
+                    CategoriesList.Add(category);
+                    ErrorMessage = "";
+                }
             }
         }
         #endregion
