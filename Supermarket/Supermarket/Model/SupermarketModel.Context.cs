@@ -15,10 +15,10 @@ namespace Supermarket.Model
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class SupermarketDBEntities1 : DbContext
+    public partial class SupermarketDBEntities : DbContext
     {
-        public SupermarketDBEntities1()
-            : base("name=SupermarketDBEntities1")
+        public SupermarketDBEntities()
+            : base("name=SupermarketDBEntities")
         {
         }
     
@@ -38,6 +38,49 @@ namespace Supermarket.Model
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<user_types> user_types { get; set; }
         public virtual DbSet<user> users { get; set; }
+    
+        public virtual int insert_category(string name)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_category", nameParameter);
+        }
+    
+        public virtual int insert_producer(string name, string country)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var countryParameter = country != null ?
+                new ObjectParameter("country", country) :
+                new ObjectParameter("country", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_producer", nameParameter, countryParameter);
+        }
+    
+        public virtual int insert_product(string name, string bar_code, string category, string producer)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var bar_codeParameter = bar_code != null ?
+                new ObjectParameter("bar_code", bar_code) :
+                new ObjectParameter("bar_code", typeof(string));
+    
+            var categoryParameter = category != null ?
+                new ObjectParameter("category", category) :
+                new ObjectParameter("category", typeof(string));
+    
+            var producerParameter = producer != null ?
+                new ObjectParameter("producer", producer) :
+                new ObjectParameter("producer", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_product", nameParameter, bar_codeParameter, categoryParameter, producerParameter);
+        }
     
         public virtual int insert_product_stock(string name, string bar_code, string category, string producer, Nullable<double> quantity, Nullable<double> purchase_price, Nullable<double> selling_price, string unit, Nullable<System.DateTime> supplay_date, Nullable<System.DateTime> expiration_date)
         {
@@ -127,9 +170,31 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("modify_quantity", bar_codeParameter, quantity_soldParameter);
         }
     
-        public virtual int select_category()
+        public virtual int select_categories()
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("select_category");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("select_categories");
+        }
+    
+        public virtual ObjectResult<select_category_Result> select_category(string name)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_category_Result>("select_category", nameParameter);
+        }
+    
+        public virtual ObjectResult<select_producer_Result> select_producer(string name, string country)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var countryParameter = country != null ?
+                new ObjectParameter("country", country) :
+                new ObjectParameter("country", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_producer_Result>("select_producer", nameParameter, countryParameter);
         }
     
         public virtual ObjectResult<string> select_producers()
@@ -137,9 +202,75 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("select_producers");
         }
     
-        public virtual ObjectResult<string> select_unit()
+        public virtual ObjectResult<select_product_Result> select_product(string name, string bar_code, string category, string producer)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("select_unit");
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var bar_codeParameter = bar_code != null ?
+                new ObjectParameter("bar_code", bar_code) :
+                new ObjectParameter("bar_code", typeof(string));
+    
+            var categoryParameter = category != null ?
+                new ObjectParameter("category", category) :
+                new ObjectParameter("category", typeof(string));
+    
+            var producerParameter = producer != null ?
+                new ObjectParameter("producer", producer) :
+                new ObjectParameter("producer", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_product_Result>("select_product", nameParameter, bar_codeParameter, categoryParameter, producerParameter);
+        }
+    
+        public virtual ObjectResult<select_stock_Result> select_stock(string name, string bar_code, string category, string producer, Nullable<double> quantity, Nullable<double> purchase_price, Nullable<double> selling_price, string unit, Nullable<System.DateTime> supplay_date, Nullable<System.DateTime> expiration_date)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var bar_codeParameter = bar_code != null ?
+                new ObjectParameter("bar_code", bar_code) :
+                new ObjectParameter("bar_code", typeof(string));
+    
+            var categoryParameter = category != null ?
+                new ObjectParameter("category", category) :
+                new ObjectParameter("category", typeof(string));
+    
+            var producerParameter = producer != null ?
+                new ObjectParameter("producer", producer) :
+                new ObjectParameter("producer", typeof(string));
+    
+            var quantityParameter = quantity.HasValue ?
+                new ObjectParameter("quantity", quantity) :
+                new ObjectParameter("quantity", typeof(double));
+    
+            var purchase_priceParameter = purchase_price.HasValue ?
+                new ObjectParameter("purchase_price", purchase_price) :
+                new ObjectParameter("purchase_price", typeof(double));
+    
+            var selling_priceParameter = selling_price.HasValue ?
+                new ObjectParameter("selling_price", selling_price) :
+                new ObjectParameter("selling_price", typeof(double));
+    
+            var unitParameter = unit != null ?
+                new ObjectParameter("unit", unit) :
+                new ObjectParameter("unit", typeof(string));
+    
+            var supplay_dateParameter = supplay_date.HasValue ?
+                new ObjectParameter("supplay_date", supplay_date) :
+                new ObjectParameter("supplay_date", typeof(System.DateTime));
+    
+            var expiration_dateParameter = expiration_date.HasValue ?
+                new ObjectParameter("expiration_date", expiration_date) :
+                new ObjectParameter("expiration_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_stock_Result>("select_stock", nameParameter, bar_codeParameter, categoryParameter, producerParameter, quantityParameter, purchase_priceParameter, selling_priceParameter, unitParameter, supplay_dateParameter, expiration_dateParameter);
+        }
+    
+        public virtual ObjectResult<string> select_units()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("select_units");
         }
     
         public virtual ObjectResult<select_user_Result> select_user(string name, string password, string user_type)
@@ -157,6 +288,11 @@ namespace Supermarket.Model
                 new ObjectParameter("user_type", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_user_Result>("select_user", nameParameter, passwordParameter, user_typeParameter);
+        }
+    
+        public virtual ObjectResult<select_users_Result> select_users()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_users_Result>("select_users");
         }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
@@ -260,11 +396,6 @@ namespace Supermarket.Model
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
-        }
-    
-        public virtual ObjectResult<select_users_Result> select_users()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_users_Result>("select_users");
         }
     }
 }

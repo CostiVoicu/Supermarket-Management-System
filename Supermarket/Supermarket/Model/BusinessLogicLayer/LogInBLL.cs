@@ -10,7 +10,7 @@ namespace Supermarket.Model.BusinessLogicLayer
 {
     public class LogInBLL
     {
-        private SupermarketDBEntities1 context = new SupermarketDBEntities1();
+        private SupermarketDBEntities context = new SupermarketDBEntities();
         public ObservableCollection<user> UsersList { get; set; }
         public string ErrorMessage { get; set; }
 

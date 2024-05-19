@@ -2,16 +2,26 @@
 using Supermarket.Model;
 using Supermarket.Model.BusinessLogicLayer;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Supermarket.ViewModel
 {
+    enum ModeType
+    {
+        View,
+        Add,
+        Edit
+    }
     public class AdminViewModel : Core.ViewModel
     {
         private AdminBLL _adminBll;
+        private ModeType _currentMode;
         public AdminViewModel()
         {
+            _currentMode = ModeType.View;
+
             _adminBll = new AdminBLL();
             UsersList = _adminBll.GetAllUsers();
             ProductsList = _adminBll.GetAllProducts();
@@ -24,82 +34,236 @@ namespace Supermarket.ViewModel
             ProducersDataGridVisibility = Visibility.Collapsed;
             StocksDataGridVisibility = Visibility.Collapsed;
             CategoriesDataGridVisibility = Visibility.Collapsed;
+
+            UsersFormVisibility = Visibility.Collapsed;
+            ProductsFormVisibility = Visibility.Collapsed;
+            ProducersFormVisibility = Visibility.Collapsed;
+            StocksFormVisibility = Visibility.Collapsed;
+            CategoriesFormVisibility = Visibility.Collapsed;
+
+            ViewControlsVisibility = Visibility.Visible;
+            AddControlsVisibility = Visibility.Hidden;
+            EditControlsVisibility = Visibility.Hidden;
+            FormsVisibility = Visibility.Hidden;
+
+            CurrentUser = new select_user_Result();
+            CurrentProduct = new select_product_Result();
+            CurrentProducer = new select_producer_Result();
+            CurrentStock = new select_stock_Result();
+            CurrentCategory = "";
+
         }
+        #region Entities Collections
         public ObservableCollection<select_user_Result> UsersList
         {
             get => _adminBll.UsersList;
             set => _adminBll.UsersList = value;
         }
-        public ObservableCollection<product> ProductsList
+        public ObservableCollection<select_product_Result> ProductsList
         {
             get => _adminBll.ProductsList;
             set => _adminBll.ProductsList = value;
         }
-        public ObservableCollection<producer> ProducersList
+        public ObservableCollection<select_producer_Result> ProducersList
         {
             get => _adminBll.ProducersList;
             set => _adminBll.ProducersList = value;
         }
-        public ObservableCollection<product_stock> ProductStocksList
+        public ObservableCollection<select_stock_Result> ProductStocksList
         {
             get => _adminBll.ProductStocksList;
             set => _adminBll.ProductStocksList = value;
         }
-        public ObservableCollection<product_categories> CategoriesList
+        public ObservableCollection<select_category_Result> CategoriesList
         {
             get => _adminBll.CategoriesList;
             set => _adminBll.CategoriesList = value;
         }
-        private Visibility usersDataGridVisibility;
+        #endregion
+
+        #region Entities Element
+        private select_user_Result _currentUser;
+        public select_user_Result CurrentUser
+        {
+            get { return _currentUser; }
+            set { _currentUser = value; OnPropertyChanged(); }
+        }
+        private select_product_Result _currentProduct;
+        public select_product_Result CurrentProduct
+        {
+            get { return _currentProduct; }
+            set { _currentProduct = value; OnPropertyChanged(); }
+        }
+        private select_producer_Result _currentProducer;
+        public select_producer_Result CurrentProducer
+        {
+            get { return _currentProducer; }
+            set { _currentProducer = value; OnPropertyChanged(); }
+        }
+        private select_stock_Result _currentStock;
+        public select_stock_Result CurrentStock
+        {
+            get { return _currentStock; }
+            set { _currentStock = value; OnPropertyChanged(); }
+        }
+        private string _currentCategory;
+        public string CurrentCategory
+        {
+            get { return _currentCategory; }
+            set { _currentCategory = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        #region Grid Visibility Variables
+        private Visibility _usersDataGridVisibility;
         public Visibility UsersDataGridVisibility
         {
-            get { return usersDataGridVisibility; }
+            get { return _usersDataGridVisibility; }
             set
             {
-                usersDataGridVisibility = value;
+                _usersDataGridVisibility = value;
                 OnPropertyChanged();
             }
         }
-        private Visibility productsDataGridVisibility;
+        private Visibility _productsDataGridVisibility;
         public Visibility ProductsDataGridVisibility
         {
-            get { return productsDataGridVisibility; }
+            get { return _productsDataGridVisibility; }
             set
             {
-                productsDataGridVisibility = value;
+                _productsDataGridVisibility = value;
                 OnPropertyChanged();
             }
         }
-        private Visibility producersDataGridVisibility;
+        private Visibility _producersDataGridVisibility;
         public Visibility ProducersDataGridVisibility
         {
-            get { return producersDataGridVisibility; }
+            get { return _producersDataGridVisibility; }
             set
             {
-                producersDataGridVisibility = value;
+                _producersDataGridVisibility = value;
                 OnPropertyChanged();
             }
         }
-        private Visibility stocksDataGridVisibility;
+        private Visibility _stocksDataGridVisibility;
         public Visibility StocksDataGridVisibility
         {
-            get { return stocksDataGridVisibility; }
+            get { return _stocksDataGridVisibility; }
             set
             {
-                stocksDataGridVisibility = value;
+                _stocksDataGridVisibility = value;
                 OnPropertyChanged();
             }
         }
-        private Visibility categoriesDataGridVisibility;
+        private Visibility _categoriesDataGridVisibility;
         public Visibility CategoriesDataGridVisibility
         {
-            get { return categoriesDataGridVisibility; }
+            get { return _categoriesDataGridVisibility; }
             set
             {
-                categoriesDataGridVisibility = value;
+                _categoriesDataGridVisibility = value;
                 OnPropertyChanged();
             }
         }
+        #endregion
+
+        #region Add Form Varibles
+        private Visibility _usersFormVisibility;
+        public Visibility UsersFormVisibility
+        {
+            get { return _usersFormVisibility; }
+            set
+            {
+                _usersFormVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        private Visibility _productsFormVisibility;
+        public Visibility ProductsFormVisibility
+        {
+            get { return _productsFormVisibility; }
+            set
+            {
+                _productsFormVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        private Visibility _producersFormVisibility;
+        public Visibility ProducersFormVisibility
+        {
+            get { return _producersFormVisibility; }
+            set
+            {
+                _producersFormVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        private Visibility _stocksFormVisibility;
+        public Visibility StocksFormVisibility
+        {
+            get { return _stocksFormVisibility; }
+            set
+            {
+                _stocksFormVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        private Visibility _categoriesFormVisibility;
+        public Visibility CategoriesFormVisibility
+        {
+            get { return _categoriesFormVisibility; }
+            set
+            {
+                _categoriesFormVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region Visibility Controls
+        private Visibility _viewControlsVisibility;
+        public Visibility ViewControlsVisibility
+        {
+            get { return _viewControlsVisibility; }
+            set
+            {
+                _viewControlsVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        private Visibility _addControlsVisibility;
+        public Visibility AddControlsVisibility
+        {
+            get { return _addControlsVisibility; }
+            set
+            {
+                _addControlsVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        private Visibility _editControlsVisibility;
+        public Visibility EditControlsVisibility
+        {
+            get { return _editControlsVisibility; }
+            set
+            {
+                _editControlsVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        private Visibility _formsVisibility;
+        public Visibility FormsVisibility
+        {
+            get { return _formsVisibility; }
+            set
+            {
+                _formsVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region Visibility Functions
         private void ShowUsersDataGrid(object obj)
         {
             UsersDataGridVisibility = Visibility.Visible;
@@ -107,6 +271,14 @@ namespace Supermarket.ViewModel
             ProducersDataGridVisibility = Visibility.Collapsed;
             StocksDataGridVisibility = Visibility.Collapsed;
             CategoriesDataGridVisibility = Visibility.Collapsed;
+
+            AddCommand = AddUserCommand;
+
+            UsersFormVisibility = Visibility.Visible;
+            ProductsFormVisibility = Visibility.Collapsed;
+            ProducersFormVisibility = Visibility.Collapsed;
+            StocksFormVisibility = Visibility.Collapsed;
+            CategoriesFormVisibility = Visibility.Collapsed;
         }
         private void ShowProductsDataGrid(object obj)
         {
@@ -115,6 +287,14 @@ namespace Supermarket.ViewModel
             ProducersDataGridVisibility = Visibility.Collapsed;
             StocksDataGridVisibility = Visibility.Collapsed;
             CategoriesDataGridVisibility = Visibility.Collapsed;
+
+            AddCommand = AddProductCommand;
+
+            UsersFormVisibility = Visibility.Collapsed;
+            ProductsFormVisibility = Visibility.Visible;
+            ProducersFormVisibility = Visibility.Collapsed;
+            StocksFormVisibility = Visibility.Collapsed;
+            CategoriesFormVisibility = Visibility.Collapsed;
         }
         private void ShowProducersDataGrid(object obj)
         {
@@ -123,6 +303,14 @@ namespace Supermarket.ViewModel
             ProducersDataGridVisibility = Visibility.Visible;
             StocksDataGridVisibility = Visibility.Collapsed;
             CategoriesDataGridVisibility = Visibility.Collapsed;
+
+            AddCommand = AddProducerCommand;
+
+            UsersFormVisibility = Visibility.Collapsed;
+            ProductsFormVisibility = Visibility.Collapsed;
+            ProducersFormVisibility = Visibility.Visible;
+            StocksFormVisibility = Visibility.Collapsed;
+            CategoriesFormVisibility = Visibility.Collapsed;
         }
         private void ShowStocksDataGrid(object obj)
         {
@@ -131,6 +319,14 @@ namespace Supermarket.ViewModel
             ProducersDataGridVisibility = Visibility.Collapsed;
             StocksDataGridVisibility = Visibility.Visible;
             CategoriesDataGridVisibility = Visibility.Collapsed;
+
+            AddCommand = AddProductStockCommand;
+
+            UsersFormVisibility = Visibility.Collapsed;
+            ProductsFormVisibility = Visibility.Collapsed;
+            ProducersFormVisibility = Visibility.Collapsed;
+            StocksFormVisibility = Visibility.Visible;
+            CategoriesFormVisibility = Visibility.Collapsed;
         }
         private void ShowCategoriesDataGrid(object obj)
         {
@@ -139,7 +335,18 @@ namespace Supermarket.ViewModel
             ProducersDataGridVisibility = Visibility.Collapsed;
             StocksDataGridVisibility = Visibility.Collapsed;
             CategoriesDataGridVisibility = Visibility.Visible;
+
+            AddCommand = AddCategoryCommand;
+
+            UsersFormVisibility = Visibility.Collapsed;
+            ProductsFormVisibility = Visibility.Collapsed;
+            ProducersFormVisibility = Visibility.Collapsed;
+            StocksFormVisibility = Visibility.Collapsed;
+            CategoriesFormVisibility = Visibility.Visible;
         }
+        #endregion
+
+        #region Commands
         private ICommand _showUsersDataGridCommand;
         public ICommand ShowUsersDataGridCommand
         {
@@ -200,5 +407,188 @@ namespace Supermarket.ViewModel
                 return _showCategoriesDataGridCommand;
             }
         }
+        
+        private ICommand _addCommand;
+        public ICommand AddCommand
+        {
+            get
+            {
+                return _addCommand;
+            }
+            set {
+                _addCommand = value;
+                OnPropertyChanged();
+            }
+        }
+        private ICommand _saveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if (_saveCommand == null)
+                {
+                    _saveCommand = new RelayCommand(o => {  }, o => true);
+                }
+                return _saveCommand;
+            }
+        }
+        public void GoView()
+        {
+            _currentMode = ModeType.View;
+            ViewControlsVisibility = Visibility.Visible;
+            AddControlsVisibility = Visibility.Hidden;
+            EditControlsVisibility = Visibility.Hidden;
+            FormsVisibility = Visibility.Hidden;
+        }
+        public void GoAdd()
+        {
+            _currentMode = ModeType.Add;
+
+            CurrentUser = new select_user_Result();
+            CurrentProduct = new select_product_Result();
+            CurrentProducer = new select_producer_Result();
+            CurrentStock = new select_stock_Result();
+            CurrentCategory = "";
+
+            ViewControlsVisibility = Visibility.Hidden;
+            AddControlsVisibility = Visibility.Visible;
+            EditControlsVisibility = Visibility.Hidden;
+            FormsVisibility = Visibility.Visible;
+        }
+        public void GoEdit()
+        {
+            _currentMode = ModeType.Edit;
+            ViewControlsVisibility = Visibility.Hidden;
+            AddControlsVisibility = Visibility.Visible;
+            EditControlsVisibility = Visibility.Hidden;
+            FormsVisibility = Visibility.Visible;
+        }
+        private ICommand _goViewCommand;
+        public ICommand GoViewCommand
+        {
+            get
+            {
+                if (_goViewCommand == null)
+                {
+                    _goViewCommand = new RelayCommand(o => { GoView(); }, o => true);
+                }
+                return _goViewCommand;
+            }
+        }
+        private ICommand _goAddCommand;
+        public ICommand GoAddCommand
+        {
+            get
+            {
+                if (_goAddCommand == null)
+                {
+                    _goAddCommand = new RelayCommand(o => { GoAdd(); }, o => true);
+                }
+                return _goAddCommand;
+            }
+        }
+        private ICommand _goEditCommand;
+        public ICommand GoEditCommand
+        {
+            get
+            {
+                if (_goEditCommand == null)
+                {
+                    _goEditCommand = new RelayCommand(o => { GoEdit(); }, o => true);
+                }
+                return _goEditCommand;
+            }
+        }
+        public void AddUser()
+        {
+            _adminBll.AddUser(CurrentUser);
+            UsersList = _adminBll.GetAllUsers();
+            GoView();
+        }
+        private ICommand _addUserCommand;
+        public ICommand AddUserCommand
+        {
+            get
+            {
+                if (_addUserCommand == null)
+                {
+                    _addUserCommand = new RelayCommand(o => { AddUser(); }, o => true);
+                }
+                return _addUserCommand;
+            }
+        }
+        public void AddProduct()
+        {
+            _adminBll.AddProduct(CurrentProduct);
+            ProductsList = _adminBll.GetAllProducts();
+            GoView();
+        }
+        private ICommand _addProductCommand;
+        public ICommand AddProductCommand
+        {
+            get
+            {
+                if (_addProductCommand == null)
+                {
+                    _addProductCommand = new RelayCommand(o => { AddProduct(); }, o => true);
+                }
+                return _addProductCommand;
+            }
+        }
+        public void AddProducer()
+        {
+            _adminBll.AddProducer(CurrentProducer);
+            ProducersList = _adminBll.GetAllProducers();
+            GoView();
+        }
+        private ICommand _addProducerCommand;
+        public ICommand AddProducerCommand
+        {
+            get
+            {
+                if (_addProducerCommand == null)
+                {
+                    _addProducerCommand = new RelayCommand(o => { AddProducer(); }, o => true);
+                }
+                return _addProducerCommand;
+            }
+        }
+        public void AddProductStock()
+        {
+            _adminBll.AddProductStock(CurrentStock);
+            ProductStocksList = _adminBll.GetAllProductStocks();
+            GoView();
+        }
+        private ICommand _addProductStockCommand;
+        public ICommand AddProductStockCommand
+        {
+            get
+            {
+                if (_addProductStockCommand == null)
+                {
+                    _addProductStockCommand = new RelayCommand(o => { AddProductStock(); }, o => true);
+                }
+                return _addProductStockCommand;
+            }
+        }
+        public void AddCategory()
+        {
+            _adminBll.AddCategory(CurrentCategory);
+            CategoriesList = _adminBll.GetAllCategories();
+            GoView();
+        }
+        private ICommand _addCategoryCommand;
+        public ICommand AddCategoryCommand
+        {
+            get
+            {
+                if (_addCategoryCommand == null)
+                {
+                    _addCategoryCommand = new RelayCommand(o => { AddCategory(); }, o => true);
+                }
+                return _addCategoryCommand;
+            }
+        }
+        #endregion
     }
 }

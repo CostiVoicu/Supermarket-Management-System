@@ -11,11 +11,9 @@ namespace Supermarket.Model
 {
     using System;
     
-    public partial class select_user_Result
+    public partial class select_category_Result
     {
         public int id { get; set; }
         public string name { get; set; }
-        public string password { get; set; }
-        public string type { get; set; }
     }
 }

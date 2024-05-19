@@ -19,11 +19,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height=".2*"/>
             <RowDefinition Height=".8*"/>
+            <RowDefinition Height=".2*"/>
         </Grid.RowDefinitions>
 
         <Label Content="Supermarket Admin" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Column="1" Margin="201,27,0,0"/>
 
-        <UniformGrid Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Columns="1" Height="340">
+        <UniformGrid Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Columns="1" Height="300">
             <Button Content="Users" Command="{Binding ShowUsersDataGridCommand}" Margin="0,12,0,12"/>
             <Button Content="Products" Command="{Binding ShowProductsDataGridCommand}" Margin="0,12,0,12"/>
             <Button Content="Producers" Command="{Binding ShowProducersDataGridCommand}" Margin="0,12,0,12"/>
@@ -31,9 +32,9 @@
             <Button Content="Categories" Command="{Binding ShowCategoriesDataGridCommand}" Margin="0,12,0,12"/>
         </UniformGrid>
 
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid Visibility="{Binding ViewControlsVisibility}" Grid.Row="1" Grid.Column="1">
             <!--Users Data Grid-->
-            <DataGrid ItemsSource="{Binding UsersList}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding UsersDataGridVisibility}">
+            <DataGrid ItemsSource="{Binding UsersList}" SelectedItem="{Binding CurrentUser, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding UsersDataGridVisibility}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
                     <DataGridTextColumn Header="Password" Binding="{Binding password}" Width="*"/>
@@ -41,27 +42,27 @@
                 </DataGrid.Columns>
             </DataGrid>
             <!--Products Data Grid-->
-            <DataGrid ItemsSource="{Binding ProductsList}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProductsDataGridVisibility}">
+            <DataGrid ItemsSource="{Binding ProductsList}" SelectedItem="{Binding CurrentProduct, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProductsDataGridVisibility}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
                     <DataGridTextColumn Header="Bar code" Binding="{Binding bar_code}" Width="*"/>
-                    <DataGridTextColumn Header="Category" Binding="{Binding product_categories.name}" Width="*"/>
-                    <DataGridTextColumn Header="Producer" Binding="{Binding producer.name}" Width="*"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding category}" Width="*"/>
+                    <DataGridTextColumn Header="Producer" Binding="{Binding producer}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <!--Producers Data Grid-->
-            <DataGrid ItemsSource="{Binding ProducersList}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProducersDataGridVisibility}">
+            <DataGrid ItemsSource="{Binding ProducersList}" SelectedItem="{Binding CurrentProducer, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProducersDataGridVisibility}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
-                    <DataGridTextColumn Header="Country" Binding="{Binding country.name}" Width="*"/>
+                    <DataGridTextColumn Header="Country" Binding="{Binding country}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <!--Stocks Data Grid-->
-            <DataGrid ItemsSource="{Binding ProductStocksList}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding StocksDataGridVisibility}">
+            <DataGrid ItemsSource="{Binding ProductStocksList}" SelectedItem="{Binding CurrentProduct, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding StocksDataGridVisibility}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Product name" Binding="{Binding product.name}" Width="*"/>
+                    <DataGridTextColumn Header="Product name" Binding="{Binding product}" Width="*"/>
                     <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}" Width="*"/>
-                    <DataGridTextColumn Header="Unit" Binding="{Binding measuring_unit.name}" Width="*"/>
+                    <DataGridTextColumn Header="Unit" Binding="{Binding unit}" Width="*"/>
                     <DataGridTextColumn Header="Supply date" Binding="{Binding supply_date, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                     <DataGridTextColumn Header="Expiration date" Binding="{Binding expiration_date, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                     <DataGridTextColumn Header="Purchase price" Binding="{Binding purchase_price}" Width="*"/>
@@ -69,11 +70,118 @@
                 </DataGrid.Columns>
             </DataGrid>
             <!--Categories Data Grid-->
-            <DataGrid ItemsSource="{Binding CategoriesList}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding CategoriesDataGridVisibility}">
+            <DataGrid ItemsSource="{Binding CategoriesList}" SelectedItem="{Binding CurrentCategory, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding CategoriesDataGridVisibility}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
+           
         </Grid>
+        
+        <UniformGrid Visibility="{Binding ViewControlsVisibility}" Grid.Row="2" Grid.Column="1" Rows="1">
+            <Button Content="Add" Command="{Binding GoAddCommand}" Margin="7,15,7,15"/>
+            <Button Content="Edit" Command="{Binding GoEditCommand}" Margin="7,15,7,15"/>
+            <Button Content="Delete" Command="{Binding ShowProducersDataGridCommand}" Margin="7,15,7,15"/>
+        </UniformGrid>
+
+        <Grid Visibility="{Binding FormsVisibility}" Grid.Row="1" Grid.Column="1">
+            <StackPanel Visibility="{Binding UsersFormVisibility}">
+                <Grid>
+                    <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentUser.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Password" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentUser.password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Type" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentUser.type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <!--<ComboBox ItemsSource="{Binding Path=}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>-->
+                </Grid>
+            </StackPanel>
+
+            <StackPanel Visibility="{Binding ProductsFormVisibility}">
+                <Grid>
+                    <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentProduct.name}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Bar code" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentProduct.bar_code}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Category" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <!--<TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding }" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>-->
+                    <ComboBox ItemsSource="{Binding Path=CategoriesList}" SelectedItem="{Binding Path=CategoriesList[0]}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Producer" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <!--<TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding }" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>-->
+                    <ComboBox ItemsSource="{Binding Path=ProducersList}" SelectedItem="{Binding Path=ProducersList[0].name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel Visibility="{Binding ProducersFormVisibility}">
+                <Grid>
+                    <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentProducer.name}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Country" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentProducer.country}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel Visibility="{Binding StocksFormVisibility}">
+                <Grid>
+                    <Label Content="Product name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.product}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Quantity" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.quantity}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Unit" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.product}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Supply date" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.supply_date}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Expiration date" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.expiration_date}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Purchase price" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.purchase_price}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+                <Grid>
+                    <Label Content="Selling price" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.selling_price}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel Visibility="{Binding CategoriesFormVisibility}">
+                <Grid>
+                    <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentCategory}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                </Grid>
+            </StackPanel>
+
+        </Grid>
+
+        <UniformGrid Visibility="{Binding AddControlsVisibility}" Grid.Row="2" Grid.Column="1" Rows="1">
+            <Button Content="Add" Command="{Binding AddCommand}" Margin="7,15,7,15"/>
+            <Button Content="Cancel" Command="{Binding GoViewCommand}" Margin="7,15,7,15"/>
+        </UniformGrid>
+
+        <UniformGrid Visibility="{Binding EditControlsVisibility}" Grid.Row="2" Grid.Column="1" Rows="1">
+            <Button Content="Save" Command="{Binding SaveCommand}" Margin="7,15,7,15"/>
+            <Button Content="Cancel" Command="{Binding GoViewCommand}" Margin="7,15,7,15"/>
+        </UniformGrid>
+
     </Grid>
 </UserControl>
