@@ -583,9 +583,11 @@ namespace Supermarket.ViewModel
         }
         public void AddUser()
         {
-            _adminBll.AddUser(CurrentUser);
-            OnPropertyChanged("UsersList");
-            GoView();
+            if (_adminBll.AddUser(CurrentUser))
+            {
+                OnPropertyChanged("UsersList");
+                GoView();
+            }
         }
         private ICommand _addUserCommand;
         public ICommand AddUserCommand
@@ -601,10 +603,12 @@ namespace Supermarket.ViewModel
         }
         public void AddProduct()
         {
-            _adminBll.AddProduct(CurrentProduct); ;
-            OnPropertyChanged("ProductsList");
-            UpdateProductsComboBox();
-            GoView();
+            if (_adminBll.AddProduct(CurrentProduct))
+            {
+                OnPropertyChanged("ProductsList");
+                UpdateProductsComboBox();
+                GoView();
+            }
         }
         private ICommand _addProductCommand;
         public ICommand AddProductCommand
@@ -620,10 +624,12 @@ namespace Supermarket.ViewModel
         }
         public void AddProducer()
         {
-            _adminBll.AddProducer(CurrentProducer);
-            OnPropertyChanged("ProducersList");
-            UpdateProducersComboBox();
-            GoView();
+            if (_adminBll.AddProducer(CurrentProducer))
+            {
+                OnPropertyChanged("ProducersList");
+                UpdateProducersComboBox();
+                GoView();
+            }
         }
         private ICommand _addProducerCommand;
         public ICommand AddProducerCommand
@@ -639,9 +645,11 @@ namespace Supermarket.ViewModel
         }
         public void AddProductStock()
         {
-            _adminBll.AddProductStock(CurrentStock);
-            OnPropertyChanged("ProductStocksList");
-            GoView();
+            if (_adminBll.AddProductStock(CurrentStock))
+            {
+                OnPropertyChanged("ProductStocksList");
+                GoView();
+            }
         }
         private ICommand _addProductStockCommand;
         public ICommand AddProductStockCommand
@@ -657,10 +665,12 @@ namespace Supermarket.ViewModel
         }
         public void AddCategory()
         {
-            _adminBll.AddCategory(CurrentCategory);
-            OnPropertyChanged("CategoriesList");
-            UpdateCategoriesComboBox();
-            GoView();
+            if (_adminBll.AddCategory(CurrentCategory))
+            {
+                OnPropertyChanged("CategoriesList");
+                UpdateCategoriesComboBox();
+                GoView();
+            }
         }
         private ICommand _addCategoryCommand;
         public ICommand AddCategoryCommand
@@ -692,10 +702,12 @@ namespace Supermarket.ViewModel
         }
         public void EditUser()
         {
-            _adminBll.EditUser(CurrentUser);
-            UsersList = _adminBll.GetAllUsers();
-            _cancel = false;
-            GoView();
+            if (_adminBll.EditUser(CurrentUser))
+            {
+                UsersList = _adminBll.GetAllUsers();
+                _cancel = false;
+                GoView();
+            }
         }
         private ICommand _editUserCommand;
         public ICommand EditUserCommand
@@ -711,10 +723,12 @@ namespace Supermarket.ViewModel
         }
         public void EditProduct()
         {
-            _adminBll.EditProduct(CurrentProduct);
-            ProductsList = _adminBll.GetAllProducts();
-            _cancel = false;
-            GoView();
+            if (_adminBll.EditProduct(CurrentProduct))
+            {
+                ProductsList = _adminBll.GetAllProducts();
+                _cancel = false;
+                GoView();
+            }
         }
         private ICommand _editProductCommand;
         public ICommand EditProductCommand
@@ -730,10 +744,12 @@ namespace Supermarket.ViewModel
         }
         public void EditProducer()
         {
-            _adminBll.EditProducer(CurrentProducer);
-            ProducersList = _adminBll.GetAllProducers();
-            _cancel = false;
-            GoView();
+            if (_adminBll.EditProducer(CurrentProducer))
+            {
+                ProducersList = _adminBll.GetAllProducers();
+                _cancel = false;
+                GoView();
+            }
         }
         private ICommand _editProducerCommand;
         public ICommand EditProducerCommand
@@ -749,10 +765,12 @@ namespace Supermarket.ViewModel
         }
         public void EditProductStock()
         {
-            _adminBll.EditProductStock(CurrentStock);
-            ProductStocksList = _adminBll.GetAllProductStocks();
-            _cancel = false;
-            GoView();
+            if (_adminBll.EditProductStock(CurrentStock))
+            {
+                ProductStocksList = _adminBll.GetAllProductStocks();
+                _cancel = false;
+                GoView();
+            }
         }
         private ICommand _editProductStockCommand;
         public ICommand EditProductStockCommand
@@ -768,10 +786,12 @@ namespace Supermarket.ViewModel
         }
         public void EditCategory()
         {
-            _adminBll.EditCategory(CurrentCategory);
-            CategoriesList = _adminBll.GetAllCategories();
-            _cancel = false;
-            GoView();
+            if (_adminBll.EditCategory(CurrentCategory))
+            {
+                CategoriesList = _adminBll.GetAllCategories();
+                _cancel = false;
+                GoView();
+            }
         }
         private ICommand _editCategoryCommand;
         public ICommand EditCategoryCommand
@@ -803,9 +823,11 @@ namespace Supermarket.ViewModel
         }
         public void DeleteUser()
         {
-            _adminBll.DeleteUser(CurrentUser);
-            OnPropertyChanged("UsersList");
-            GoView();
+            if (_adminBll.DeleteUser(CurrentUser))
+            {
+                OnPropertyChanged("UsersList");
+                GoView();
+            }
         }
         private ICommand _deleteUserCommand;
         public ICommand DeleteUserCommand
@@ -821,10 +843,12 @@ namespace Supermarket.ViewModel
         }
         public void DeleteProduct()
         {
-            _adminBll.DeleteProduct(CurrentProduct);
-            OnPropertyChanged("ProductsList");
-            UpdateProductsComboBox();
-            GoView();
+            if (_adminBll.DeleteProduct(CurrentProduct))
+            {
+                OnPropertyChanged("ProductsList");
+                UpdateProductsComboBox();
+                GoView();
+            }
         }
         private ICommand _deleteProductCommand;
         public ICommand DeleteProductCommand
@@ -840,10 +864,12 @@ namespace Supermarket.ViewModel
         }
         public void DeleteProducer()
         {
-            _adminBll.DeleteProducer(CurrentProducer);
-            OnPropertyChanged("ProducersList");
-            UpdateProducersComboBox();
-            GoView();
+            if (_adminBll.DeleteProducer(CurrentProducer))
+            {
+                OnPropertyChanged("ProducersList");
+                UpdateProducersComboBox();
+                GoView();
+            }
         }
         private ICommand _deleteProducerCommand;
         public ICommand DeleteProducerCommand
@@ -877,10 +903,12 @@ namespace Supermarket.ViewModel
         }
         public void DeleteCategory()
         {
-            _adminBll.DeleteCategory(CurrentCategory);
-            OnPropertyChanged("CategoriesList");
-            UpdateCategoriesComboBox();
-            GoView();
+            if (_adminBll.DeleteCategory(CurrentCategory))
+            {
+                OnPropertyChanged("CategoriesList");
+                UpdateCategoriesComboBox();
+                GoView();
+            }
         }
         private ICommand _deleteCategoryCommand;
         public ICommand DeleteCategoryCommand

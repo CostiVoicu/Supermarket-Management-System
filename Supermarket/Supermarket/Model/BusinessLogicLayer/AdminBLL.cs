@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Animation;
 
 namespace Supermarket.Model.BusinessLogicLayer
 {
@@ -166,68 +167,119 @@ namespace Supermarket.Model.BusinessLogicLayer
         #endregion
 
         #region Add Functions
-        public void AddUser(object obj)
+        public bool AddUser(object obj)
         {
             select_user_Result user = obj as select_user_Result;
             if (user != null)
             {
                 if (string.IsNullOrEmpty(user.name))
                 {
-                    ErrorMessage = "The name can't be empty";
+                    MessageBox.Show("The name can't be empty!");
+                }
+                else if (string.IsNullOrEmpty(user.password))
+                {
+                    MessageBox.Show("The password can't be empty!");
+                }
+                else if (string.IsNullOrEmpty(user.type))
+                {
+                    MessageBox.Show("The type can't be empty!");
                 }
                 else
                 {
                     context.insert_user(user.name, user.password, user.type);
                     context.SaveChanges();
                     UsersList.Add(user);
-                    ErrorMessage = "";
+                    return true;
                 }
             }
+            return false;
         }
-        public void AddProduct(object obj)
+        public bool AddProduct(object obj)
         {
             select_product_Result product = obj as select_product_Result;
             if (product != null)
             {
                 if (string.IsNullOrEmpty(product.name))
                 {
-                    ErrorMessage = "The name can't be empty";
+                    MessageBox.Show("The name can't be empty!");
+                }
+                else if (string.IsNullOrEmpty(product.bar_code))
+                {
+                    MessageBox.Show("The bar code can't be empty!");
+                }
+                else if (product.bar_code.Length != 12)
+                {
+                    MessageBox.Show("The bar code must be size of 12!");
+                }
+                else if (string.IsNullOrEmpty(product.category))
+                {
+                    MessageBox.Show("The category can't be empty!");
+                }
+                else if (string.IsNullOrEmpty(product.producer))
+                {
+                    MessageBox.Show("The producer can't be empty!");
                 }
                 else
                 {
                     context.insert_product(product.name, product.bar_code, product.category, product.producer);
                     context.SaveChanges();
                     ProductsList.Add(product);
-                    ErrorMessage = "";
+                    return true;
                 }
             }
+            return false;
         }
-        public void AddProducer(object obj)
+        public bool AddProducer(object obj)
         {
             select_producer_Result producer = obj as select_producer_Result;
             if (producer != null)
             {
                 if (string.IsNullOrEmpty(producer.name))
                 {
-                    ErrorMessage = "The name can't be empty";
+                    MessageBox.Show("The name can't be empty!");
+                }
+                else if (string.IsNullOrEmpty(producer.country))
+                {
+                    MessageBox.Show("The producer can't be empty!");
                 }
                 else
                 {
                     context.insert_producer(producer.name, producer.country);
                     context.SaveChanges();
                     ProducersList.Add(producer);
-                    ErrorMessage = "";
+                    return true;
                 }
             }
+            return false;
         }
-        public void AddProductStock(object obj)
+        public bool AddProductStock(object obj)
         {
             select_stock_Result stock = obj as select_stock_Result;
             if (stock != null)
             {
                 if (string.IsNullOrEmpty(stock.product))
                 {
-                    ErrorMessage = "The name can't be empty";
+                    MessageBox.Show("The product can't be empty!");
+                }
+                else if (stock.quantity < 0)
+                {
+                    MessageBox.Show("The quantity can't be negative!");
+                }
+                else if (stock.purchase_price < 0)
+                {
+                    MessageBox.Show("The purchase price can't be negative!");
+                }
+                else if (stock.selling_price < 0)
+                {
+                    MessageBox.Show("The purchase price can't be negative!");
+                }
+                else if (stock.selling_price > stock.purchase_price)
+                {
+                    MessageBox.Show("The purchase price can't be smaller than selling price!");
+                }
+                else if (string.IsNullOrEmpty(stock.name))
+                {
+                    MessageBox.Show("The unit can't be empty!");
                 }
                 else
                 {
@@ -241,90 +293,143 @@ namespace Supermarket.Model.BusinessLogicLayer
                         stock.expiration_date);
                     context.SaveChanges();
                     ProductStocksList.Add(stock);
-                    ErrorMessage = "";
+                    return true;
                 }
             }
+            return false;
         }
-        public void AddCategory(object obj)
+        public bool AddCategory(object obj)
         {
             select_category_Result category = obj as select_category_Result;
             if (category != null)
             {
                 if (string.IsNullOrEmpty(category.name))
                 {
-                    ErrorMessage = "The name can't be empty";
+                    MessageBox.Show("The name can't be empty");
                 }
                 else
                 {
                     context.insert_category(category.name);
                     context.SaveChanges();
                     CategoriesList.Add(category);
-                    ErrorMessage = "";
+                    return true;
                 }
             }
+            return false;
         }
         #endregion
 
         #region Edit Functions
-        public void EditUser(object obj)
+        public bool EditUser(object obj)
         {
             select_user_Result user = obj as select_user_Result; 
             if (user != null)
             {
                 if (string.IsNullOrEmpty(user.name))
                 {
-                    ErrorMessage = "Select a user";
+                    MessageBox.Show("The name can't be empty!");
+                }
+                else if (string.IsNullOrEmpty(user.password))
+                {
+                    MessageBox.Show("The password can't be empty!");
+                }
+                else if (string.IsNullOrEmpty(user.type))
+                {
+                    MessageBox.Show("The type can't be empty!");
                 }
                 else
                 {
                     context.edit_user(user.id, user.name, user.password, user.type);
                     context.SaveChanges();
-                    ErrorMessage = "";
+                    return true;
                 }
             }
+            return false;
         }
-        public void EditProduct(object obj)
+        public bool EditProduct(object obj)
         {
             select_product_Result product = obj as select_product_Result;
             if (product != null)
             {
                 if (string.IsNullOrEmpty(product.name))
                 {
-                    ErrorMessage = "Select a product";
+                    MessageBox.Show("The name can't be empty!");
+                }
+                else if (string.IsNullOrEmpty(product.bar_code))
+                {
+                    MessageBox.Show("The bar code can't be empty!");
+                }
+                else if (product.bar_code.Length < 12)
+                {
+                    MessageBox.Show("The bar code is too short, it must be size of 12!");
+                }
+                else if (string.IsNullOrEmpty(product.category))
+                {
+                    MessageBox.Show("The category can't be empty!");
+                }
+                else if (string.IsNullOrEmpty(product.producer))
+                {
+                    MessageBox.Show("The producer can't be empty!");
                 }
                 else
                 {
                     context.edit_product(product.id, product.name, product.bar_code, product.category, product.producer);
                     context.SaveChanges();
-                    ErrorMessage = "";
+                    return true;
                 }
             }
+            return false;
         }
-        public void EditProducer(object obj)
+        public bool EditProducer(object obj)
         {
             select_producer_Result producer = obj as select_producer_Result;
             if (producer != null)
             {
                 if (string.IsNullOrEmpty(producer.name))
                 {
-                    ErrorMessage = "Select a producer";
+                    MessageBox.Show("The name can't be empty!");
+                }
+                else if (string.IsNullOrEmpty(producer.country))
+                {
+                    MessageBox.Show("The producer can't be empty!");
                 }
                 else
                 {
                     context.edit_producer(producer.id, producer.name, producer.country);
                     context.SaveChanges();
-                    ErrorMessage = "";
+                    return true;
                 }
             }
+            return false;
         }
-        public void EditProductStock(object obj)
+        public bool EditProductStock(object obj)
         {
             select_stock_Result stock = obj as select_stock_Result;
             if (stock != null)
             {
-                if (string.IsNullOrEmpty(stock.name))
+                if (string.IsNullOrEmpty(stock.product))
                 {
-                    ErrorMessage = "Select a stock";
+                    MessageBox.Show("The product can't be empty!");
+                }
+                else if (stock.quantity < 0)
+                {
+                    MessageBox.Show("The quantity can't be negative!");
+                }
+                else if (stock.purchase_price < 0)
+                {
+                    MessageBox.Show("The purchase price can't be negative!");
+                }
+                else if (stock.selling_price < 0)
+                {
+                    MessageBox.Show("The purchase price can't be negative!");
+                }
+                else if (stock.selling_price > stock.purchase_price)
+                {
+                    MessageBox.Show("The purchase price can't be smaller than selling price!");
+                }
+                else if (string.IsNullOrEmpty(stock.name))
+                {
+                    MessageBox.Show("The unit can't be empty!");
                 }
                 else
                 {
@@ -337,109 +442,146 @@ namespace Supermarket.Model.BusinessLogicLayer
                         stock.supply_date,
                         stock.expiration_date);
                     context.SaveChanges();
-                    ErrorMessage = "";
+                    return true;
                 }
             }
+            return false;
         }
-        public void EditCategory(object obj)
+        public bool EditCategory(object obj)
         {
             select_category_Result category = obj as select_category_Result;
             if (category != null)
             {
                 if (string.IsNullOrEmpty(category.name))
                 {
-                    ErrorMessage = "Select a category";
+                    MessageBox.Show("The name can't be empty");
                 }
                 else
                 {
                     context.edit_category(category.id, category.name);
                     context.SaveChanges();
-                    ErrorMessage = "";
+                    return true;
                 }
             }
+            return false;
         }
         #endregion
 
         #region Delete Functions
-        public void DeleteUser(object obj)
+        public bool DeleteUser(object obj)
         {
             select_user_Result user = obj as select_user_Result;
             if (user == null)
             {
-                ErrorMessage = "Selecteaza o persoana";
+                MessageBox.Show("Select a user!");
             }
             else
             {
-                //TO DO: validation for delete
-                context.delete_user(user.id);
-                context.SaveChanges();
-                UsersList.Remove(user);
-                ErrorMessage = "";
+                user u = context.users.Where(i => i.id == user.id).FirstOrDefault();
+                if (u.receipts.Count > 0)
+                {
+                    MessageBox.Show("The user has receipts liked to it!");
+                }
+                else
+                {
+                    context.delete_user(user.id);
+                    context.SaveChanges();
+                    UsersList.Remove(user);
+                    return true;
+                }
             }
+            return false;
         }
-        public void DeleteProduct(object obj)
+        public bool DeleteProduct(object obj)
         {
             select_product_Result product = obj as select_product_Result;
             if (product == null)
             {
-                ErrorMessage = "Selecteaza o persoana";
+                MessageBox.Show("Select a product!");
             }
             else
             {
-                //TO DO: validation for delete
-                context.delete_product(product.id);
-                context.SaveChanges();
-                ProductsList.Remove(product);
-                ErrorMessage = "";
+                //product p = context.products.Where(i => i.id == product.id).FirstOrDefault();
+                //if (p.sold_products.Count > 0)
+                //{
+                //    MessageBox.Show("The product has sold products linked to it!");
+                //}
+                //else if (p.product_stock.Count > 0)
+                //{
+                //    MessageBox.Show("The product has product stocks linked to it!");
+                //}
+                //else
+                //{
+                    context.delete_product(product.id);
+                    context.SaveChanges();
+                    ProductsList.Remove(product);
+                    return true;
+                //}
             }
+            return false;
         }
-        public void DeleteProducer(object obj)
+        public bool DeleteProducer(object obj)
         {
             select_producer_Result producer = obj as select_producer_Result;
             if (producer == null)
             {
-                ErrorMessage = "Selecteaza o persoana";
+                MessageBox.Show("Select a producer!");
             }
             else
             {
-                //TO DO: validation for delete
-                context.delete_producer(producer.id);
-                context.SaveChanges();
-                ProducersList.Remove(producer);
-                ErrorMessage = "";
+                producer p = context.producers.Where(i => i.id == producer.id).FirstOrDefault();
+                if (p.products.Where(pr => pr.active == true).Count() > 0)
+                {
+                    MessageBox.Show("The producer has products linked to it!");
+                }
+                else
+                {
+                    context.delete_producer(producer.id);
+                    context.SaveChanges();
+                    ProducersList.Remove(producer);
+                    return true;
+                }                
             }
+            return false;
         }
         public void DeleteProductStock(object obj)
         {
             select_stock_Result product_stock = obj as select_stock_Result;
             if (product_stock == null)
             {
-                ErrorMessage = "Selecteaza o persoana";
+                MessageBox.Show("Select a product stock!");
             }
             else
             {
-                //TO DO: validation for delete
                 context.delete_stock(product_stock.id);
                 context.SaveChanges();
                 ProductStocksList.Remove(product_stock);
                 ErrorMessage = "";
             }
         }
-        public void DeleteCategory(object obj)
+        public bool DeleteCategory(object obj)
         {
             select_category_Result product_category = obj as select_category_Result;
             if (product_category == null)
             {
-                ErrorMessage = "Selecteaza o persoana";
+                MessageBox.Show("Select a category!");
             }
             else
             {
-                //TO DO: validation for delete
-                context.delete_category(product_category.id);
-                context.SaveChanges();
-                CategoriesList.Remove(product_category);
-                ErrorMessage = "";
+                product_categories c = context.product_categories.Where(i => i.id==product_category.id).FirstOrDefault();
+                if (c.products.Where(pr => pr.active == true).Count() > 0)
+                {
+                    MessageBox.Show("The category has products linked to it!");
+                }
+                else
+                {
+                    context.delete_category(product_category.id);
+                    context.SaveChanges();
+                    CategoriesList.Remove(product_category);
+                    return true;
+                }
             }
+            return false;
         }
         #endregion
     }
