@@ -22,13 +22,16 @@ namespace Supermarket.Model.BusinessLogicLayer
             ObservableCollection<select_user_Result> result = new ObservableCollection<select_user_Result>();
             foreach(user user in users)
             {
-                result.Add(new select_user_Result
+                if (user.active)
                 {
-                    id = user.id,
-                    name = user.name,
-                    password = user.password,
-                    type = user.user_types.name
-                });
+                    result.Add(new select_user_Result
+                    {
+                        id = user.id,
+                        name = user.name,
+                        password = user.password,
+                        type = user.user_types.name
+                    });
+                }
             }
             return result;
         }
@@ -39,14 +42,17 @@ namespace Supermarket.Model.BusinessLogicLayer
             ObservableCollection<select_product_Result> result = new ObservableCollection<select_product_Result>();
             foreach (product product in products)
             {
-                result.Add(new select_product_Result
+                if (product.active)
                 {
-                    id = product.id,
-                    name = product.name,
-                    bar_code = product.bar_code,
-                    category = product.product_categories.name,
-                    producer = product.producer.name
-                }); ;
+                    result.Add(new select_product_Result
+                    {
+                        id = product.id,
+                        name = product.name,
+                        bar_code = product.bar_code,
+                        category = product.product_categories.name,
+                        producer = product.producer.name
+                    });
+                }
             }
             return result;
         }
@@ -57,12 +63,15 @@ namespace Supermarket.Model.BusinessLogicLayer
             ObservableCollection<select_producer_Result> result = new ObservableCollection<select_producer_Result>();
             foreach (producer producer in producers)
             {
-                result.Add(new select_producer_Result
+                if (producer.active)
                 {
-                    id = producer.id,
-                    name = producer.name,
-                    country = producer.country.name
-                });
+                    result.Add(new select_producer_Result
+                    {
+                        id = producer.id,
+                        name = producer.name,
+                        country = producer.country.name
+                    });
+                }
             }
             return result;
         }
@@ -73,17 +82,20 @@ namespace Supermarket.Model.BusinessLogicLayer
             ObservableCollection<select_stock_Result> result = new ObservableCollection<select_stock_Result>();
             foreach (product_stock product_stock in product_stocks)
             {
-                result.Add(new select_stock_Result
+                if (product_stock.active)
                 {
-                    id = product_stock.id,
-                    product = product_stock.product.name,
-                    quantity = product_stock.quantity,
-                    purchase_price = product_stock.purchase_price,
-                    selling_price = product_stock.selling_price,
-                    name = product_stock.measuring_unit.name,
-                    supply_date = product_stock.supply_date,
-                    expiration_date = product_stock.expiration_date
-                });
+                    result.Add(new select_stock_Result
+                    {
+                        id = product_stock.id,
+                        product = product_stock.product.name,
+                        quantity = product_stock.quantity,
+                        purchase_price = product_stock.purchase_price,
+                        selling_price = product_stock.selling_price,
+                        name = product_stock.measuring_unit.name,
+                        supply_date = product_stock.supply_date,
+                        expiration_date = product_stock.expiration_date
+                    });
+                }
             }
             return result;
         }
@@ -94,11 +106,14 @@ namespace Supermarket.Model.BusinessLogicLayer
             ObservableCollection<select_category_Result> result = new ObservableCollection<select_category_Result>();
             foreach (product_categories product_category in product_categories)
             {
-                result.Add(new select_category_Result
+                if (product_category.active)
                 {
-                    id = product_category.id,
-                    name = product_category.name
-                });
+                    result.Add(new select_category_Result
+                    {
+                        id = product_category.id,
+                        name = product_category.name
+                    });
+                }
             }
             return result;
         }
@@ -345,5 +360,87 @@ namespace Supermarket.Model.BusinessLogicLayer
         }
         #endregion
 
+        #region Delete Functions
+        public void DeleteUser(object obj)
+        {
+            select_user_Result user = obj as select_user_Result;
+            if (user == null)
+            {
+                ErrorMessage = "Selecteaza o persoana";
+            }
+            else
+            {
+                //TO DO: validation for delete
+                context.delete_user(user.id);
+                context.SaveChanges();
+                UsersList.Remove(user);
+                ErrorMessage = "";
+            }
+        }
+        public void DeleteProduct(object obj)
+        {
+            select_product_Result product = obj as select_product_Result;
+            if (product == null)
+            {
+                ErrorMessage = "Selecteaza o persoana";
+            }
+            else
+            {
+                //TO DO: validation for delete
+                context.delete_product(product.id);
+                context.SaveChanges();
+                ProductsList.Remove(product);
+                ErrorMessage = "";
+            }
+        }
+        public void DeleteProducer(object obj)
+        {
+            select_producer_Result producer = obj as select_producer_Result;
+            if (producer == null)
+            {
+                ErrorMessage = "Selecteaza o persoana";
+            }
+            else
+            {
+                //TO DO: validation for delete
+                context.delete_producer(producer.id);
+                context.SaveChanges();
+                ProducersList.Remove(producer);
+                ErrorMessage = "";
+            }
+        }
+        public void DeleteProductStock(object obj)
+        {
+            select_stock_Result product_stock = obj as select_stock_Result;
+            if (product_stock == null)
+            {
+                ErrorMessage = "Selecteaza o persoana";
+            }
+            else
+            {
+                //TO DO: validation for delete
+                context.delete_stock(product_stock.id);
+                context.SaveChanges();
+                ProductStocksList.Remove(product_stock);
+                ErrorMessage = "";
+            }
+        }
+        public void DeleteCategory(object obj)
+        {
+            select_category_Result product_category = obj as select_category_Result;
+            if (product_category == null)
+            {
+                ErrorMessage = "Selecteaza o persoana";
+            }
+            else
+            {
+                //TO DO: validation for delete
+                context.delete_category(product_category.id);
+                context.SaveChanges();
+                CategoriesList.Remove(product_category);
+                ErrorMessage = "";
+            }
+        }
+        #endregion
     }
 }

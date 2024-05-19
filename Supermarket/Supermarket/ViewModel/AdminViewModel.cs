@@ -322,6 +322,7 @@ namespace Supermarket.ViewModel
 
             AddCommand = AddUserCommand;
             SaveCommand = EditUserCommand;
+            DeleteCommand = DeleteUserCommand;
 
             UsersFormVisibility = Visibility.Visible;
             ProductsFormVisibility = Visibility.Collapsed;
@@ -339,6 +340,7 @@ namespace Supermarket.ViewModel
 
             AddCommand = AddProductCommand;
             SaveCommand = EditProductCommand;
+            DeleteCommand = DeleteProductCommand;
 
             UsersFormVisibility = Visibility.Collapsed;
             ProductsFormVisibility = Visibility.Visible;
@@ -356,6 +358,7 @@ namespace Supermarket.ViewModel
 
             AddCommand = AddProducerCommand;
             SaveCommand = EditProducerCommand;
+            DeleteCommand = DeleteProducerCommand;
 
             UsersFormVisibility = Visibility.Collapsed;
             ProductsFormVisibility = Visibility.Collapsed;
@@ -373,6 +376,7 @@ namespace Supermarket.ViewModel
 
             AddCommand = AddProductStockCommand;
             SaveCommand = EditProductStockCommand;
+            DeleteCommand = DeleteProductStockCommand;
 
             UsersFormVisibility = Visibility.Collapsed;
             ProductsFormVisibility = Visibility.Collapsed;
@@ -390,6 +394,7 @@ namespace Supermarket.ViewModel
 
             AddCommand = AddCategoryCommand;
             SaveCommand = EditCategoryCommand;
+            DeleteCommand = DeleteCategoryCommand;
 
             UsersFormVisibility = Visibility.Collapsed;
             ProductsFormVisibility = Visibility.Collapsed;
@@ -579,7 +584,7 @@ namespace Supermarket.ViewModel
         public void AddUser()
         {
             _adminBll.AddUser(CurrentUser);
-            UsersList = _adminBll.GetAllUsers();
+            OnPropertyChanged("UsersList");
             GoView();
         }
         private ICommand _addUserCommand;
@@ -596,10 +601,10 @@ namespace Supermarket.ViewModel
         }
         public void AddProduct()
         {
-            _adminBll.AddProduct(CurrentProduct);
-            ProductsList = _adminBll.GetAllProducts();
-            GoView();
+            _adminBll.AddProduct(CurrentProduct); ;
+            OnPropertyChanged("ProductsList");
             UpdateProductsComboBox();
+            GoView();
         }
         private ICommand _addProductCommand;
         public ICommand AddProductCommand
@@ -616,9 +621,9 @@ namespace Supermarket.ViewModel
         public void AddProducer()
         {
             _adminBll.AddProducer(CurrentProducer);
-            ProducersList = _adminBll.GetAllProducers();
-            GoView();
+            OnPropertyChanged("ProducersList");
             UpdateProducersComboBox();
+            GoView();
         }
         private ICommand _addProducerCommand;
         public ICommand AddProducerCommand
@@ -635,7 +640,7 @@ namespace Supermarket.ViewModel
         public void AddProductStock()
         {
             _adminBll.AddProductStock(CurrentStock);
-            ProductStocksList = _adminBll.GetAllProductStocks();
+            OnPropertyChanged("ProductStocksList");
             GoView();
         }
         private ICommand _addProductStockCommand;
@@ -653,9 +658,9 @@ namespace Supermarket.ViewModel
         public void AddCategory()
         {
             _adminBll.AddCategory(CurrentCategory);
-            CategoriesList = _adminBll.GetAllCategories();
-            GoView();
+            OnPropertyChanged("CategoriesList");
             UpdateCategoriesComboBox();
+            GoView();
         }
         private ICommand _addCategoryCommand;
         public ICommand AddCategoryCommand
@@ -778,6 +783,115 @@ namespace Supermarket.ViewModel
                     _editCategoryCommand = new RelayCommand(o => { EditCategory(); }, o => true);
                 }
                 return _editCategoryCommand;
+            }
+        }
+        #endregion
+
+        #region Delete Commands
+        private ICommand _deleteCommand;
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                return _deleteCommand;
+            }
+            set
+            {
+                _deleteCommand = value;
+                OnPropertyChanged();
+            }
+        }
+        public void DeleteUser()
+        {
+            _adminBll.DeleteUser(CurrentUser);
+            OnPropertyChanged("UsersList");
+            GoView();
+        }
+        private ICommand _deleteUserCommand;
+        public ICommand DeleteUserCommand
+        {
+            get
+            {
+                if (_deleteUserCommand == null)
+                {
+                    _deleteUserCommand = new RelayCommand(o => { DeleteUser(); }, o => true);
+                }
+                return _deleteUserCommand;
+            }
+        }
+        public void DeleteProduct()
+        {
+            _adminBll.DeleteProduct(CurrentProduct);
+            OnPropertyChanged("ProductsList");
+            UpdateProductsComboBox();
+            GoView();
+        }
+        private ICommand _deleteProductCommand;
+        public ICommand DeleteProductCommand
+        {
+            get
+            {
+                if (_deleteProductCommand == null)
+                {
+                    _deleteProductCommand = new RelayCommand(o => { DeleteProduct(); }, o => true);
+                }
+                return _deleteProductCommand;
+            }
+        }
+        public void DeleteProducer()
+        {
+            _adminBll.DeleteProducer(CurrentProducer);
+            OnPropertyChanged("ProducersList");
+            UpdateProducersComboBox();
+            GoView();
+        }
+        private ICommand _deleteProducerCommand;
+        public ICommand DeleteProducerCommand
+        {
+            get
+            {
+                if (_deleteProducerCommand == null)
+                {
+                    _deleteProducerCommand = new RelayCommand(o => { DeleteProducer(); }, o => true);
+                }
+                return _deleteProducerCommand;
+            }
+        }
+        public void DeleteProductStock()
+        {
+            _adminBll.DeleteProductStock(CurrentStock);
+            OnPropertyChanged("ProductStocksList");
+            GoView();
+        }
+        private ICommand _deleteProductStockCommand;
+        public ICommand DeleteProductStockCommand
+        {
+            get
+            {
+                if (_deleteProductStockCommand == null)
+                {
+                    _deleteProductStockCommand = new RelayCommand(o => { DeleteProductStock(); }, o => true);
+                }
+                return _deleteProductStockCommand;
+            }
+        }
+        public void DeleteCategory()
+        {
+            _adminBll.DeleteCategory(CurrentCategory);
+            OnPropertyChanged("CategoriesList");
+            UpdateCategoriesComboBox();
+            GoView();
+        }
+        private ICommand _deleteCategoryCommand;
+        public ICommand DeleteCategoryCommand
+        {
+            get
+            {
+                if (_deleteCategoryCommand == null)
+                {
+                    _deleteCategoryCommand = new RelayCommand(o => { DeleteCategory(); }, o => true);
+                }
+                return _deleteCategoryCommand;
             }
         }
         #endregion

@@ -81,7 +81,7 @@
         <UniformGrid Visibility="{Binding ViewControlsVisibility}" Grid.Row="2" Grid.Column="1" Rows="1">
             <Button Content="Add" Command="{Binding GoAddCommand}" Margin="7,15,7,15"/>
             <Button Content="Edit" Command="{Binding GoEditCommand}" Margin="7,15,7,15"/>
-            <Button Content="Delete" Command="{Binding ShowProducersDataGridCommand}" Margin="7,15,7,15"/>
+            <Button Content="Delete" Command="{Binding DeleteCommand}" Margin="7,15,7,15"/>
         </UniformGrid>
 
         <Grid Visibility="{Binding FormsVisibility}" Grid.Row="1" Grid.Column="1">
