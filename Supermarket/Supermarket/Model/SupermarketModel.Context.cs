@@ -94,19 +94,15 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("edit_product", idParameter, nameParameter, bar_codeParameter, categoryParameter, producerParameter);
         }
     
-        public virtual int edit_stock(Nullable<int> id, string bar_code, string producer, Nullable<double> quantity, Nullable<double> purchase_price, Nullable<double> selling_price, string unit, Nullable<System.DateTime> supplay_date, Nullable<System.DateTime> expiration_date)
+        public virtual int edit_stock(Nullable<int> id, string name, Nullable<double> quantity, Nullable<double> purchase_price, Nullable<double> selling_price, string unit, Nullable<System.DateTime> supplay_date, Nullable<System.DateTime> expiration_date)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("id", id) :
                 new ObjectParameter("id", typeof(int));
     
-            var bar_codeParameter = bar_code != null ?
-                new ObjectParameter("bar_code", bar_code) :
-                new ObjectParameter("bar_code", typeof(string));
-    
-            var producerParameter = producer != null ?
-                new ObjectParameter("producer", producer) :
-                new ObjectParameter("producer", typeof(string));
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
     
             var quantityParameter = quantity.HasValue ?
                 new ObjectParameter("quantity", quantity) :
@@ -132,7 +128,7 @@ namespace Supermarket.Model
                 new ObjectParameter("expiration_date", expiration_date) :
                 new ObjectParameter("expiration_date", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("edit_stock", idParameter, bar_codeParameter, producerParameter, quantityParameter, purchase_priceParameter, selling_priceParameter, unitParameter, supplay_dateParameter, expiration_dateParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("edit_stock", idParameter, nameParameter, quantityParameter, purchase_priceParameter, selling_priceParameter, unitParameter, supplay_dateParameter, expiration_dateParameter);
         }
     
         public virtual int edit_user(Nullable<int> id, string name, string password, string user_type)
@@ -199,23 +195,11 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_product", nameParameter, bar_codeParameter, categoryParameter, producerParameter);
         }
     
-        public virtual int insert_product_stock(string name, string bar_code, string category, string producer, Nullable<double> quantity, Nullable<double> purchase_price, Nullable<double> selling_price, string unit, Nullable<System.DateTime> supplay_date, Nullable<System.DateTime> expiration_date)
+        public virtual int insert_product_stock(string name, Nullable<double> quantity, Nullable<double> purchase_price, Nullable<double> selling_price, string unit, Nullable<System.DateTime> supplay_date, Nullable<System.DateTime> expiration_date)
         {
             var nameParameter = name != null ?
                 new ObjectParameter("name", name) :
                 new ObjectParameter("name", typeof(string));
-    
-            var bar_codeParameter = bar_code != null ?
-                new ObjectParameter("bar_code", bar_code) :
-                new ObjectParameter("bar_code", typeof(string));
-    
-            var categoryParameter = category != null ?
-                new ObjectParameter("category", category) :
-                new ObjectParameter("category", typeof(string));
-    
-            var producerParameter = producer != null ?
-                new ObjectParameter("producer", producer) :
-                new ObjectParameter("producer", typeof(string));
     
             var quantityParameter = quantity.HasValue ?
                 new ObjectParameter("quantity", quantity) :
@@ -241,7 +225,7 @@ namespace Supermarket.Model
                 new ObjectParameter("expiration_date", expiration_date) :
                 new ObjectParameter("expiration_date", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_product_stock", nameParameter, bar_codeParameter, categoryParameter, producerParameter, quantityParameter, purchase_priceParameter, selling_priceParameter, unitParameter, supplay_dateParameter, expiration_dateParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_product_stock", nameParameter, quantityParameter, purchase_priceParameter, selling_priceParameter, unitParameter, supplay_dateParameter, expiration_dateParameter);
         }
     
         public virtual int insert_user(string name, string password, string user_type)
@@ -324,23 +308,11 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_products_Result>("select_products");
         }
     
-        public virtual ObjectResult<select_stock_Result> select_stock(string name, string bar_code, string category, string producer, Nullable<double> quantity, Nullable<double> purchase_price, Nullable<double> selling_price, string unit, Nullable<System.DateTime> supplay_date, Nullable<System.DateTime> expiration_date)
+        public virtual ObjectResult<select_stock_Result> select_stock(string name, Nullable<double> quantity, Nullable<double> purchase_price, Nullable<double> selling_price, string unit, Nullable<System.DateTime> supplay_date, Nullable<System.DateTime> expiration_date)
         {
             var nameParameter = name != null ?
                 new ObjectParameter("name", name) :
                 new ObjectParameter("name", typeof(string));
-    
-            var bar_codeParameter = bar_code != null ?
-                new ObjectParameter("bar_code", bar_code) :
-                new ObjectParameter("bar_code", typeof(string));
-    
-            var categoryParameter = category != null ?
-                new ObjectParameter("category", category) :
-                new ObjectParameter("category", typeof(string));
-    
-            var producerParameter = producer != null ?
-                new ObjectParameter("producer", producer) :
-                new ObjectParameter("producer", typeof(string));
     
             var quantityParameter = quantity.HasValue ?
                 new ObjectParameter("quantity", quantity) :
@@ -366,7 +338,7 @@ namespace Supermarket.Model
                 new ObjectParameter("expiration_date", expiration_date) :
                 new ObjectParameter("expiration_date", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_stock_Result>("select_stock", nameParameter, bar_codeParameter, categoryParameter, producerParameter, quantityParameter, purchase_priceParameter, selling_priceParameter, unitParameter, supplay_dateParameter, expiration_dateParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_stock_Result>("select_stock", nameParameter, quantityParameter, purchase_priceParameter, selling_priceParameter, unitParameter, supplay_dateParameter, expiration_dateParameter);
         }
     
         public virtual ObjectResult<select_units_Result> select_units()

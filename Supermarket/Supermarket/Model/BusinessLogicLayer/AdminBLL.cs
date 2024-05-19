@@ -77,9 +77,6 @@ namespace Supermarket.Model.BusinessLogicLayer
                 {
                     id = product_stock.id,
                     product = product_stock.product.name,
-                    bar_code = product_stock.product.bar_code,
-                    category = product_stock.product.product_categories.name,
-                    producer = product_stock.product.producer.name,
                     quantity = product_stock.quantity,
                     purchase_price = product_stock.purchase_price,
                     selling_price = product_stock.selling_price,
@@ -221,9 +218,6 @@ namespace Supermarket.Model.BusinessLogicLayer
                 {
                     context.insert_product_stock(
                         stock.product, 
-                        stock.bar_code, 
-                        stock.category, 
-                        stock.producer,
                         stock.quantity,
                         stock.purchase_price,
                         stock.selling_price,
@@ -320,8 +314,7 @@ namespace Supermarket.Model.BusinessLogicLayer
                 else
                 {
                     context.edit_stock(stock.id,
-                        stock.bar_code,
-                        stock.producer,
+                        stock.product,
                         stock.quantity,
                         stock.purchase_price,
                         stock.selling_price,

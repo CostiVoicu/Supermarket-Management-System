@@ -500,7 +500,12 @@ namespace Supermarket.ViewModel
             CurrentUser = new select_user_Result();
             CurrentProduct = new select_product_Result();
             CurrentProducer = new select_producer_Result();
-            CurrentStock = new select_stock_Result();
+            CurrentStock = new select_stock_Result
+            {
+                expiration_date = System.DateTime.Today,
+                supply_date = System.DateTime.Today
+            };
+            OnPropertyChanged("CurrentStock");
             CurrentCategory = new select_category_Result();
 
             ViewControlsVisibility = Visibility.Hidden;
@@ -516,7 +521,6 @@ namespace Supermarket.ViewModel
             AddControlsVisibility = Visibility.Hidden;
             EditControlsVisibility = Visibility.Visible;
             FormsVisibility = Visibility.Visible;
-
 
             _cancel = true;
         }

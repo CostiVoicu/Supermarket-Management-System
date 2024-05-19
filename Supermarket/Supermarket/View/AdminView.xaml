@@ -36,13 +36,13 @@
             <!--Users Data Grid-->
             <DataGrid ItemsSource="{Binding UsersList}" SelectedItem="{Binding CurrentUser}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding UsersDataGridVisibility}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
                     <DataGridTextColumn Header="Password" Binding="{Binding password}" Width="*"/>
                     <DataGridTextColumn Header="Type" Binding="{Binding type}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <!--Products Data Grid-->
-            <DataGrid ItemsSource="{Binding ProductsList}" SelectedItem="{Binding CurrentProduct, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProductsDataGridVisibility}">
+            <DataGrid ItemsSource="{Binding ProductsList}" SelectedItem="{Binding CurrentProduct}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProductsDataGridVisibility}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
                     <DataGridTextColumn Header="Bar code" Binding="{Binding bar_code}" Width="*"/>
@@ -51,14 +51,14 @@
                 </DataGrid.Columns>
             </DataGrid>
             <!--Producers Data Grid-->
-            <DataGrid ItemsSource="{Binding ProducersList}" SelectedItem="{Binding CurrentProducer, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProducersDataGridVisibility}">
+            <DataGrid ItemsSource="{Binding ProducersList}" SelectedItem="{Binding CurrentProducer}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProducersDataGridVisibility}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
                     <DataGridTextColumn Header="Country" Binding="{Binding country}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <!--Stocks Data Grid-->
-            <DataGrid ItemsSource="{Binding ProductStocksList}" SelectedItem="{Binding CurrentProduct, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding StocksDataGridVisibility}">
+            <DataGrid ItemsSource="{Binding ProductStocksList}" SelectedItem="{Binding CurrentStock}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding StocksDataGridVisibility}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Product name" Binding="{Binding product}" Width="*"/>
                     <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}" Width="*"/>
@@ -70,7 +70,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <!--Categories Data Grid-->
-            <DataGrid ItemsSource="{Binding CategoriesList}" SelectedItem="{Binding CurrentCategory, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding CategoriesDataGridVisibility}">
+            <DataGrid ItemsSource="{Binding CategoriesList}" SelectedItem="{Binding CurrentCategory}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding CategoriesDataGridVisibility}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
                 </DataGrid.Columns>
@@ -145,11 +145,11 @@
                 </Grid>
                 <Grid>
                     <Label Content="Supply date" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.supply_date}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <DatePicker HorizontalAlignment="Left" SelectedDate="{Binding CurrentStock.supply_date, Mode=TwoWay}" Width="120" Margin="175,0,0,0"  VerticalAlignment="Top"/>
                 </Grid>
                 <Grid>
                     <Label Content="Expiration date" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.expiration_date}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <DatePicker HorizontalAlignment="Left" SelectedDate="{Binding CurrentStock.expiration_date, Mode=TwoWay}" Width="120" Margin="175,0,0,0"  VerticalAlignment="Top"/>
                 </Grid>
                 <Grid>
                     <Label Content="Purchase price" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>

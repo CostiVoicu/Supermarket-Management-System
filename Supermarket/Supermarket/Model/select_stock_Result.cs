@@ -15,9 +15,6 @@ namespace Supermarket.Model
     {
         public int id { get; set; }
         public string product { get; set; }
-        public string bar_code { get; set; }
-        public string category { get; set; }
-        public string producer { get; set; }
         public double quantity { get; set; }
         public double purchase_price { get; set; }
         public double selling_price { get; set; }
