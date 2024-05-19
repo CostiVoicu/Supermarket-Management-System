@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Supermarket.Model.BusinessLogicLayer
     {
         private SupermarketDBEntities context = new SupermarketDBEntities();
         public string ErrorMessage { get; set; }
+        #region Entities Lists
         public ObservableCollection<select_user_Result> UsersList { get; set; }
         public ObservableCollection<select_user_Result> GetAllUsers()
         {
@@ -81,7 +83,7 @@ namespace Supermarket.Model.BusinessLogicLayer
                     quantity = product_stock.quantity,
                     purchase_price = product_stock.purchase_price,
                     selling_price = product_stock.selling_price,
-                    unit = product_stock.measuring_unit.name,
+                    name = product_stock.measuring_unit.name,
                     supply_date = product_stock.supply_date,
                     expiration_date = product_stock.expiration_date
                 });
@@ -103,6 +105,9 @@ namespace Supermarket.Model.BusinessLogicLayer
             }
             return result;
         }
+        #endregion
+
+        #region Add Functions
         public void AddUser(object obj)
         {
             select_user_Result user = obj as select_user_Result;
@@ -162,7 +167,7 @@ namespace Supermarket.Model.BusinessLogicLayer
             select_stock_Result stock = obj as select_stock_Result;
             if (stock != null)
             {
-                if (string.IsNullOrEmpty(stock.unit))
+                if (string.IsNullOrEmpty(stock.product))
                 {
                     ErrorMessage = "The name can't be empty";
                 }
@@ -176,7 +181,7 @@ namespace Supermarket.Model.BusinessLogicLayer
                         stock.quantity,
                         stock.purchase_price,
                         stock.selling_price,
-                        stock.unit,
+                        stock.name,
                         stock.supply_date,
                         stock.expiration_date);
                     context.SaveChanges();
@@ -203,5 +208,103 @@ namespace Supermarket.Model.BusinessLogicLayer
                 ErrorMessage = "";
             }
         }
+        #endregion
+
+        #region Edit Functions
+        public void EditUser(object obj)
+        {
+            select_user_Result user = obj as select_user_Result; 
+            if (user != null)
+            {
+                if (string.IsNullOrEmpty(user.name))
+                {
+                    ErrorMessage = "Select a user";
+                }
+                else
+                {
+                    context.edit_user(user.id, user.name, user.password, user.type);
+                    context.SaveChanges();
+                    ErrorMessage = "";
+                }
+            }
+        }
+        public void EditProduct(object obj)
+        {
+            select_product_Result product = obj as select_product_Result;
+            if (product != null)
+            {
+                if (string.IsNullOrEmpty(product.name))
+                {
+                    ErrorMessage = "Select a product";
+                }
+                else
+                {
+                    context.edit_product(product.id, product.name, product.bar_code, product.category, product.producer);
+                    context.SaveChanges();
+                    ErrorMessage = "";
+                }
+            }
+        }
+        public void EditProducer(object obj)
+        {
+            select_producer_Result producer = obj as select_producer_Result;
+            if (producer != null)
+            {
+                if (string.IsNullOrEmpty(producer.name))
+                {
+                    ErrorMessage = "Select a producer";
+                }
+                else
+                {
+                    context.edit_producer(producer.id, producer.name, producer.country);
+                    context.SaveChanges();
+                    ErrorMessage = "";
+                }
+            }
+        }
+        public void EditProductStock(object obj)
+        {
+            select_stock_Result stock = obj as select_stock_Result;
+            if (stock != null)
+            {
+                if (string.IsNullOrEmpty(stock.name))
+                {
+                    ErrorMessage = "Select a stock";
+                }
+                else
+                {
+                    context.edit_stock(stock.id,
+                        stock.bar_code,
+                        stock.producer,
+                        stock.quantity,
+                        stock.purchase_price,
+                        stock.selling_price,
+                        stock.name,
+                        stock.supply_date,
+                        stock.expiration_date);
+                    context.SaveChanges();
+                    ErrorMessage = "";
+                }
+            }
+        }
+        public void EditCategory(object obj)
+        {
+            select_category_Result category = obj as select_category_Result;
+            if (category != null)
+            {
+                if (string.IsNullOrEmpty(category.name))
+                {
+                    ErrorMessage = "Select a category";
+                }
+                else
+                {
+                    context.edit_category(category.id, category.name);
+                    context.SaveChanges();
+                    ErrorMessage = "";
+                }
+            }
+        }
+        #endregion
+
     }
 }

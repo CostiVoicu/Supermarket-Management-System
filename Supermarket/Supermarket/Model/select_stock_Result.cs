@@ -21,7 +21,7 @@ namespace Supermarket.Model
         public double quantity { get; set; }
         public double purchase_price { get; set; }
         public double selling_price { get; set; }
-        public string unit { get; set; }
+        public string name { get; set; }
         public System.DateTime supply_date { get; set; }
         public System.DateTime expiration_date { get; set; }
     }

@@ -18,9 +18,11 @@ namespace Supermarket.ViewModel
     {
         private AdminBLL _adminBll;
         private ModeType _currentMode;
+        private bool _cancel;
         public AdminViewModel()
         {
             _currentMode = ModeType.View;
+            _cancel = false;
 
             _adminBll = new AdminBLL();
             UsersList = _adminBll.GetAllUsers();
@@ -47,6 +49,7 @@ namespace Supermarket.ViewModel
             FormsVisibility = Visibility.Hidden;
 
             CurrentUser = new select_user_Result();
+            BackupUser = new select_user_Result();
             CurrentProduct = new select_product_Result();
             CurrentProducer = new select_producer_Result();
             CurrentStock = new select_stock_Result();
@@ -86,31 +89,61 @@ namespace Supermarket.ViewModel
         public select_user_Result CurrentUser
         {
             get { return _currentUser; }
-            set { _currentUser = value; OnPropertyChanged(); }
+            set 
+            {
+                _currentUser = value; 
+                OnPropertyChanged();
+            }
+        }
+        private select_user_Result _backupUser;
+        public select_user_Result BackupUser
+        {
+            get { return _backupUser; }
+            set
+            {
+                _backupUser = value;
+                OnPropertyChanged();
+            }
         }
         private select_product_Result _currentProduct;
         public select_product_Result CurrentProduct
         {
             get { return _currentProduct; }
-            set { _currentProduct = value; OnPropertyChanged(); }
+            set 
+            { 
+                _currentProduct = value;
+                OnPropertyChanged();
+            }
         }
         private select_producer_Result _currentProducer;
         public select_producer_Result CurrentProducer
         {
             get { return _currentProducer; }
-            set { _currentProducer = value; OnPropertyChanged(); }
+            set 
+            { 
+                _currentProducer = value; 
+                OnPropertyChanged();
+            }
         }
         private select_stock_Result _currentStock;
         public select_stock_Result CurrentStock
         {
             get { return _currentStock; }
-            set { _currentStock = value; OnPropertyChanged(); }
+            set 
+            { 
+                _currentStock = value;
+                OnPropertyChanged();
+            }
         }
         private string _currentCategory;
         public string CurrentCategory
         {
             get { return _currentCategory; }
-            set { _currentCategory = value; OnPropertyChanged(); }
+            set 
+            { 
+                _currentCategory = value;
+                OnPropertyChanged();
+            }
         }
         #endregion
 
@@ -167,7 +200,7 @@ namespace Supermarket.ViewModel
         }
         #endregion
 
-        #region Add Form Varibles
+        #region Form Varibles
         private Visibility _usersFormVisibility;
         public Visibility UsersFormVisibility
         {
@@ -273,6 +306,7 @@ namespace Supermarket.ViewModel
             CategoriesDataGridVisibility = Visibility.Collapsed;
 
             AddCommand = AddUserCommand;
+            SaveCommand = EditUserCommand;
 
             UsersFormVisibility = Visibility.Visible;
             ProductsFormVisibility = Visibility.Collapsed;
@@ -289,6 +323,7 @@ namespace Supermarket.ViewModel
             CategoriesDataGridVisibility = Visibility.Collapsed;
 
             AddCommand = AddProductCommand;
+            SaveCommand = EditProductCommand;
 
             UsersFormVisibility = Visibility.Collapsed;
             ProductsFormVisibility = Visibility.Visible;
@@ -305,6 +340,7 @@ namespace Supermarket.ViewModel
             CategoriesDataGridVisibility = Visibility.Collapsed;
 
             AddCommand = AddProducerCommand;
+            SaveCommand = EditProducerCommand;
 
             UsersFormVisibility = Visibility.Collapsed;
             ProductsFormVisibility = Visibility.Collapsed;
@@ -321,6 +357,7 @@ namespace Supermarket.ViewModel
             CategoriesDataGridVisibility = Visibility.Collapsed;
 
             AddCommand = AddProductStockCommand;
+            SaveCommand = EditProductStockCommand;
 
             UsersFormVisibility = Visibility.Collapsed;
             ProductsFormVisibility = Visibility.Collapsed;
@@ -337,6 +374,7 @@ namespace Supermarket.ViewModel
             CategoriesDataGridVisibility = Visibility.Visible;
 
             AddCommand = AddCategoryCommand;
+            SaveCommand = EditCategoryCommand;
 
             UsersFormVisibility = Visibility.Collapsed;
             ProductsFormVisibility = Visibility.Collapsed;
@@ -347,6 +385,8 @@ namespace Supermarket.ViewModel
         #endregion
 
         #region Commands
+
+        #region Visibility Commands
         private ICommand _showUsersDataGridCommand;
         public ICommand ShowUsersDataGridCommand
         {
@@ -407,31 +447,9 @@ namespace Supermarket.ViewModel
                 return _showCategoriesDataGridCommand;
             }
         }
+        #endregion
         
-        private ICommand _addCommand;
-        public ICommand AddCommand
-        {
-            get
-            {
-                return _addCommand;
-            }
-            set {
-                _addCommand = value;
-                OnPropertyChanged();
-            }
-        }
-        private ICommand _saveCommand;
-        public ICommand SaveCommand
-        {
-            get
-            {
-                if (_saveCommand == null)
-                {
-                    _saveCommand = new RelayCommand(o => {  }, o => true);
-                }
-                return _saveCommand;
-            }
-        }
+        #region Navigation Commands
         public void GoView()
         {
             _currentMode = ModeType.View;
@@ -439,6 +457,26 @@ namespace Supermarket.ViewModel
             AddControlsVisibility = Visibility.Hidden;
             EditControlsVisibility = Visibility.Hidden;
             FormsVisibility = Visibility.Hidden;
+
+            if (_cancel)
+            {
+                UsersList = _adminBll.GetAllUsers();
+                OnPropertyChanged("UsersList");
+
+                ProductsList = _adminBll.GetAllProducts();
+                OnPropertyChanged("ProductsList");
+
+                ProducersList = _adminBll.GetAllProducers();
+                OnPropertyChanged("ProducersList");
+
+                ProductStocksList = _adminBll.GetAllProductStocks();
+                OnPropertyChanged("ProductStocksList");
+
+                CategoriesList = _adminBll.GetAllCategories();
+                OnPropertyChanged("CategoriesList");
+            }
+
+            _cancel = false;
         }
         public void GoAdd()
         {
@@ -458,10 +496,14 @@ namespace Supermarket.ViewModel
         public void GoEdit()
         {
             _currentMode = ModeType.Edit;
+
             ViewControlsVisibility = Visibility.Hidden;
-            AddControlsVisibility = Visibility.Visible;
-            EditControlsVisibility = Visibility.Hidden;
+            AddControlsVisibility = Visibility.Hidden;
+            EditControlsVisibility = Visibility.Visible;
             FormsVisibility = Visibility.Visible;
+
+
+            _cancel = true;
         }
         private ICommand _goViewCommand;
         public ICommand GoViewCommand
@@ -470,7 +512,7 @@ namespace Supermarket.ViewModel
             {
                 if (_goViewCommand == null)
                 {
-                    _goViewCommand = new RelayCommand(o => { GoView(); }, o => true);
+                    _goViewCommand = new RelayCommand(o => { _cancel = true; GoView(); }, o => true);
                 }
                 return _goViewCommand;
             }
@@ -497,6 +539,22 @@ namespace Supermarket.ViewModel
                     _goEditCommand = new RelayCommand(o => { GoEdit(); }, o => true);
                 }
                 return _goEditCommand;
+            }
+        }
+        #endregion
+
+        #region Add Commands
+        private ICommand _addCommand;
+        public ICommand AddCommand
+        {
+            get
+            {
+                return _addCommand;
+            }
+            set
+            {
+                _addCommand = value;
+                OnPropertyChanged();
             }
         }
         public void AddUser()
@@ -589,6 +647,119 @@ namespace Supermarket.ViewModel
                 return _addCategoryCommand;
             }
         }
+        #endregion
+
+        #region Save Commands
+        private ICommand _saveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                return _saveCommand;
+            }
+            set
+            {
+                _saveCommand = value;
+                OnPropertyChanged();
+            }
+        }
+        public void EditUser()
+        {
+            _adminBll.EditUser(CurrentUser);
+            UsersList = _adminBll.GetAllUsers();
+            _cancel = false;
+            GoView();
+        }
+        private ICommand _editUserCommand;
+        public ICommand EditUserCommand
+        {
+            get
+            {
+                if (_editUserCommand == null)
+                {
+                    _editUserCommand = new RelayCommand(o => { EditUser(); }, o => true);
+                }
+                return _editUserCommand;
+            }
+        }
+        public void EditProduct()
+        {
+            _adminBll.EditProduct(CurrentProduct);
+            ProductsList = _adminBll.GetAllProducts();
+            _cancel = false;
+            GoView();
+        }
+        private ICommand _editProductCommand;
+        public ICommand EditProductCommand
+        {
+            get
+            {
+                if (_editProductCommand == null)
+                {
+                    _editProductCommand = new RelayCommand(o => { EditProduct(); }, o => true);
+                }
+                return _editProductCommand;
+            }
+        }
+        public void EditProducer()
+        {
+            _adminBll.EditProducer(CurrentProducer);
+            ProducersList = _adminBll.GetAllProducers();
+            _cancel = false;
+            GoView();
+        }
+        private ICommand _editProducerCommand;
+        public ICommand EditProducerCommand
+        {
+            get
+            {
+                if (_editProducerCommand == null)
+                {
+                    _editProducerCommand = new RelayCommand(o => { EditProducer(); }, o => true);
+                }
+                return _editProducerCommand;
+            }
+        }
+        public void EditProductStock()
+        {
+            _adminBll.EditProductStock(CurrentStock);
+            ProductStocksList = _adminBll.GetAllProductStocks();
+            _cancel = false;
+            GoView();
+        }
+        private ICommand _editProductStockCommand;
+        public ICommand EditProductStockCommand
+        {
+            get
+            {
+                if (_editProductStockCommand == null)
+                {
+                    _editProductStockCommand = new RelayCommand(o => { EditProductStock(); }, o => true);
+                }
+                return _editProductStockCommand;
+            }
+        }
+        public void EditCategory()
+        {
+            _adminBll.EditCategory(CurrentCategory);
+            CategoriesList = _adminBll.GetAllCategories();
+            _cancel = false;
+            GoView();
+        }
+        private ICommand _editCategoryCommand;
+        public ICommand EditCategoryCommand
+        {
+            get
+            {
+                if (_editCategoryCommand == null)
+                {
+                    _editCategoryCommand = new RelayCommand(o => { EditCategory(); }, o => true);
+                }
+                return _editCategoryCommand;
+            }
+        }
+        #endregion
+
         #endregion
     }
 }

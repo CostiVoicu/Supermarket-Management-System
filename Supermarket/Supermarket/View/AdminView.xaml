@@ -34,9 +34,9 @@
 
         <Grid Visibility="{Binding ViewControlsVisibility}" Grid.Row="1" Grid.Column="1">
             <!--Users Data Grid-->
-            <DataGrid ItemsSource="{Binding UsersList}" SelectedItem="{Binding CurrentUser, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding UsersDataGridVisibility}">
+            <DataGrid ItemsSource="{Binding UsersList}" SelectedItem="{Binding CurrentUser}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding UsersDataGridVisibility}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
                     <DataGridTextColumn Header="Password" Binding="{Binding password}" Width="*"/>
                     <DataGridTextColumn Header="Type" Binding="{Binding type}" Width="*"/>
                 </DataGrid.Columns>
@@ -62,7 +62,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Product name" Binding="{Binding product}" Width="*"/>
                     <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}" Width="*"/>
-                    <DataGridTextColumn Header="Unit" Binding="{Binding unit}" Width="*"/>
+                    <DataGridTextColumn Header="Unit" Binding="{Binding name}" Width="*"/>
                     <DataGridTextColumn Header="Supply date" Binding="{Binding supply_date, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                     <DataGridTextColumn Header="Expiration date" Binding="{Binding expiration_date, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                     <DataGridTextColumn Header="Purchase price" Binding="{Binding purchase_price}" Width="*"/>
@@ -72,7 +72,7 @@
             <!--Categories Data Grid-->
             <DataGrid ItemsSource="{Binding CategoriesList}" SelectedItem="{Binding CurrentCategory, Mode=TwoWay}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding CategoriesDataGridVisibility}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding}" Width="*"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
            

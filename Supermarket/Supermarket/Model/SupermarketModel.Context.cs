@@ -273,21 +273,13 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("select_units");
         }
     
-        public virtual ObjectResult<select_user_Result> select_user(string name, string password, string user_type)
+        public virtual ObjectResult<select_user_Result> select_user(Nullable<int> id)
         {
-            var nameParameter = name != null ?
-                new ObjectParameter("name", name) :
-                new ObjectParameter("name", typeof(string));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
     
-            var passwordParameter = password != null ?
-                new ObjectParameter("password", password) :
-                new ObjectParameter("password", typeof(string));
-    
-            var user_typeParameter = user_type != null ?
-                new ObjectParameter("user_type", user_type) :
-                new ObjectParameter("user_type", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_user_Result>("select_user", nameParameter, passwordParameter, user_typeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_user_Result>("select_user", idParameter);
         }
     
         public virtual ObjectResult<select_users_Result> select_users()
@@ -396,6 +388,123 @@ namespace Supermarket.Model
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual int edit_category(Nullable<int> id, string name)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("edit_category", idParameter, nameParameter);
+        }
+    
+        public virtual int edit_producer(Nullable<int> id, string name, string country)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var countryParameter = country != null ?
+                new ObjectParameter("country", country) :
+                new ObjectParameter("country", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("edit_producer", idParameter, nameParameter, countryParameter);
+        }
+    
+        public virtual int edit_product(Nullable<int> id, string name, string bar_code, string category, string producer)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var bar_codeParameter = bar_code != null ?
+                new ObjectParameter("bar_code", bar_code) :
+                new ObjectParameter("bar_code", typeof(string));
+    
+            var categoryParameter = category != null ?
+                new ObjectParameter("category", category) :
+                new ObjectParameter("category", typeof(string));
+    
+            var producerParameter = producer != null ?
+                new ObjectParameter("producer", producer) :
+                new ObjectParameter("producer", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("edit_product", idParameter, nameParameter, bar_codeParameter, categoryParameter, producerParameter);
+        }
+    
+        public virtual int edit_stock(Nullable<int> id, string bar_code, string producer, Nullable<double> quantity, Nullable<double> purchase_price, Nullable<double> selling_price, string unit, Nullable<System.DateTime> supplay_date, Nullable<System.DateTime> expiration_date)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var bar_codeParameter = bar_code != null ?
+                new ObjectParameter("bar_code", bar_code) :
+                new ObjectParameter("bar_code", typeof(string));
+    
+            var producerParameter = producer != null ?
+                new ObjectParameter("producer", producer) :
+                new ObjectParameter("producer", typeof(string));
+    
+            var quantityParameter = quantity.HasValue ?
+                new ObjectParameter("quantity", quantity) :
+                new ObjectParameter("quantity", typeof(double));
+    
+            var purchase_priceParameter = purchase_price.HasValue ?
+                new ObjectParameter("purchase_price", purchase_price) :
+                new ObjectParameter("purchase_price", typeof(double));
+    
+            var selling_priceParameter = selling_price.HasValue ?
+                new ObjectParameter("selling_price", selling_price) :
+                new ObjectParameter("selling_price", typeof(double));
+    
+            var unitParameter = unit != null ?
+                new ObjectParameter("unit", unit) :
+                new ObjectParameter("unit", typeof(string));
+    
+            var supplay_dateParameter = supplay_date.HasValue ?
+                new ObjectParameter("supplay_date", supplay_date) :
+                new ObjectParameter("supplay_date", typeof(System.DateTime));
+    
+            var expiration_dateParameter = expiration_date.HasValue ?
+                new ObjectParameter("expiration_date", expiration_date) :
+                new ObjectParameter("expiration_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("edit_stock", idParameter, bar_codeParameter, producerParameter, quantityParameter, purchase_priceParameter, selling_priceParameter, unitParameter, supplay_dateParameter, expiration_dateParameter);
+        }
+    
+        public virtual int edit_user(Nullable<int> id, string name, string password, string user_type)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            var user_typeParameter = user_type != null ?
+                new ObjectParameter("user_type", user_type) :
+                new ObjectParameter("user_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("edit_user", idParameter, nameParameter, passwordParameter, user_typeParameter);
         }
     }
 }
