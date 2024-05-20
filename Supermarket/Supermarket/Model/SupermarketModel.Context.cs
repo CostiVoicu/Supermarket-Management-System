@@ -250,13 +250,13 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("select_categories");
         }
     
-        public virtual ObjectResult<select_category_Result> select_category(string name)
+        public virtual ObjectResult<select_category_Result> select_category(Nullable<int> id)
         {
-            var nameParameter = name != null ?
-                new ObjectParameter("name", name) :
-                new ObjectParameter("name", typeof(string));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_category_Result>("select_category", nameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_category_Result>("select_category", idParameter);
         }
     
         public virtual ObjectResult<select_countries_Result> select_countries()
@@ -264,17 +264,13 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_countries_Result>("select_countries");
         }
     
-        public virtual ObjectResult<select_producer_Result> select_producer(string name, string country)
+        public virtual ObjectResult<select_producer_Result> select_producer(Nullable<int> id)
         {
-            var nameParameter = name != null ?
-                new ObjectParameter("name", name) :
-                new ObjectParameter("name", typeof(string));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
     
-            var countryParameter = country != null ?
-                new ObjectParameter("country", country) :
-                new ObjectParameter("country", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_producer_Result>("select_producer", nameParameter, countryParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_producer_Result>("select_producer", idParameter);
         }
     
         public virtual ObjectResult<select_producers_Result> select_producers()
@@ -282,25 +278,13 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_producers_Result>("select_producers");
         }
     
-        public virtual ObjectResult<select_product_Result> select_product(string name, string bar_code, string category, string producer)
+        public virtual ObjectResult<select_product_Result> select_product(Nullable<int> id)
         {
-            var nameParameter = name != null ?
-                new ObjectParameter("name", name) :
-                new ObjectParameter("name", typeof(string));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
     
-            var bar_codeParameter = bar_code != null ?
-                new ObjectParameter("bar_code", bar_code) :
-                new ObjectParameter("bar_code", typeof(string));
-    
-            var categoryParameter = category != null ?
-                new ObjectParameter("category", category) :
-                new ObjectParameter("category", typeof(string));
-    
-            var producerParameter = producer != null ?
-                new ObjectParameter("producer", producer) :
-                new ObjectParameter("producer", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_product_Result>("select_product", nameParameter, bar_codeParameter, categoryParameter, producerParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_product_Result>("select_product", idParameter);
         }
     
         public virtual ObjectResult<select_products_Result> select_products()
@@ -308,37 +292,13 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_products_Result>("select_products");
         }
     
-        public virtual ObjectResult<select_stock_Result> select_stock(string name, Nullable<double> quantity, Nullable<double> purchase_price, Nullable<double> selling_price, string unit, Nullable<System.DateTime> supplay_date, Nullable<System.DateTime> expiration_date)
+        public virtual ObjectResult<select_stock_Result> select_stock(Nullable<int> id)
         {
-            var nameParameter = name != null ?
-                new ObjectParameter("name", name) :
-                new ObjectParameter("name", typeof(string));
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
     
-            var quantityParameter = quantity.HasValue ?
-                new ObjectParameter("quantity", quantity) :
-                new ObjectParameter("quantity", typeof(double));
-    
-            var purchase_priceParameter = purchase_price.HasValue ?
-                new ObjectParameter("purchase_price", purchase_price) :
-                new ObjectParameter("purchase_price", typeof(double));
-    
-            var selling_priceParameter = selling_price.HasValue ?
-                new ObjectParameter("selling_price", selling_price) :
-                new ObjectParameter("selling_price", typeof(double));
-    
-            var unitParameter = unit != null ?
-                new ObjectParameter("unit", unit) :
-                new ObjectParameter("unit", typeof(string));
-    
-            var supplay_dateParameter = supplay_date.HasValue ?
-                new ObjectParameter("supplay_date", supplay_date) :
-                new ObjectParameter("supplay_date", typeof(System.DateTime));
-    
-            var expiration_dateParameter = expiration_date.HasValue ?
-                new ObjectParameter("expiration_date", expiration_date) :
-                new ObjectParameter("expiration_date", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_stock_Result>("select_stock", nameParameter, quantityParameter, purchase_priceParameter, selling_priceParameter, unitParameter, supplay_dateParameter, expiration_dateParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_stock_Result>("select_stock", idParameter);
         }
     
         public virtual ObjectResult<select_units_Result> select_units()

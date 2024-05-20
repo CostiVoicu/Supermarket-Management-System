@@ -44,10 +44,10 @@
             <!--Products Data Grid-->
             <DataGrid ItemsSource="{Binding ProductsList}" SelectedItem="{Binding CurrentProduct}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding ProductsDataGridVisibility}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding name}" Width="*"/>
-                    <DataGridTextColumn Header="Bar code" Binding="{Binding bar_code}" Width="*"/>
-                    <DataGridTextColumn Header="Category" Binding="{Binding category}" Width="*"/>
-                    <DataGridTextColumn Header="Producer" Binding="{Binding producer}" Width="*"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Bar code" Binding="{Binding BarCode}" Width="*"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*"/>
+                    <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <!--Producers Data Grid-->
@@ -60,13 +60,13 @@
             <!--Stocks Data Grid-->
             <DataGrid ItemsSource="{Binding ProductStocksList}" SelectedItem="{Binding CurrentStock}" Grid.Column="1" Margin="10" AutoGenerateColumns="False" Visibility="{Binding StocksDataGridVisibility}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Product name" Binding="{Binding product}" Width="*"/>
-                    <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}" Width="*"/>
-                    <DataGridTextColumn Header="Unit" Binding="{Binding name}" Width="*"/>
-                    <DataGridTextColumn Header="Supply date" Binding="{Binding supply_date, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
-                    <DataGridTextColumn Header="Expiration date" Binding="{Binding expiration_date, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
-                    <DataGridTextColumn Header="Purchase price" Binding="{Binding purchase_price}" Width="*"/>
-                    <DataGridTextColumn Header="Selling price" Binding="{Binding selling_price}" Width="*"/>
+                    <DataGridTextColumn Header="Product name" Binding="{Binding Product}" Width="*"/>
+                    <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="*"/>
+                    <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="*"/>
+                    <DataGridTextColumn Header="Supply date" Binding="{Binding SupplyDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                    <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                    <DataGridTextColumn Header="Purchase price" Binding="{Binding PurchasePrice}" Width="*"/>
+                    <DataGridTextColumn Header="Selling price" Binding="{Binding SellingPrice}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <!--Categories Data Grid-->
@@ -103,19 +103,19 @@
             <StackPanel Visibility="{Binding ProductsFormVisibility}">
                 <Grid>
                     <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentProduct.name}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentProduct.Name}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Bar code" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentProduct.bar_code}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentProduct.BarCode}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Category" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <ComboBox ItemsSource="{Binding CategoriesComboBox}" SelectedItem="{Binding CurrentProduct.category}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <ComboBox ItemsSource="{Binding CategoriesComboBox}" SelectedItem="{Binding CurrentProduct.Category}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Producer" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <ComboBox ItemsSource="{Binding ProducersComboBox}" SelectedItem="{Binding CurrentProduct.producer}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <ComboBox ItemsSource="{Binding ProducersComboBox}" SelectedItem="{Binding CurrentProduct.Producer}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
             </StackPanel>
 
@@ -133,31 +133,31 @@
             <StackPanel Visibility="{Binding StocksFormVisibility}">
                 <Grid>
                     <Label Content="Product name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <ComboBox ItemsSource="{Binding ProductsComboBox}" SelectedItem="{Binding CurrentStock.product}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <ComboBox ItemsSource="{Binding ProductsComboBox}" SelectedItem="{Binding CurrentStock.Product}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Quantity" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.quantity}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.Quantity}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Unit" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <ComboBox ItemsSource="{Binding UnitsComboBox}" SelectedItem="{Binding CurrentStock.name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <ComboBox ItemsSource="{Binding UnitsComboBox}" SelectedItem="{Binding CurrentStock.Unit}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Supply date" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <DatePicker HorizontalAlignment="Left" SelectedDate="{Binding CurrentStock.supply_date, Mode=TwoWay}" Width="120" Margin="175,0,0,0"  VerticalAlignment="Top"/>
+                    <DatePicker HorizontalAlignment="Left" SelectedDate="{Binding CurrentStock.SupplyDate, Mode=TwoWay}" Width="120" Margin="175,0,0,0"  VerticalAlignment="Top"/>
                 </Grid>
                 <Grid>
                     <Label Content="Expiration date" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <DatePicker HorizontalAlignment="Left" SelectedDate="{Binding CurrentStock.expiration_date, Mode=TwoWay}" Width="120" Margin="175,0,0,0"  VerticalAlignment="Top"/>
+                    <DatePicker HorizontalAlignment="Left" SelectedDate="{Binding CurrentStock.ExpirationDate, Mode=TwoWay}" Width="120" Margin="175,0,0,0"  VerticalAlignment="Top"/>
                 </Grid>
                 <Grid>
                     <Label Content="Purchase price" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.purchase_price}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.PurchasePrice}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
                 <Grid>
                     <Label Content="Selling price" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.selling_price}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CurrentStock.SellingPrice}" VerticalAlignment="Center" Width="120" Margin="175,0,0,0"/>
                 </Grid>
             </StackPanel>
 

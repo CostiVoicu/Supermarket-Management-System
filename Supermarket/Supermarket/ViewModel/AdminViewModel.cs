@@ -10,20 +10,12 @@ using System.Windows.Input;
 
 namespace Supermarket.ViewModel
 {
-    enum ModeType
-    {
-        View,
-        Add,
-        Edit
-    }
     public class AdminViewModel : Core.ViewModel
     {
         private AdminBLL _adminBll;
-        private ModeType _currentMode;
         private bool _cancel;
         public AdminViewModel()
         {
-            _currentMode = ModeType.View;
             _cancel = false;
 
             _adminBll = new AdminBLL();
@@ -51,10 +43,9 @@ namespace Supermarket.ViewModel
             FormsVisibility = Visibility.Hidden;
 
             CurrentUser = new select_user_Result();
-            BackupUser = new select_user_Result();
-            CurrentProduct = new select_product_Result();
+            CurrentProduct = new ProductViewModel(new select_product_Result());
             CurrentProducer = new select_producer_Result();
-            CurrentStock = new select_stock_Result();
+            CurrentStock = new StockViewModel(new select_stock_Result());
             CurrentCategory = new select_category_Result();
 
             UserTypesComboBox = new List<string>();
@@ -77,7 +68,7 @@ namespace Supermarket.ViewModel
             get => _adminBll.UsersList;
             set => _adminBll.UsersList = value;
         }
-        public ObservableCollection<select_product_Result> ProductsList
+        public ObservableCollection<ProductViewModel> ProductsList
         {
             get => _adminBll.ProductsList;
             set => _adminBll.ProductsList = value;
@@ -87,7 +78,7 @@ namespace Supermarket.ViewModel
             get => _adminBll.ProducersList;
             set => _adminBll.ProducersList = value;
         }
-        public ObservableCollection<select_stock_Result> ProductStocksList
+        public ObservableCollection<StockViewModel> ProductStocksList
         {
             get => _adminBll.ProductStocksList;
             set => _adminBll.ProductStocksList = value;
@@ -110,18 +101,8 @@ namespace Supermarket.ViewModel
                 OnPropertyChanged();
             }
         }
-        private select_user_Result _backupUser;
-        public select_user_Result BackupUser
-        {
-            get { return _backupUser; }
-            set
-            {
-                _backupUser = value;
-                OnPropertyChanged();
-            }
-        }
-        private select_product_Result _currentProduct;
-        public select_product_Result CurrentProduct
+        private ProductViewModel _currentProduct;
+        public ProductViewModel CurrentProduct
         {
             get { return _currentProduct; }
             set 
@@ -140,8 +121,8 @@ namespace Supermarket.ViewModel
                 OnPropertyChanged();
             }
         }
-        private select_stock_Result _currentStock;
-        public select_stock_Result CurrentStock
+        private StockViewModel _currentStock;
+        public StockViewModel CurrentStock
         {
             get { return _currentStock; }
             set 
@@ -329,9 +310,15 @@ namespace Supermarket.ViewModel
             ProducersFormVisibility = Visibility.Collapsed;
             StocksFormVisibility = Visibility.Collapsed;
             CategoriesFormVisibility = Visibility.Collapsed;
+
+            UpdateCategoriesComboBox();
+            UpdateProducersComboBox();
+            UpdateProductsComboBox();
         }
         private void ShowProductsDataGrid(object obj)
         {
+            ProductsList = _adminBll.GetAllProducts();
+            OnPropertyChanged("ProductsList");
             UsersDataGridVisibility = Visibility.Collapsed;
             ProductsDataGridVisibility = Visibility.Visible;
             ProducersDataGridVisibility = Visibility.Collapsed;
@@ -347,9 +334,15 @@ namespace Supermarket.ViewModel
             ProducersFormVisibility = Visibility.Collapsed;
             StocksFormVisibility = Visibility.Collapsed;
             CategoriesFormVisibility = Visibility.Collapsed;
+
+            UpdateCategoriesComboBox();
+            UpdateProducersComboBox();
+            UpdateProductsComboBox();
         }
         private void ShowProducersDataGrid(object obj)
         {
+            
+            OnPropertyChanged("ProducersList");
             UsersDataGridVisibility = Visibility.Collapsed;
             ProductsDataGridVisibility = Visibility.Collapsed;
             ProducersDataGridVisibility = Visibility.Visible;
@@ -365,9 +358,15 @@ namespace Supermarket.ViewModel
             ProducersFormVisibility = Visibility.Visible;
             StocksFormVisibility = Visibility.Collapsed;
             CategoriesFormVisibility = Visibility.Collapsed;
+
+            UpdateCategoriesComboBox();
+            UpdateProducersComboBox();
+            UpdateProductsComboBox();
         }
         private void ShowStocksDataGrid(object obj)
         {
+            ProductStocksList = _adminBll.GetAllProductStocks();
+            OnPropertyChanged("ProductStocksList");
             UsersDataGridVisibility = Visibility.Collapsed;
             ProductsDataGridVisibility = Visibility.Collapsed;
             ProducersDataGridVisibility = Visibility.Collapsed;
@@ -383,9 +382,14 @@ namespace Supermarket.ViewModel
             ProducersFormVisibility = Visibility.Collapsed;
             StocksFormVisibility = Visibility.Visible;
             CategoriesFormVisibility = Visibility.Collapsed;
+
+            UpdateCategoriesComboBox();
+            UpdateProducersComboBox();
+            UpdateProductsComboBox();
         }
         private void ShowCategoriesDataGrid(object obj)
         {
+            OnPropertyChanged("CategoriesList");
             UsersDataGridVisibility = Visibility.Collapsed;
             ProductsDataGridVisibility = Visibility.Collapsed;
             ProducersDataGridVisibility = Visibility.Collapsed;
@@ -401,6 +405,10 @@ namespace Supermarket.ViewModel
             ProducersFormVisibility = Visibility.Collapsed;
             StocksFormVisibility = Visibility.Collapsed;
             CategoriesFormVisibility = Visibility.Visible;
+
+            UpdateCategoriesComboBox();
+            UpdateProducersComboBox();
+            UpdateProductsComboBox();
         }
         #endregion
 
@@ -472,7 +480,6 @@ namespace Supermarket.ViewModel
         #region Navigation Commands
         public void GoView()
         {
-            _currentMode = ModeType.View;
             ViewControlsVisibility = Visibility.Visible;
             AddControlsVisibility = Visibility.Hidden;
             EditControlsVisibility = Visibility.Hidden;
@@ -480,36 +487,25 @@ namespace Supermarket.ViewModel
 
             if (_cancel)
             {
-                UsersList = _adminBll.GetAllUsers();
-                OnPropertyChanged("UsersList");
-
-                ProductsList = _adminBll.GetAllProducts();
-                OnPropertyChanged("ProductsList");
-
-                ProducersList = _adminBll.GetAllProducers();
-                OnPropertyChanged("ProducersList");
-
-                ProductStocksList = _adminBll.GetAllProductStocks();
-                OnPropertyChanged("ProductStocksList");
-
-                CategoriesList = _adminBll.GetAllCategories();
-                OnPropertyChanged("CategoriesList");
+                UndoChanges();
             }
+
+            UpdateCategoriesComboBox();
+            UpdateProducersComboBox();
+            UpdateProductsComboBox();
 
             _cancel = false;
         }
         public void GoAdd()
         {
-            _currentMode = ModeType.Add;
-
             CurrentUser = new select_user_Result();
-            CurrentProduct = new select_product_Result();
+            CurrentProduct = new ProductViewModel(new select_product_Result());
             CurrentProducer = new select_producer_Result();
-            CurrentStock = new select_stock_Result
+            CurrentStock = new StockViewModel(new select_stock_Result
             {
                 expiration_date = System.DateTime.Today,
                 supply_date = System.DateTime.Today
-            };
+            });
             OnPropertyChanged("CurrentStock");
             CurrentCategory = new select_category_Result();
 
@@ -520,8 +516,6 @@ namespace Supermarket.ViewModel
         }
         public void GoEdit()
         {
-            _currentMode = ModeType.Edit;
-
             ViewControlsVisibility = Visibility.Hidden;
             AddControlsVisibility = Visibility.Hidden;
             EditControlsVisibility = Visibility.Visible;
@@ -705,6 +699,7 @@ namespace Supermarket.ViewModel
             if (_adminBll.EditUser(CurrentUser))
             {
                 UsersList = _adminBll.GetAllUsers();
+                OnPropertyChanged("UsersList");
                 _cancel = false;
                 GoView();
             }
@@ -726,6 +721,7 @@ namespace Supermarket.ViewModel
             if (_adminBll.EditProduct(CurrentProduct))
             {
                 ProductsList = _adminBll.GetAllProducts();
+                OnPropertyChanged("ProductsList");
                 _cancel = false;
                 GoView();
             }
@@ -747,6 +743,7 @@ namespace Supermarket.ViewModel
             if (_adminBll.EditProducer(CurrentProducer))
             {
                 ProducersList = _adminBll.GetAllProducers();
+                OnPropertyChanged("ProducersList");
                 _cancel = false;
                 GoView();
             }
@@ -768,6 +765,7 @@ namespace Supermarket.ViewModel
             if (_adminBll.EditProductStock(CurrentStock))
             {
                 ProductStocksList = _adminBll.GetAllProductStocks();
+                OnPropertyChanged("ProductStocksList");
                 _cancel = false;
                 GoView();
             }
@@ -789,6 +787,7 @@ namespace Supermarket.ViewModel
             if (_adminBll.EditCategory(CurrentCategory))
             {
                 CategoriesList = _adminBll.GetAllCategories();
+                OnPropertyChanged("CategoriesList");
                 _cancel = false;
                 GoView();
             }
@@ -945,7 +944,7 @@ namespace Supermarket.ViewModel
         public void UpdateCategoriesComboBox()
         {
             CategoriesComboBox.Clear();
-            foreach (var category in _adminBll.GetAllCategories())
+            foreach (var category in CategoriesList)
             {
                 CategoriesComboBox.Add(category.name);
             }
@@ -953,7 +952,7 @@ namespace Supermarket.ViewModel
         public void UpdateProducersComboBox()
         {
             ProducersComboBox.Clear();
-            foreach (var producer in _adminBll.GetAllProducers())
+            foreach (var producer in ProducersList)
             {
                 ProducersComboBox.Add(producer.name);
             }
@@ -969,9 +968,9 @@ namespace Supermarket.ViewModel
         public void UpdateProductsComboBox()
         {
             ProductsComboBox.Clear();
-            foreach (var product in _adminBll.GetAllProducts())
+            foreach (var product in ProductsList)
             {
-                ProductsComboBox.Add(product.name);
+                ProductsComboBox.Add(product.Name);
             }
         }
         public void UpdateUnitsComboBox()
@@ -984,5 +983,50 @@ namespace Supermarket.ViewModel
         }
 
         #endregion
+
+        private void UndoChanges() 
+        {
+            var currentUserIndex = UsersList.IndexOf(CurrentUser);
+            if (currentUserIndex >= 0)
+            {
+                CurrentUser = _adminBll.GetUser(CurrentUser.id);
+                UsersList[currentUserIndex] = CurrentUser;
+                OnPropertyChanged("UsersList");
+            }
+
+            var product = ProductsList.Where(p => p.Id == CurrentProduct.Id).FirstOrDefault();
+            var currentProductIndex = ProductsList.IndexOf(product);
+            if (currentProductIndex >= 0)
+            {
+                CurrentProduct = _adminBll.GetProduct(CurrentProduct.Id);
+                ProductsList[currentProductIndex] = CurrentProduct;
+                OnPropertyChanged("ProductsList");
+            }
+
+            var currentProducerIndex = ProducersList.IndexOf(CurrentProducer);
+            if (currentProducerIndex >= 0)
+            {
+                CurrentProducer = _adminBll.GetProducer(CurrentProducer.id);
+                ProducersList[currentProducerIndex] = CurrentProducer;
+                OnPropertyChanged("ProducersList");
+            }
+
+            var currentStockIndex = ProductStocksList.IndexOf(CurrentStock);
+            if (currentStockIndex >= 0)
+            {
+                CurrentStock = _adminBll.GetStock(CurrentStock.Id);
+                ProductStocksList[currentStockIndex] = CurrentStock;
+                OnPropertyChanged("ProductStocksList");
+            }
+
+            var category = CategoriesList.Where(c => c.id == CurrentCategory.id).FirstOrDefault();
+            var currentCategoryIndex = CategoriesList.IndexOf(category);
+            if (currentCategoryIndex >= 0)
+            {
+                CurrentCategory = _adminBll.GetCategory(category.id);
+                CategoriesList[currentCategoryIndex] = CurrentCategory;
+                OnPropertyChanged("CategoriesList");
+            }
+        }
     }
 }

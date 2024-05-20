@@ -294,29 +294,19 @@
         </Function>
         <Function Name="select_categories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="select_category" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="select_countries" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="select_producer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="name" Type="varchar" Mode="In" />
-          <Parameter Name="country" Type="varchar" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="select_producers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="select_product" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="name" Type="varchar" Mode="In" />
-          <Parameter Name="bar_code" Type="varchar" Mode="In" />
-          <Parameter Name="category" Type="varchar" Mode="In" />
-          <Parameter Name="producer" Type="varchar" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="select_products" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="select_stock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="name" Type="varchar" Mode="In" />
-          <Parameter Name="quantity" Type="float" Mode="In" />
-          <Parameter Name="purchase_price" Type="float" Mode="In" />
-          <Parameter Name="selling_price" Type="float" Mode="In" />
-          <Parameter Name="unit" Type="varchar" Mode="In" />
-          <Parameter Name="supplay_date" Type="date" Mode="In" />
-          <Parameter Name="expiration_date" Type="date" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="In" />
         </Function>
         <Function Name="select_units" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="select_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -746,29 +736,19 @@
           </FunctionImport>
           <FunctionImport Name="select_categories" />
           <FunctionImport Name="select_category" ReturnType="Collection(SupermarketDBModel.select_category_Result)">
-          <Parameter Name="name" Mode="In" Type="String" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="select_countries" ReturnType="Collection(SupermarketDBModel.select_countries_Result)" />
           <FunctionImport Name="select_producer" ReturnType="Collection(SupermarketDBModel.select_producer_Result)">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="country" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="select_producers" ReturnType="Collection(SupermarketDBModel.select_producers_Result)" />
           <FunctionImport Name="select_product" ReturnType="Collection(SupermarketDBModel.select_product_Result)">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="bar_code" Mode="In" Type="String" />
-            <Parameter Name="category" Mode="In" Type="String" />
-            <Parameter Name="producer" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="select_products" ReturnType="Collection(SupermarketDBModel.select_products_Result)" />
           <FunctionImport Name="select_stock" ReturnType="Collection(SupermarketDBModel.select_stock_Result)">
-            <Parameter Name="name" Mode="In" Type="String" />
-            <Parameter Name="quantity" Mode="In" Type="Double" />
-            <Parameter Name="purchase_price" Mode="In" Type="Double" />
-            <Parameter Name="selling_price" Mode="In" Type="Double" />
-            <Parameter Name="unit" Mode="In" Type="String" />
-            <Parameter Name="supplay_date" Mode="In" Type="DateTime" />
-            <Parameter Name="expiration_date" Mode="In" Type="DateTime" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="select_units" ReturnType="Collection(SupermarketDBModel.select_units_Result)" />
           <FunctionImport Name="select_user" ReturnType="Collection(SupermarketDBModel.select_user_Result)">
@@ -807,19 +787,19 @@
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="delete_category">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="delete_producer">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="delete_product">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="delete_stock">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="delete_user">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="select_category_Result">

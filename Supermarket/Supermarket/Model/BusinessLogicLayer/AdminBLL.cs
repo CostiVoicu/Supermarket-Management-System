@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Supermarket.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -36,23 +37,24 @@ namespace Supermarket.Model.BusinessLogicLayer
             }
             return result;
         }
-        public ObservableCollection<select_product_Result> ProductsList { get; set; }
-        public ObservableCollection<select_product_Result> GetAllProducts()
+        public ObservableCollection<ProductViewModel> ProductsList { get; set; }
+        public ObservableCollection<ProductViewModel> GetAllProducts()
         {
             List<product> products = context.products.ToList();
-            ObservableCollection<select_product_Result> result = new ObservableCollection<select_product_Result>();
+            ObservableCollection<ProductViewModel> result = new ObservableCollection<ProductViewModel>();
             foreach (product product in products)
             {
                 if (product.active)
                 {
-                    result.Add(new select_product_Result
+                    select_product_Result p = new select_product_Result
                     {
                         id = product.id,
                         name = product.name,
                         bar_code = product.bar_code,
                         category = product.product_categories.name,
                         producer = product.producer.name
-                    });
+                    };
+                    result.Add(new ProductViewModel(p));
                 }
             }
             return result;
@@ -76,16 +78,16 @@ namespace Supermarket.Model.BusinessLogicLayer
             }
             return result;
         }
-        public ObservableCollection<select_stock_Result> ProductStocksList { get; set; }
-        public ObservableCollection<select_stock_Result> GetAllProductStocks()
+        public ObservableCollection<StockViewModel> ProductStocksList { get; set; }
+        public ObservableCollection<StockViewModel> GetAllProductStocks()
         {
             List<product_stock> product_stocks = context.product_stock.ToList();
-            ObservableCollection<select_stock_Result> result = new ObservableCollection<select_stock_Result>();
+            ObservableCollection<StockViewModel> result = new ObservableCollection<StockViewModel>();
             foreach (product_stock product_stock in product_stocks)
             {
                 if (product_stock.active)
                 {
-                    result.Add(new select_stock_Result
+                    result.Add(new StockViewModel(new select_stock_Result
                     {
                         id = product_stock.id,
                         product = product_stock.product.name,
@@ -95,7 +97,7 @@ namespace Supermarket.Model.BusinessLogicLayer
                         name = product_stock.measuring_unit.name,
                         supply_date = product_stock.supply_date,
                         expiration_date = product_stock.expiration_date
-                    });
+                    }));
                 }
             }
             return result;
@@ -196,32 +198,32 @@ namespace Supermarket.Model.BusinessLogicLayer
         }
         public bool AddProduct(object obj)
         {
-            select_product_Result product = obj as select_product_Result;
+            ProductViewModel product = obj as ProductViewModel;
             if (product != null)
             {
-                if (string.IsNullOrEmpty(product.name))
+                if (string.IsNullOrEmpty(product.Name))
                 {
                     MessageBox.Show("The name can't be empty!");
                 }
-                else if (string.IsNullOrEmpty(product.bar_code))
+                else if (string.IsNullOrEmpty(product.BarCode))
                 {
                     MessageBox.Show("The bar code can't be empty!");
                 }
-                else if (product.bar_code.Length != 12)
+                else if (product.BarCode.Length != 12)
                 {
                     MessageBox.Show("The bar code must be size of 12!");
                 }
-                else if (string.IsNullOrEmpty(product.category))
+                else if (string.IsNullOrEmpty(product.Category))
                 {
                     MessageBox.Show("The category can't be empty!");
                 }
-                else if (string.IsNullOrEmpty(product.producer))
+                else if (string.IsNullOrEmpty(product.Producer))
                 {
                     MessageBox.Show("The producer can't be empty!");
                 }
                 else
                 {
-                    context.insert_product(product.name, product.bar_code, product.category, product.producer);
+                    context.insert_product(product.Name, product.BarCode, product.Category, product.Producer);
                     context.SaveChanges();
                     ProductsList.Add(product);
                     return true;
@@ -254,43 +256,43 @@ namespace Supermarket.Model.BusinessLogicLayer
         }
         public bool AddProductStock(object obj)
         {
-            select_stock_Result stock = obj as select_stock_Result;
+            StockViewModel stock = obj as StockViewModel;
             if (stock != null)
             {
-                if (string.IsNullOrEmpty(stock.product))
+                if (string.IsNullOrEmpty(stock.Product))
                 {
                     MessageBox.Show("The product can't be empty!");
                 }
-                else if (stock.quantity < 0)
+                else if (stock.Quantity < 0)
                 {
                     MessageBox.Show("The quantity can't be negative!");
                 }
-                else if (stock.purchase_price < 0)
+                else if (stock.PurchasePrice < 0)
                 {
                     MessageBox.Show("The purchase price can't be negative!");
                 }
-                else if (stock.selling_price < 0)
+                else if (stock.SellingPrice < 0)
                 {
                     MessageBox.Show("The purchase price can't be negative!");
                 }
-                else if (stock.selling_price > stock.purchase_price)
+                else if (stock.SellingPrice < stock.PurchasePrice)
                 {
-                    MessageBox.Show("The purchase price can't be smaller than selling price!");
+                    MessageBox.Show("The selling price can't be smaller than purchase price!");
                 }
-                else if (string.IsNullOrEmpty(stock.name))
+                else if (string.IsNullOrEmpty(stock.Unit))
                 {
                     MessageBox.Show("The unit can't be empty!");
                 }
                 else
                 {
                     context.insert_product_stock(
-                        stock.product, 
-                        stock.quantity,
-                        stock.purchase_price,
-                        stock.selling_price,
-                        stock.name,
-                        stock.supply_date,
-                        stock.expiration_date);
+                        stock.Product, 
+                        stock.Quantity,
+                        stock.PurchasePrice,
+                        stock.SellingPrice,
+                        stock.Unit,
+                        stock.SupplyDate,
+                        stock.ExpirationDate);
                     context.SaveChanges();
                     ProductStocksList.Add(stock);
                     return true;
@@ -348,33 +350,36 @@ namespace Supermarket.Model.BusinessLogicLayer
         }
         public bool EditProduct(object obj)
         {
-            select_product_Result product = obj as select_product_Result;
+            ProductViewModel product = obj as ProductViewModel;
             if (product != null)
             {
-                if (string.IsNullOrEmpty(product.name))
+                if (string.IsNullOrEmpty(product.Name))
                 {
                     MessageBox.Show("The name can't be empty!");
                 }
-                else if (string.IsNullOrEmpty(product.bar_code))
+                else if (string.IsNullOrEmpty(product.BarCode))
                 {
                     MessageBox.Show("The bar code can't be empty!");
                 }
-                else if (product.bar_code.Length < 12)
+                else if (product.BarCode.Length < 12)
                 {
                     MessageBox.Show("The bar code is too short, it must be size of 12!");
                 }
-                else if (string.IsNullOrEmpty(product.category))
+                else if (string.IsNullOrEmpty(product.Category))
                 {
                     MessageBox.Show("The category can't be empty!");
                 }
-                else if (string.IsNullOrEmpty(product.producer))
+                else if (string.IsNullOrEmpty(product.Producer))
                 {
                     MessageBox.Show("The producer can't be empty!");
                 }
                 else
                 {
-                    context.edit_product(product.id, product.name, product.bar_code, product.category, product.producer);
+                    context.edit_product(product.Id, product.Name, product.BarCode, product.Category, product.Producer);
                     context.SaveChanges();
+
+                    context.Dispose();
+                    context = new SupermarketDBEntities();
                     return true;
                 }
             }
@@ -397,6 +402,8 @@ namespace Supermarket.Model.BusinessLogicLayer
                 {
                     context.edit_producer(producer.id, producer.name, producer.country);
                     context.SaveChanges();
+                    context.Dispose();
+                    context = new SupermarketDBEntities();
                     return true;
                 }
             }
@@ -404,44 +411,47 @@ namespace Supermarket.Model.BusinessLogicLayer
         }
         public bool EditProductStock(object obj)
         {
-            select_stock_Result stock = obj as select_stock_Result;
+            StockViewModel stock = obj as StockViewModel;
             if (stock != null)
             {
-                if (string.IsNullOrEmpty(stock.product))
+                if (string.IsNullOrEmpty(stock.Product))
                 {
                     MessageBox.Show("The product can't be empty!");
                 }
-                else if (stock.quantity < 0)
+                else if (stock.Quantity < 0)
                 {
                     MessageBox.Show("The quantity can't be negative!");
                 }
-                else if (stock.purchase_price < 0)
+                else if (stock.PurchasePrice < 0)
                 {
                     MessageBox.Show("The purchase price can't be negative!");
                 }
-                else if (stock.selling_price < 0)
+                else if (stock.SellingPrice < 0)
                 {
                     MessageBox.Show("The purchase price can't be negative!");
                 }
-                else if (stock.selling_price > stock.purchase_price)
+                else if (stock.SellingPrice < stock.PurchasePrice)
                 {
-                    MessageBox.Show("The purchase price can't be smaller than selling price!");
+                    MessageBox.Show("The selling price can't be smaller than purchase price!");
                 }
-                else if (string.IsNullOrEmpty(stock.name))
+                else if (string.IsNullOrEmpty(stock.Unit))
                 {
                     MessageBox.Show("The unit can't be empty!");
                 }
                 else
                 {
-                    context.edit_stock(stock.id,
-                        stock.product,
-                        stock.quantity,
-                        stock.purchase_price,
-                        stock.selling_price,
-                        stock.name,
-                        stock.supply_date,
-                        stock.expiration_date);
+                    context.edit_stock(
+                        stock.Id,
+                        stock.Product,
+                        stock.Quantity,
+                        stock.PurchasePrice,
+                        stock.SellingPrice,
+                        stock.Unit,
+                        stock.SupplyDate,
+                        stock.ExpirationDate);
                     context.SaveChanges();
+                    context.Dispose();
+                    context = new SupermarketDBEntities();
                     return true;
                 }
             }
@@ -460,6 +470,8 @@ namespace Supermarket.Model.BusinessLogicLayer
                 {
                     context.edit_category(category.id, category.name);
                     context.SaveChanges();
+                    context.Dispose();
+                    context = new SupermarketDBEntities();
                     return true;
                 }
             }
@@ -494,29 +506,28 @@ namespace Supermarket.Model.BusinessLogicLayer
         }
         public bool DeleteProduct(object obj)
         {
-            select_product_Result product = obj as select_product_Result;
+            ProductViewModel product = obj as ProductViewModel;
             if (product == null)
             {
                 MessageBox.Show("Select a product!");
             }
             else
             {
-                //product p = context.products.Where(i => i.id == product.id).FirstOrDefault();
-                //if (p.sold_products.Count > 0)
-                //{
-                //    MessageBox.Show("The product has sold products linked to it!");
-                //}
-                //else if (p.product_stock.Count > 0)
-                //{
-                //    MessageBox.Show("The product has product stocks linked to it!");
-                //}
-                //else
-                //{
-                    context.delete_product(product.id);
+                product p = context.products.Where(i => i.id == product.Id).FirstOrDefault();
+                if (p.product_stock.Where(pr => pr.active == true).Count() > 0)
+                {
+                    MessageBox.Show("The product has product stocks linked to it!");
+                }
+                else
+                {
+                    context.delete_product(product.Id);
                     context.SaveChanges();
-                    ProductsList.Remove(product);
+                    ProductsList.Remove(ProductsList.Where(u => u.Id == product.Id).First());
+
+                    context.Dispose();
+                    context = new SupermarketDBEntities();
                     return true;
-                //}
+                }
             }
             return false;
         }
@@ -546,17 +557,18 @@ namespace Supermarket.Model.BusinessLogicLayer
         }
         public void DeleteProductStock(object obj)
         {
-            select_stock_Result product_stock = obj as select_stock_Result;
+            StockViewModel product_stock = obj as StockViewModel;
             if (product_stock == null)
             {
                 MessageBox.Show("Select a product stock!");
             }
             else
             {
-                context.delete_stock(product_stock.id);
+                context.delete_stock(product_stock.Id);
                 context.SaveChanges();
-                ProductStocksList.Remove(product_stock);
-                ErrorMessage = "";
+                ProductStocksList.Remove(ProductStocksList.Where(s => s.Id == product_stock.Id).First());
+                context.Dispose();
+                context = new SupermarketDBEntities();
             }
         }
         public bool DeleteCategory(object obj)
@@ -582,6 +594,54 @@ namespace Supermarket.Model.BusinessLogicLayer
                 }
             }
             return false;
+        }
+        #endregion
+
+        #region Select row Functions
+        public select_user_Result GetUser(int id)
+        {
+            select_user_Result user = context.select_user(id).ToList()[0];
+            if (user == null)
+            {
+                MessageBox.Show("The user was not found!");
+            }
+            return user;
+        }
+        public ProductViewModel GetProduct(int id)
+        {
+            select_product_Result product = context.select_product(id).ToList()[0];
+            if (product == null)
+            {
+                MessageBox.Show("The product was not found!");
+            }
+            return new ProductViewModel(product);
+        }
+        public select_producer_Result GetProducer(int id)
+        {
+            select_producer_Result producer = context.select_producer(id).ToList()[0];
+            if (producer != null)
+            {
+                MessageBox.Show("The producer was not found!");
+            }
+            return producer;
+        }
+        public select_category_Result GetCategory(int id)
+        {
+            select_category_Result category = context.select_category(id).ToList()[0];
+            if (category != null)
+            {
+                MessageBox.Show("The category was not found!");
+            }
+            return category;
+        }
+        public StockViewModel GetStock(int id)
+        {
+            select_stock_Result stock = context.select_stock(id).ToList()[0];
+            if (stock != null)
+            {
+                MessageBox.Show("The product stock was not found!");
+            }
+            return new StockViewModel(stock);
         }
         #endregion
     }
