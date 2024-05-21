@@ -23,6 +23,8 @@ namespace Supermarket.ViewModel
             _adminBLL = new AdminBLL();
 
             ProductsList = _adminBLL.GetAllStocksProducts();
+            DeleteExpiredStocks();
+            ProductsList = _adminBLL.GetAllStocksProducts();
             SortProductsListByExpirationDate();
             CurrentProduct = new StockProductViewModel();
             FilteredProductsList = CollectionViewSource.GetDefaultView(ProductsList);
@@ -118,7 +120,7 @@ namespace Supermarket.ViewModel
         }
         void AddProduct()
         {
-            if (CurrentProduct != null)
+            if (CurrentProduct.Id != -1)
             {
                 if (!CheckStockQuantiy())
                 {
@@ -217,6 +219,17 @@ namespace Supermarket.ViewModel
                 return false;
             }
             return true;
+        }
+        private void DeleteExpiredStocks()
+        {
+            foreach(var stock in ProductsList)
+            {
+                DateTime date = DateTime.Parse(stock.ExpirationDate);
+                if (date.CompareTo(DateTime.Now) < 0)
+                {
+                    _adminBLL.DeleteProductStock(_adminBLL.GetStock(stock.Id));
+                }
+            }
         }
     }
 }

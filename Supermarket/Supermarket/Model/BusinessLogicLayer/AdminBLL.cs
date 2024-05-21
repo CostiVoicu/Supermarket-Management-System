@@ -562,13 +562,7 @@ namespace Supermarket.Model.BusinessLogicLayer
             else
             {
                 stock.Quantity -= quantity;
-                if (stock.Quantity == 0)
-                {
-                    DeleteProductStock(stock);
-                }
-                else
-                {
-                    context.edit_stock(
+                context.edit_stock(
                         stock.Id,
                         stock.Product,
                         stock.Quantity,
@@ -577,9 +571,12 @@ namespace Supermarket.Model.BusinessLogicLayer
                         stock.Unit,
                         stock.SupplyDate,
                         stock.ExpirationDate);
-                    context.SaveChanges();
-                    context.Dispose();
-                    context = new SupermarketDBEntities();
+                context.SaveChanges();
+                context.Dispose();
+                context = new SupermarketDBEntities();
+                if (stock.Quantity == 0)
+                {
+                    DeleteProductStock(stock);
                 }
                 return true;
             }
