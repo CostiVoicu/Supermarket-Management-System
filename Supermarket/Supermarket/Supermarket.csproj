@@ -131,6 +131,9 @@
     <Compile Include="Model\select_product_Result.cs">
       <DependentUpon>SupermarketModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\select_stock_product_Result.cs">
+      <DependentUpon>SupermarketModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\select_stock_Result.cs">
       <DependentUpon>SupermarketModel.tt</DependentUpon>
     </Compile>
@@ -153,6 +156,9 @@
       <DependentUpon>SupermarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\sp_helpdiagrams_Result.cs">
+      <DependentUpon>SupermarketModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\stocks_products.cs">
       <DependentUpon>SupermarketModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SupermarketModel.Context.cs">
@@ -183,6 +189,7 @@
     <Compile Include="ViewModel\AdminViewModel.cs" />
     <Compile Include="ViewModel\CashierViewModel.cs" />
     <Compile Include="ViewModel\LogInViewModel.cs" />
+    <Compile Include="ViewModel\StockProductViewModel .cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="ViewModel\StockViewModel.cs" />
     <Compile Include="View\AdminView.xaml.cs">

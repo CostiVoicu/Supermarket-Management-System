@@ -15,6 +15,18 @@ namespace Supermarket.Model.BusinessLogicLayer
     public class AdminBLL
     {
         private SupermarketDBEntities context = new SupermarketDBEntities();
+        public AdminBLL()
+        {
+            UsersList = GetAllUsers();
+            ProductsList = GetAllProducts();
+            ProducersList = GetAllProducers();
+            ProductStocksList = GetAllProductStocks();
+            CategoriesList = GetAllCategories();
+            UnitsList = GetAllUnits();
+            UserTypesList = GetAllUserTypes();
+            CountriesList = GetAllCountry();
+            StocksProducstsList = GetAllStocksProducts();
+        }
         public string ErrorMessage { get; set; }
         #region Entities Lists
         public ObservableCollection<select_user_Result> UsersList { get; set; }
@@ -120,7 +132,7 @@ namespace Supermarket.Model.BusinessLogicLayer
             }
             return result;
         }
-        public ObservableCollection<string> UnitsList { get; set; }
+        public ObservableCollection<select_units_Result> UnitsList { get; set; }
         public ObservableCollection<select_units_Result> GetAllUnits()
         {
             List<select_units_Result> units = context.select_units().ToList();
@@ -165,7 +177,36 @@ namespace Supermarket.Model.BusinessLogicLayer
             }
             return result;
         }
-
+        public ObservableCollection<StockProductViewModel> StocksProducstsList { get; set; }
+        public ObservableCollection<StockProductViewModel> GetAllStocksProducts()
+        {
+            List<select_stock_product_Result> stocksPorducts = context.select_stock_product().ToList();
+            ObservableCollection<StockProductViewModel> result = new ObservableCollection<StockProductViewModel>();
+            foreach(select_stock_product_Result stockproduct in stocksPorducts)
+            {
+                if (stockproduct.stock_active)
+                {
+                    string product = ProductsList.Where(
+                    u => u.Id == stockproduct.product_id_stock
+                    ).First().Name;
+                    string producer = ProducersList.Where(u => u.id == stockproduct.producer_id).First().name;
+                    string unit = UnitsList.Where(u => u.id == stockproduct.unit_id).First().name;
+                    string category = CategoriesList.Where(u => u.id == stockproduct.category_id).First().name;
+                    result.Add(new StockProductViewModel(
+                        stockproduct.quantity,
+                        stockproduct.supply_date.ToString(),
+                        stockproduct.expiration_date.ToString(),
+                        product,
+                        stockproduct.bar_code,
+                        category,
+                        producer,
+                        stockproduct.selling_price,
+                        stockproduct.purchase_price,
+                        unit));
+                }
+            }
+            return result;
+        }
         #endregion
 
         #region Add Functions

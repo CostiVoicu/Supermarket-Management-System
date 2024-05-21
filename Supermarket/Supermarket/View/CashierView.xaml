@@ -4,10 +4,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Supermarket.View"
+             xmlns:viewModel="clr-namespace:Supermarket.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewModel:CashierViewModel/>
+    </UserControl.DataContext>
     <Grid>
-        <Label Content="Cashier View" HorizontalAlignment="Left" Margin="325,122,0,0" VerticalAlignment="Top"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.2*"/>
+            <ColumnDefinition Width=".3*"/>
+            <ColumnDefinition Width=".6*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="17*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox HorizontalAlignment="Left" Margin="154,48,0,0" TextWrapping="Wrap" Text="{Binding CurrentSearch, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="150"/>
+            <ListView ItemsSource="{Binding ProductsList}" Margin="25,87,0,38" SelectedItem="{Binding CurrentProduct, Mode=TwoWay}" HorizontalAlignment="Left" Width="407" Grid.ColumnSpan="2">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductName}" Width="50"/>
+                        <GridViewColumn Header="Bar Code" DisplayMemberBinding="{Binding BarCode}" Width="100"/>
+                        <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category}" Width="80"/>
+                        <GridViewColumn Header="Producer" DisplayMemberBinding="{Binding ProducerName}" Width="80"/>
+                        <GridViewColumn Header="Expiration date" DisplayMemberBinding="{Binding ExpirationDate}" Width="90"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
 
     </Grid>
 </UserControl>

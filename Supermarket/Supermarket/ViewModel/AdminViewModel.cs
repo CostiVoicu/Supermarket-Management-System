@@ -1,8 +1,10 @@
 ﻿using Supermarket.Core;
 using Supermarket.Model;
 using Supermarket.Model.BusinessLogicLayer;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
@@ -639,6 +641,7 @@ namespace Supermarket.ViewModel
         }
         public void AddProductStock()
         {
+            CurrentStock.SellingPrice = CurrentStock.PurchasePrice + CurrentStock.PurchasePrice * Convert.ToDouble(ConfigurationManager.AppSettings["markup"]);
             if (_adminBll.AddProductStock(CurrentStock))
             {
                 OnPropertyChanged("ProductStocksList");

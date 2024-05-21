@@ -38,6 +38,52 @@ namespace Supermarket.Model
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<user_types> user_types { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<stocks_products> stocks_products { get; set; }
+    
+        public virtual int delete_category(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_category", idParameter);
+        }
+    
+        public virtual int delete_producer(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_producer", idParameter);
+        }
+    
+        public virtual int delete_product(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_product", idParameter);
+        }
+    
+        public virtual int delete_stock(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_stock", idParameter);
+        }
+    
+        public virtual int delete_user(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_user", idParameter);
+        }
     
         public virtual int edit_category(Nullable<int> id, string name)
         {
@@ -301,6 +347,11 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_stock_Result>("select_stock", idParameter);
         }
     
+        public virtual ObjectResult<select_stock_product_Result> select_stock_product()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_stock_product_Result>("select_stock_product");
+        }
+    
         public virtual ObjectResult<select_units_Result> select_units()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<select_units_Result>("select_units");
@@ -426,51 +477,6 @@ namespace Supermarket.Model
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
-        }
-    
-        public virtual int delete_category(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_category", idParameter);
-        }
-    
-        public virtual int delete_producer(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_producer", idParameter);
-        }
-    
-        public virtual int delete_product(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_product", idParameter);
-        }
-    
-        public virtual int delete_stock(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_stock", idParameter);
-        }
-    
-        public virtual int delete_user(Nullable<int> id)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_user", idParameter);
         }
     }
 }
