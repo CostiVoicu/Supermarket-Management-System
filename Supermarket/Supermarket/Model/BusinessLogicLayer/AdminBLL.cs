@@ -195,8 +195,8 @@ namespace Supermarket.Model.BusinessLogicLayer
                     result.Add(new StockProductViewModel(
                         stockproduct.stock_id,
                         stockproduct.quantity,
-                        stockproduct.supply_date.ToString(),
-                        stockproduct.expiration_date.ToString(),
+                        stockproduct.supply_date,
+                        stockproduct.expiration_date,
                         product,
                         stockproduct.bar_code,
                         category,

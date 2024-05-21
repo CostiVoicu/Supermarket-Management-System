@@ -107,14 +107,16 @@ namespace Supermarket.ViewModel
         public receipt CurrentReceipt { get; set; }
         private bool FilterProducts(object obj)
         {
-            if (obj is StockProductViewModel product)
+            if (obj is StockProductViewModel product && CurrentSearch != null)
             {
-                return string.IsNullOrWhiteSpace(CurrentSearch) ||
-                    product.ProducerName.ToLower().Contains(CurrentSearch) ||
-                    product.BarCode.Contains(CurrentSearch) ||
-                    product.Category.ToLower().Contains(CurrentSearch) ||
-                    product.ProducerName.ToLower().Contains(CurrentSearch) ||
-                    product.ExpirationDate.ToLower().Contains(CurrentSearch);
+                string search = CurrentSearch.ToString().ToLower();
+
+                return string.IsNullOrWhiteSpace(search) ||
+                    product.ProductName.ToLower().Contains(search) ||
+                    product.ProducerName.ToLower().Contains(search) ||
+                    product.BarCode.Contains(search) ||
+                    product.Category.ToLower().Contains(search) ||
+                    product.ExpirationDate.ToString("dd-MM-yyyy").Contains(search);
             }
             return false;
         }
@@ -208,7 +210,7 @@ namespace Supermarket.ViewModel
         private void SortProductsListByExpirationDate()
         {
             List<StockProductViewModel> stockProductList = ProductsList.ToList();
-            stockProductList.Sort((l, r) => r.ExpirationDate.CompareTo(l.ExpirationDate));
+            stockProductList.Sort((l, r) => l.ExpirationDate.CompareTo(r.ExpirationDate));
             ProductsList = new ObservableCollection<StockProductViewModel>(stockProductList);
         }
         private bool CheckStockQuantiy()
@@ -224,8 +226,7 @@ namespace Supermarket.ViewModel
         {
             foreach(var stock in ProductsList)
             {
-                DateTime date = DateTime.Parse(stock.ExpirationDate);
-                if (date.CompareTo(DateTime.Now) < 0)
+                if (stock.ExpirationDate.CompareTo(DateTime.Now) < 0)
                 {
                     _adminBLL.DeleteProductStock(_adminBLL.GetStock(stock.Id));
                 }

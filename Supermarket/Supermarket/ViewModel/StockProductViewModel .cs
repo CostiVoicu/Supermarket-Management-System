@@ -15,8 +15,8 @@ namespace Supermarket.ViewModel
         {
             Id = -1;
             _quantity = 0;
-            _supplyDate = "";
-            _expirationDate = "";
+            _supplyDate = DateTime.Now;
+            _expirationDate = DateTime.Now;
             _productName = "";
             _barCode = "";
             _category = "";
@@ -26,7 +26,7 @@ namespace Supermarket.ViewModel
             _unit = "";
             ProductId = -1;
         }
-        public StockProductViewModel(int id, double quantity, string supplyDate, string expirationDate, string productName,
+        public StockProductViewModel(int id, double quantity, DateTime supplyDate, DateTime expirationDate, string productName,
             string barCode, string category, string producerName, double sellingPrice,
             double purchasePrice, string unit, int productId)
         {
@@ -54,8 +54,8 @@ namespace Supermarket.ViewModel
                 OnPropertyChanged();
             }
         }
-        private string _supplyDate;
-        public string SupplyDate
+        private DateTime _supplyDate;
+        public DateTime SupplyDate
         {
             get { return _supplyDate; }
             set
@@ -64,8 +64,8 @@ namespace Supermarket.ViewModel
                 OnPropertyChanged();
             }
         }
-        private string _expirationDate;
-        public string ExpirationDate
+        private DateTime _expirationDate;
+        public DateTime ExpirationDate
         {
             get { return _expirationDate; }
             set
