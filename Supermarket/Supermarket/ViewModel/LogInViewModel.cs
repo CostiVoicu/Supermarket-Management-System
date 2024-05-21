@@ -4,6 +4,7 @@ using Supermarket.Model.BusinessLogicLayer;
 using Supermarket.Services;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Navigation;
 
@@ -80,7 +81,11 @@ namespace Supermarket.ViewModel
         public void LogInUser()
         {
             var validUser = UsersList.FirstOrDefault(u => u.name == LogInUsername && u.password == LogInPassword);
-            if (validUser == null) { return; }
+            if (validUser == null) 
+            {
+                MessageBox.Show("Username, password or category are wrong!");
+                return; 
+            }
             if (_isAdmin && validUser.user_type_id == 1)
             {
                 Navigation.NavigateTo<AdminViewModel>();
