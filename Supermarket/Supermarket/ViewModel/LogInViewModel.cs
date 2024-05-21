@@ -5,6 +5,7 @@ using Supermarket.Services;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace Supermarket.ViewModel
 {
@@ -86,7 +87,7 @@ namespace Supermarket.ViewModel
             }
             else if (_isCashier && validUser.user_type_id == 2)
             {
-                Navigation.NavigateTo<CashierViewModel>();
+                _navigation.NavigateTo<CashierViewModel>(validUser.id);
             }
         }
 

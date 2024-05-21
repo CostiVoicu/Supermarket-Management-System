@@ -22,7 +22,7 @@ namespace Supermarket.Model
     
         public int id { get; set; }
         public System.DateTime release_date { get; set; }
-        public int total { get; set; }
+        public Nullable<double> total { get; set; }
         public int user_id { get; set; }
         public bool active { get; set; }
     

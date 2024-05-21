@@ -69,7 +69,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="release_date" Type="date" Nullable="false" />
-          <Property Name="total" Type="int" Nullable="false" />
+          <Property Name="total" Type="float" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="active" Type="bit" Nullable="false" />
         </EntityType>
@@ -79,7 +79,7 @@
           </Key>
           <Property Name="product_id" Type="int" Nullable="false" />
           <Property Name="receipt_id" Type="int" Nullable="false" />
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -284,6 +284,12 @@ warning 6002: The table/view 'SupermarketDB.dbo.stocks_products' does not have a
           <Parameter Name="category" Type="varchar" Mode="In" />
           <Parameter Name="producer" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="edit_receipt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="release_date" Type="date" Mode="In" />
+          <Parameter Name="total" Type="float" Mode="In" />
+          <Parameter Name="user_id" Type="int" Mode="In" />
+        </Function>
         <Function Name="edit_stock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
           <Parameter Name="name" Type="varchar" Mode="In" />
@@ -322,6 +328,16 @@ warning 6002: The table/view 'SupermarketDB.dbo.stocks_products' does not have a
           <Parameter Name="unit" Type="varchar" Mode="In" />
           <Parameter Name="supplay_date" Type="date" Mode="In" />
           <Parameter Name="expiration_date" Type="date" Mode="In" />
+        </Function>
+        <Function Name="insert_receipt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="release_date" Type="date" Mode="In" />
+          <Parameter Name="total" Type="float" Mode="In" />
+          <Parameter Name="user_id" Type="int" Mode="In" />
+          <Parameter Name="new_id" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="insert_sold_product" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_product" Type="int" Mode="In" />
+          <Parameter Name="id_receipt" Type="int" Mode="In" />
         </Function>
         <Function Name="insert_user" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="name" Type="varchar" Mode="In" />
@@ -528,7 +544,7 @@ warning 6002: The table/view 'SupermarketDB.dbo.stocks_products' does not have a
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="release_date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="total" Type="Int32" Nullable="false" />
+          <Property Name="total" Type="Double" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="sold_products" Relationship="Self.sold_receipt_id_fk" FromRole="receipts" ToRole="sold_products" />
@@ -540,7 +556,7 @@ warning 6002: The table/view 'SupermarketDB.dbo.stocks_products' does not have a
           </Key>
           <Property Name="product_id" Type="Int32" Nullable="false" />
           <Property Name="receipt_id" Type="Int32" Nullable="false" />
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="product" Relationship="Self.sold_product_id_fk" FromRole="sold_products" ToRole="products" />
           <NavigationProperty Name="receipt" Relationship="Self.sold_receipt_id_fk" FromRole="sold_products" ToRole="receipts" />
         </EntityType>
@@ -835,6 +851,16 @@ warning 6002: The table/view 'SupermarketDB.dbo.stocks_products' does not have a
             <Parameter Name="supplay_date" Mode="In" Type="DateTime" />
             <Parameter Name="expiration_date" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="insert_receipt">
+            <Parameter Name="release_date" Mode="In" Type="DateTime" />
+            <Parameter Name="total" Mode="In" Type="Double" />
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_id" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="insert_sold_product">
+            <Parameter Name="id_product" Mode="In" Type="Int32" />
+            <Parameter Name="id_receipt" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="insert_user">
             <Parameter Name="name" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
@@ -856,8 +882,7 @@ warning 6002: The table/view 'SupermarketDB.dbo.stocks_products' does not have a
           <FunctionImport Name="select_stock" ReturnType="Collection(SupermarketDBModel.select_stock_Result)">
           <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="select_stock_product" ReturnType="Collection(SupermarketDBModel.select_stock_product_Result)">
-          </FunctionImport>
+          <FunctionImport Name="select_stock_product" ReturnType="Collection(SupermarketDBModel.select_stock_product_Result)" />
           <FunctionImport Name="select_units" ReturnType="Collection(SupermarketDBModel.select_units_Result)" />
           <FunctionImport Name="select_user" ReturnType="Collection(SupermarketDBModel.select_user_Result)">
           <Parameter Name="id" Mode="In" Type="Int32" />
@@ -894,6 +919,12 @@ warning 6002: The table/view 'SupermarketDB.dbo.stocks_products' does not have a
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="edit_receipt">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="release_date" Mode="In" Type="DateTime" />
+            <Parameter Name="total" Mode="In" Type="Double" />
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="select_category_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1139,6 +1170,8 @@ warning 6002: The table/view 'SupermarketDB.dbo.stocks_products' does not have a
           <FunctionImportMapping FunctionImportName="insert_producer" FunctionName="SupermarketDBModel.Store.insert_producer" />
           <FunctionImportMapping FunctionImportName="insert_product" FunctionName="SupermarketDBModel.Store.insert_product" />
           <FunctionImportMapping FunctionImportName="insert_product_stock" FunctionName="SupermarketDBModel.Store.insert_product_stock" />
+          <FunctionImportMapping FunctionImportName="insert_receipt" FunctionName="SupermarketDBModel.Store.insert_receipt" />
+          <FunctionImportMapping FunctionImportName="insert_sold_product" FunctionName="SupermarketDBModel.Store.insert_sold_product" />
           <FunctionImportMapping FunctionImportName="insert_user" FunctionName="SupermarketDBModel.Store.insert_user" />
           <FunctionImportMapping FunctionImportName="select_categories" FunctionName="SupermarketDBModel.Store.select_categories" />
           <FunctionImportMapping FunctionImportName="select_category" FunctionName="SupermarketDBModel.Store.select_category">
@@ -1290,6 +1323,7 @@ warning 6002: The table/view 'SupermarketDB.dbo.stocks_products' does not have a
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="SupermarketDBModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="SupermarketDBModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="edit_receipt" FunctionName="SupermarketDBModel.Store.edit_receipt" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

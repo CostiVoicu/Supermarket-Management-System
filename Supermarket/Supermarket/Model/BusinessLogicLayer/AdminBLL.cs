@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Core.Objects;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -186,13 +188,12 @@ namespace Supermarket.Model.BusinessLogicLayer
             {
                 if (stockproduct.stock_active)
                 {
-                    string product = ProductsList.Where(
-                    u => u.Id == stockproduct.product_id_stock
-                    ).First().Name;
+                    string product = ProductsList.Where(u => u.Id == stockproduct.product_id_stock).First().Name;
                     string producer = ProducersList.Where(u => u.id == stockproduct.producer_id).First().name;
                     string unit = UnitsList.Where(u => u.id == stockproduct.unit_id).First().name;
                     string category = CategoriesList.Where(u => u.id == stockproduct.category_id).First().name;
                     result.Add(new StockProductViewModel(
+                        stockproduct.stock_id,
                         stockproduct.quantity,
                         stockproduct.supply_date.ToString(),
                         stockproduct.expiration_date.ToString(),
@@ -202,7 +203,8 @@ namespace Supermarket.Model.BusinessLogicLayer
                         producer,
                         stockproduct.selling_price,
                         stockproduct.purchase_price,
-                        unit));
+                        unit,
+                        stockproduct.product_id_stock));
                 }
             }
             return result;
@@ -210,6 +212,37 @@ namespace Supermarket.Model.BusinessLogicLayer
         #endregion
 
         #region Add Functions
+        public bool AddSoldProduct(object obj)
+        {
+            sold_products soldProduct = obj as sold_products;
+            if (soldProduct != null)
+            {
+                if (soldProduct.product_id == -1)
+                {
+                    MessageBox.Show("Select a product!");
+                }
+                else
+                {
+                    context.insert_sold_product(soldProduct.product_id, soldProduct.receipt_id);
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool AddReceipt(object obj, ref int newReceiptId)
+        {
+            receipt receipt = obj as receipt;
+            if (receipt != null)
+            {
+                var outputParam = new ObjectParameter("new_id", typeof(int));
+                context.insert_receipt(receipt.release_date, receipt.total, receipt.user_id, outputParam);
+                context.SaveChanges();
+                newReceiptId = (int)outputParam.Value;
+                return true;
+            }
+            return false;
+        }
         public bool AddUser(object obj)
         {
             select_user_Result user = obj as select_user_Result;
@@ -363,6 +396,27 @@ namespace Supermarket.Model.BusinessLogicLayer
         #endregion
 
         #region Edit Functions
+        public bool EditReceipt(object obj)
+        {
+            receipt receipt = obj as receipt;
+            if (receipt != null)
+            {
+                if (receipt.release_date == null)
+                {
+                    MessageBox.Show("The release date can't be null!");
+                }
+                else if (receipt.total == 0)
+                {
+                    MessageBox.Show("The total can't be zero!");
+                }
+                else
+                {
+                    context.edit_receipt(receipt.id, receipt.release_date, receipt.total, receipt.user_id);
+                    return true;
+                }
+            }
+            return false;
+        }
         public bool EditUser(object obj)
         {
             select_user_Result user = obj as select_user_Result; 
@@ -495,6 +549,39 @@ namespace Supermarket.Model.BusinessLogicLayer
                     context = new SupermarketDBEntities();
                     return true;
                 }
+            }
+            return false;
+        }
+        public bool EditProductStockQuantity(int id, double quantity)
+        {
+            var stock = GetStock(id);
+            if (quantity < 0 && stock.Quantity >= quantity)
+            {
+                MessageBox.Show("Stock quantity is not right!");
+            }
+            else
+            {
+                stock.Quantity -= quantity;
+                if (stock.Quantity == 0)
+                {
+                    DeleteProductStock(stock);
+                }
+                else
+                {
+                    context.edit_stock(
+                        stock.Id,
+                        stock.Product,
+                        stock.Quantity,
+                        stock.PurchasePrice,
+                        stock.SellingPrice,
+                        stock.Unit,
+                        stock.SupplyDate,
+                        stock.ExpirationDate);
+                    context.SaveChanges();
+                    context.Dispose();
+                    context = new SupermarketDBEntities();
+                }
+                return true;
             }
             return false;
         }
@@ -660,7 +747,7 @@ namespace Supermarket.Model.BusinessLogicLayer
         public select_producer_Result GetProducer(int id)
         {
             select_producer_Result producer = context.select_producer(id).ToList()[0];
-            if (producer != null)
+            if (producer == null)
             {
                 MessageBox.Show("The producer was not found!");
             }
@@ -669,7 +756,7 @@ namespace Supermarket.Model.BusinessLogicLayer
         public select_category_Result GetCategory(int id)
         {
             select_category_Result category = context.select_category(id).ToList()[0];
-            if (category != null)
+            if (category == null)
             {
                 MessageBox.Show("The category was not found!");
             }
@@ -678,7 +765,7 @@ namespace Supermarket.Model.BusinessLogicLayer
         public StockViewModel GetStock(int id)
         {
             select_stock_Result stock = context.select_stock(id).ToList()[0];
-            if (stock != null)
+            if (stock == null)
             {
                 MessageBox.Show("The product stock was not found!");
             }

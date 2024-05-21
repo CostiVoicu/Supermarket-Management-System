@@ -11,10 +11,26 @@ namespace Supermarket.ViewModel
 {
     public class StockProductViewModel : ObservableObject
     {
-        public StockProductViewModel(double quantity, string supplyDate, string expirationDate, string productName,
-            string barCode, string category, string producerName, double sellingPrice,
-            double purchasePrice, string unit)
+        public StockProductViewModel()
         {
+            Id = -1;
+            _quantity = 0;
+            _supplyDate = "";
+            _expirationDate = "";
+            _productName = "";
+            _barCode = "";
+            _category = "";
+            _producerName = "";
+            _sellingPrice = 0;
+            _purchasePrice = 0;
+            _unit = "";
+            ProductId = -1;
+        }
+        public StockProductViewModel(int id, double quantity, string supplyDate, string expirationDate, string productName,
+            string barCode, string category, string producerName, double sellingPrice,
+            double purchasePrice, string unit, int productId)
+        {
+            Id = id;
             _quantity = quantity;
             _supplyDate = supplyDate;
             _expirationDate = expirationDate;
@@ -25,7 +41,9 @@ namespace Supermarket.ViewModel
             _sellingPrice = sellingPrice;
             _purchasePrice = purchasePrice;
             _unit = unit;
+            ProductId = productId;
         }
+        public int Id { get; set; }
         private double _quantity;
         public double Quantity
         {
@@ -127,5 +145,6 @@ namespace Supermarket.ViewModel
                 OnPropertyChanged();
             }
         }
+        public int ProductId { get; set; }
     }
 }

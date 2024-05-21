@@ -274,6 +274,36 @@ namespace Supermarket.Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_product_stock", nameParameter, quantityParameter, purchase_priceParameter, selling_priceParameter, unitParameter, supplay_dateParameter, expiration_dateParameter);
         }
     
+        public virtual int insert_receipt(Nullable<System.DateTime> release_date, Nullable<double> total, Nullable<int> user_id, ObjectParameter new_id)
+        {
+            var release_dateParameter = release_date.HasValue ?
+                new ObjectParameter("release_date", release_date) :
+                new ObjectParameter("release_date", typeof(System.DateTime));
+    
+            var totalParameter = total.HasValue ?
+                new ObjectParameter("total", total) :
+                new ObjectParameter("total", typeof(double));
+    
+            var user_idParameter = user_id.HasValue ?
+                new ObjectParameter("user_id", user_id) :
+                new ObjectParameter("user_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_receipt", release_dateParameter, totalParameter, user_idParameter, new_id);
+        }
+    
+        public virtual int insert_sold_product(Nullable<int> id_product, Nullable<int> id_receipt)
+        {
+            var id_productParameter = id_product.HasValue ?
+                new ObjectParameter("id_product", id_product) :
+                new ObjectParameter("id_product", typeof(int));
+    
+            var id_receiptParameter = id_receipt.HasValue ?
+                new ObjectParameter("id_receipt", id_receipt) :
+                new ObjectParameter("id_receipt", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insert_sold_product", id_productParameter, id_receiptParameter);
+        }
+    
         public virtual int insert_user(string name, string password, string user_type)
         {
             var nameParameter = name != null ?
@@ -477,6 +507,27 @@ namespace Supermarket.Model
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual int edit_receipt(Nullable<int> id, Nullable<System.DateTime> release_date, Nullable<double> total, Nullable<int> user_id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var release_dateParameter = release_date.HasValue ?
+                new ObjectParameter("release_date", release_date) :
+                new ObjectParameter("release_date", typeof(System.DateTime));
+    
+            var totalParameter = total.HasValue ?
+                new ObjectParameter("total", total) :
+                new ObjectParameter("total", typeof(double));
+    
+            var user_idParameter = user_id.HasValue ?
+                new ObjectParameter("user_id", user_id) :
+                new ObjectParameter("user_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("edit_receipt", idParameter, release_dateParameter, totalParameter, user_idParameter);
         }
     }
 }
