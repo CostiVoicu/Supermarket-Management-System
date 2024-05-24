@@ -50,17 +50,17 @@
             <ListBox ItemsSource="{Binding ReceiptProductsList}" Margin="10,62,10,126">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock>
+                        <TextBlock Width="190">
                             <Run Text="{Binding Quantity}"/>
                             <Run Text=" x "/>
                             <Run Text="{Binding ProductName}"/>
-                            <Run Text=" .......... " />
+                            <Run Text=" ............ " />
                             <Run Text="{Binding SellingPrice, StringFormat={}{0} RON}"/>
                         </TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <TextBlock HorizontalAlignment="Left" Margin="28,338,0,0" VerticalAlignment="Top" Text="{Binding CurrentTotal, StringFormat='Total: ....................... {0} RON'}"/>
+            <TextBlock Width="185" HorizontalAlignment="Left" Margin="28,338,10,0" VerticalAlignment="Top" Text="{Binding CurrentTotal, StringFormat='Total: ...................... {0} RON'}"/>
             <TextBlock HorizontalAlignment="Center" Margin="0,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20"><Run Text="Receipt"/><LineBreak/><Run/></TextBlock>
             <Button Content="Ok" Command="{Binding FinishReceiptCommand}" HorizontalAlignment="Center" Margin="0,367,0,0" VerticalAlignment="Top" Width="173" Height="33"/>
         </Grid>

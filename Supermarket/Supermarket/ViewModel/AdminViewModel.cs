@@ -989,7 +989,7 @@ namespace Supermarket.ViewModel
 
         private void UndoChanges() 
         {
-            var currentUserIndex = UsersList.IndexOf(CurrentUser);
+            var currentUserIndex = _adminBll.GetAllUsers().IndexOf(CurrentUser);
             if (currentUserIndex >= 0)
             {
                 CurrentUser = _adminBll.GetUser(CurrentUser.id);
@@ -998,7 +998,7 @@ namespace Supermarket.ViewModel
             }
 
             var product = ProductsList.Where(p => p.Id == CurrentProduct.Id).FirstOrDefault();
-            var currentProductIndex = ProductsList.IndexOf(product);
+            var currentProductIndex = _adminBll.GetAllProducts().IndexOf(product);
             if (currentProductIndex >= 0)
             {
                 CurrentProduct = _adminBll.GetProduct(CurrentProduct.Id);
@@ -1006,7 +1006,7 @@ namespace Supermarket.ViewModel
                 OnPropertyChanged("ProductsList");
             }
 
-            var currentProducerIndex = ProducersList.IndexOf(CurrentProducer);
+            var currentProducerIndex = _adminBll.GetAllProducers().IndexOf(CurrentProducer);
             if (currentProducerIndex >= 0)
             {
                 CurrentProducer = _adminBll.GetProducer(CurrentProducer.id);
@@ -1014,7 +1014,7 @@ namespace Supermarket.ViewModel
                 OnPropertyChanged("ProducersList");
             }
 
-            var currentStockIndex = ProductStocksList.IndexOf(CurrentStock);
+            var currentStockIndex = _adminBll.GetAllProductStocks().IndexOf(CurrentStock);
             if (currentStockIndex >= 0)
             {
                 CurrentStock = _adminBll.GetStock(CurrentStock.Id);
@@ -1023,7 +1023,7 @@ namespace Supermarket.ViewModel
             }
 
             var category = CategoriesList.Where(c => c.id == CurrentCategory.id).FirstOrDefault();
-            var currentCategoryIndex = CategoriesList.IndexOf(category);
+            var currentCategoryIndex = _adminBll.GetAllCategories().IndexOf(category);
             if (currentCategoryIndex >= 0)
             {
                 CurrentCategory = _adminBll.GetCategory(category.id);
