@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodel="clr-namespace:Supermarket.ViewModel" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="568" Width="1024"
+        WindowStartupLocation="CenterScreen"
+        Background="#ECECEC">
 
     <Grid>
         <ContentControl Content="{Binding Navigation.CurrentView}"/>

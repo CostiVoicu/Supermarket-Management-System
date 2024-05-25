@@ -7,10 +7,10 @@
              xmlns:viewModel="clr-namespace:Supermarket.ViewModel"
              xmlns:core="clr-namespace:Supermarket.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="568" d:DesignWidth="1024">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height=".2*"/>
+            <RowDefinition Height=".28*"/>
             <RowDefinition Height=".6*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -18,11 +18,11 @@
             <ColumnDefinition Width=".2*"/>
             <ColumnDefinition Width=".2*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="LogIn" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="1"/>
-        <Button Command="{Binding LogInCommand}" CommandParameter="{Binding ElementName=passwordBoxValue}" Grid.Column="1" Content="Log in" HorizontalAlignment="Center" Margin="0,192,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,45,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding LogInUsername, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
-        <PasswordBox Name="passwordBoxValue" Grid.Column="1" HorizontalAlignment="Center" Margin="0,83,0,0" Grid.Row="1" core:PasswordBoxHelper.Attach="True" core:PasswordBoxHelper.Password="{Binding LogInPassword, Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
-        <RadioButton IsChecked="{Binding IsAdmin}" Name="AdminRB" Grid.Column="1" Content="Admin" HorizontalAlignment="Center" Margin="0,121,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <RadioButton IsChecked="{Binding IsCashier}" Name="CashierRB" Grid.Column="1" Content="Cashier" HorizontalAlignment="Center" Margin="0,145,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="Log In" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="1" Background="#00000000" Foreground="#FF262626" FontSize="62"/>
+        <Button Command="{Binding LogInCommand}" CommandParameter="{Binding ElementName=passwordBoxValue}" Grid.Column="1" Content="Log in" HorizontalAlignment="Center" Margin="0,199,0,0" Grid.Row="1" VerticalAlignment="Top" Height="39" Width="120" Foreground="#FF262626" Background="#FFEAD049" FontSize="20"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,45,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding LogInUsername, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Foreground="#FF262626"/>
+        <PasswordBox Name="passwordBoxValue" Grid.Column="1" HorizontalAlignment="Center" Margin="0,83,0,0" Grid.Row="1" core:PasswordBoxHelper.Attach="True" core:PasswordBoxHelper.Password="{Binding LogInPassword, Mode=TwoWay}" VerticalAlignment="Top" Width="120" Foreground="#FF262626"/>
+        <RadioButton IsChecked="{Binding IsAdmin}" Name="AdminRB" Grid.Column="1" Content="Admin" HorizontalAlignment="Center" Margin="0,121,0,0" Grid.Row="1" VerticalAlignment="Top" Foreground="#FF262626"/>
+        <RadioButton IsChecked="{Binding IsCashier}" Name="CashierRB" Grid.Column="1" Content="Cashier" HorizontalAlignment="Center" Margin="0,145,0,0" Grid.Row="1" VerticalAlignment="Top" Foreground="#FF262626"/>
     </Grid>
 </UserControl>
