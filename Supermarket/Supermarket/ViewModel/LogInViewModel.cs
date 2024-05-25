@@ -86,6 +86,10 @@ namespace Supermarket.ViewModel
                 MessageBox.Show("Username, password or category are wrong!");
                 return; 
             }
+            if (!_isAdmin && !_isCashier)
+            {
+                MessageBox.Show("You must select a category!");
+            }
             if (_isAdmin && validUser.user_type_id == 1)
             {
                 Navigation.NavigateTo<AdminViewModel>();

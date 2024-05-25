@@ -191,6 +191,9 @@ namespace Supermarket.ViewModel
                     id = -1
                 };
                 ProductsList = _adminBLL.GetAllStocksProducts();
+                FilteredProductsList = CollectionViewSource.GetDefaultView(ProductsList);
+                FilteredProductsList.Filter = FilterProducts;
+                CurrentSearch = "";
                 SortProductsListByExpirationDate();
                 OnPropertyChanged("ProductsList");
             }
